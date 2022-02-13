@@ -1,5 +1,9 @@
 # shapez.io
 
+## DISCLAIMER
+
+This is not the official shapez.io repository. This is a fork that will be heavily modified in the future. We are currently only starting and will change all trademarkable names in the near future to not infringe on the creator's rights and not cause any confusion. The official repository is: https://github.com/tobspr/shapez.io
+
 <img src="https://i.imgur.com/Y5Z2iqQ.png" alt="shapez.io Logo">
 
 This is the source code for shapez.io, an open source base building game inspired by Factorio.

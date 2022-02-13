@@ -626,6 +626,11 @@ buildings:
             description: Emite um sinal binário "1" se ambas as entradas forem verdadeiras.
                 (Ser verdadeira significa receber um sinal de forma, cor ou
                 binário "1")
+        nand:
+            name: Portão E NEGADO (NAND)
+            description: Emite um sinal binário "1" se uma das entradas não forem verdadeiras.
+                (Ser verdadeira significa receber um sinal de forma, cor ou
+                binário "1")
         not:
             name: Portão NEGAR (NOT)
             description: Emite um sinal binário "1" se a entrada for falsa. (Ser verdadeira

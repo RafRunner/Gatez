@@ -3,6 +3,7 @@ import { Component } from "../component";
 /** @enum {string} */
 export const enumLogicGateType = {
     and: "and",
+    nand: "nand",
     not: "not",
     xor: "xor",
     or: "or",

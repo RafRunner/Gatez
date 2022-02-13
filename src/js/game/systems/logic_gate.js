@@ -14,6 +14,7 @@ export class LogicGateSystem extends GameSystemWithFilter {
 
         this.boundOperations = {
             [enumLogicGateType.and]: this.compute_AND.bind(this),
+            [enumLogicGateType.nand]: this.compute_NAND.bind(this),
             [enumLogicGateType.not]: this.compute_NOT.bind(this),
             [enumLogicGateType.xor]: this.compute_XOR.bind(this),
             [enumLogicGateType.or]: this.compute_OR.bind(this),
@@ -354,5 +355,16 @@ export class LogicGateSystem extends GameSystemWithFilter {
                 assertAlways(false, "Bad item type: " + itemA.getItemType());
             }
         }
+    }
+
+    /**
+     * @param {Array<BaseItem|null>} parameters
+     * @returns {BaseItem}
+     */
+     compute_NAND(parameters) {
+        assert(parameters.length === 2, "bad parameter count for NAND");
+        return isTruthyItem(parameters[0]) && isTruthyItem(parameters[1])
+            ? BOOL_FALSE_SINGLETON
+            : BOOL_TRUE_SINGLETON;
     }
 }

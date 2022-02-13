@@ -851,6 +851,9 @@ buildings:
         default:
             name: AND Gate
             description: Emits a boolean "1" if both inputs are truthy. (Truthy means shape, color or boolean "1")
+        nand:
+            name: NAND Gate
+            description: Emits a boolean "1" if one of the inputs are not truthy. (Truthy means shape, color or boolean "1")
         not:
             name: NOT Gate
             description: Emits a boolean "1" if the input is not truthy. (Truthy means shape, color or boolean "1")

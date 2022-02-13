@@ -16,7 +16,7 @@ $buildingsAndVariants: belt, balancer, underground_belt, underground_belt-tier2,
     reader, rotater-rotate180, display, constant_signal, wire, wire_tunnel, logic_gate-or, logic_gate-not,
     logic_gate-xor, analyzer, virtual_processor-rotater, virtual_processor-unstacker, item_producer,
     constant_producer, virtual_processor-stacker, virtual_processor-painter, wire-second, painter,
-    painter-mirrored, comparator, goal_acceptor, block;
+    painter-mirrored, comparator, goal_acceptor, block, logic_gate-nand;
 @each $building in $buildingsAndVariants {
     [data-icon="building_tutorials/#{$building}.png"] {
         /* @load-async */

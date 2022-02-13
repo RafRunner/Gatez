@@ -9,6 +9,7 @@ import { enumHubGoalRewards } from "../tutorial_goals";
 
 /** @enum {string} */
 export const enumLogicGateVariants = {
+    nand: "nand",
     not: "not",
     xor: "xor",
     or: "or",
@@ -17,6 +18,7 @@ export const enumLogicGateVariants = {
 /** @enum {string} */
 const enumVariantToGate = {
     [defaultBuildingVariant]: enumLogicGateType.and,
+    [enumLogicGateVariants.nand]: enumLogicGateType.nand,
     [enumLogicGateVariants.not]: enumLogicGateType.not,
     [enumLogicGateVariants.xor]: enumLogicGateType.xor,
     [enumLogicGateVariants.or]: enumLogicGateType.or,
@@ -24,6 +26,7 @@ const enumVariantToGate = {
 
 const overlayMatrices = {
     [defaultBuildingVariant]: generateMatrixRotations([0, 1, 0, 1, 1, 1, 0, 1, 1]),
+    [enumLogicGateVariants.nand]: generateMatrixRotations([0, 1, 0, 1, 1, 1, 0, 1, 1]),
     [enumLogicGateVariants.xor]: generateMatrixRotations([0, 1, 0, 1, 1, 1, 0, 1, 1]),
     [enumLogicGateVariants.or]: generateMatrixRotations([0, 1, 0, 1, 1, 1, 0, 1, 1]),
     [enumLogicGateVariants.not]: generateMatrixRotations([0, 1, 0, 0, 1, 0, 0, 1, 0]),
@@ -31,6 +34,7 @@ const overlayMatrices = {
 
 const colors = {
     [defaultBuildingVariant]: "#f48d41",
+    [enumLogicGateVariants.nand]: "#f4a241",
     [enumLogicGateVariants.xor]: "#f4a241",
     [enumLogicGateVariants.or]: "#f4d041",
     [enumLogicGateVariants.not]: "#f44184",
@@ -46,6 +50,10 @@ export class MetaLogicGateBuilding extends MetaBuilding {
             {
                 internalId: 32,
                 variant: defaultBuildingVariant,
+            },
+            {
+                internalId: 420,
+                variant: enumLogicGateVariants.nand,
             },
             {
                 internalId: 34,
@@ -89,6 +97,7 @@ export class MetaLogicGateBuilding extends MetaBuilding {
     getAvailableVariants() {
         return [
             defaultBuildingVariant,
+            enumLogicGateVariants.nand,
             enumLogicGateVariants.or,
             enumLogicGateVariants.not,
             enumLogicGateVariants.xor,
@@ -113,6 +122,7 @@ export class MetaLogicGateBuilding extends MetaBuilding {
 
         switch (gateType) {
             case enumLogicGateType.and:
+            case enumLogicGateType.nand:
             case enumLogicGateType.xor:
             case enumLogicGateType.or: {
                 pinComp.setSlots([
