@@ -863,6 +863,9 @@ buildings:
         or:
             name: OR Gate
             description: Emits a boolean "1" if one of the inputs is truthy. (Truthy means shape, color or boolean "1")
+        nor:
+            name: NOR Gate
+            description: Emits a boolean "1" if both inputs are not truthy. (Truthy means shape, color or boolean "1")
 
     transistor:
         default:

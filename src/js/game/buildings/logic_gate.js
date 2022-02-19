@@ -13,6 +13,7 @@ export const enumLogicGateVariants = {
     not: "not",
     xor: "xor",
     or: "or",
+    nor: "nor",
 };
 
 /** @enum {string} */
@@ -22,6 +23,7 @@ const enumVariantToGate = {
     [enumLogicGateVariants.not]: enumLogicGateType.not,
     [enumLogicGateVariants.xor]: enumLogicGateType.xor,
     [enumLogicGateVariants.or]: enumLogicGateType.or,
+    [enumLogicGateVariants.nor]: enumLogicGateType.nor,
 };
 
 const overlayMatrices = {
@@ -29,6 +31,7 @@ const overlayMatrices = {
     [enumLogicGateVariants.nand]: generateMatrixRotations([0, 1, 0, 1, 1, 1, 0, 1, 1]),
     [enumLogicGateVariants.xor]: generateMatrixRotations([0, 1, 0, 1, 1, 1, 0, 1, 1]),
     [enumLogicGateVariants.or]: generateMatrixRotations([0, 1, 0, 1, 1, 1, 0, 1, 1]),
+    [enumLogicGateVariants.nor]: generateMatrixRotations([0, 1, 0, 1, 1, 1, 0, 1, 1]),
     [enumLogicGateVariants.not]: generateMatrixRotations([0, 1, 0, 0, 1, 0, 0, 1, 0]),
 };
 
@@ -37,6 +40,7 @@ const colors = {
     [enumLogicGateVariants.nand]: "#f4a241",
     [enumLogicGateVariants.xor]: "#f4a241",
     [enumLogicGateVariants.or]: "#f4d041",
+    [enumLogicGateVariants.nor]: "#f4d041",
     [enumLogicGateVariants.not]: "#f44184",
 };
 
@@ -66,6 +70,10 @@ export class MetaLogicGateBuilding extends MetaBuilding {
             {
                 internalId: 36,
                 variant: enumLogicGateVariants.or,
+            },
+            {
+                internalId: 421,
+                variant: enumLogicGateVariants.nor,
             },
         ];
     }
@@ -99,6 +107,7 @@ export class MetaLogicGateBuilding extends MetaBuilding {
             defaultBuildingVariant,
             enumLogicGateVariants.nand,
             enumLogicGateVariants.or,
+            enumLogicGateVariants.nor,
             enumLogicGateVariants.not,
             enumLogicGateVariants.xor,
         ];
@@ -124,7 +133,8 @@ export class MetaLogicGateBuilding extends MetaBuilding {
             case enumLogicGateType.and:
             case enumLogicGateType.nand:
             case enumLogicGateType.xor:
-            case enumLogicGateType.or: {
+            case enumLogicGateType.or:
+            case enumLogicGateType.nor: {
                 pinComp.setSlots([
                     {
                         pos: new Vector(0, 0),

@@ -643,8 +643,11 @@ buildings:
         or:
             name: Portão OU (OR)
             description: Emite um sinal binário "1" se uma das entradas for verdadeira. (Ser
-                verdadeira significa receber um sinal de forma, cor ou binário
-                "1")
+                verdadeira significa receber um sinal de forma, cor ou binário "1")
+        nor:
+            name: Portão OU NEGADO (NOR)
+            description: Emite um sinal binário "1" se ambas as entradas forem não verdadeiras.
+                (Ser verdadeira significa receber um sinal de forma, cor ou binário "1")
     transistor:
         default:
             name: Transistor
