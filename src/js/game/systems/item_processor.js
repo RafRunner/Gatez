@@ -39,9 +39,28 @@ const MAX_QUEUED_CHARGES = 2;
  */
 
 /**
+ * Type of a processor implementation
+ * @typedef {{
+ *   entity: Entity,
+ *   item: BaseItem,
+ *   slotIndex: number
+ *   }} ProccessingRequirementsImplementationPayload
+ */
+
+/**
  * @type {Object<string, (ProcessorImplementationPayload) => void>}
  */
 export const MOD_ITEM_PROCESSOR_HANDLERS = {};
+
+/**
+ * @type {Object<string, (ProccessingRequirementsImplementationPayload) => boolean>}
+ */
+export const MODS_PROCESSING_REQUIREMENTS = {};
+
+/**
+ * @type {Object<string, ({entity: Entity}) => boolean>}
+ */
+export const MODS_CAN_PROCESS = {};
 
 export class ItemProcessorSystem extends GameSystemWithFilter {
     constructor(root) {
@@ -163,6 +182,14 @@ export class ItemProcessorSystem extends GameSystemWithFilter {
         const itemProcessorComp = entity.components.ItemProcessor;
         const pinsComp = entity.components.WiredPins;
 
+        if (MODS_PROCESSING_REQUIREMENTS[itemProcessorComp.processingRequirement]) {
+            return MODS_PROCESSING_REQUIREMENTS[itemProcessorComp.processingRequirement].bind(this)({
+                entity,
+                item,
+                slotIndex,
+            });
+        }
+
         switch (itemProcessorComp.processingRequirement) {
             case enumItemProcessorRequirements.painterQuad: {
                 if (slotIndex === 0) {
@@ -191,6 +218,12 @@ export class ItemProcessorSystem extends GameSystemWithFilter {
      */
     canProcess(entity) {
         const processorComp = entity.components.ItemProcessor;
+
+        if (MODS_CAN_PROCESS[processorComp.processingRequirement]) {
+            return MODS_CAN_PROCESS[processorComp.processingRequirement].bind(this)({
+                entity,
+            });
+        }
 
         switch (processorComp.processingRequirement) {
             // DEFAULT
