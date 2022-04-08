@@ -867,6 +867,14 @@ buildings:
             name: NOR Gate
             description: Emits a boolean "1" if both inputs are not truthy. (Truthy means shape, color or boolean "1")
 
+    four_input_logic_gate:
+        default:
+            name: Four Input AND Gate
+            description: Emits a boolean "1" if all inputs are truthy. (Truthy means shape, color or boolean "1")
+        or:
+            name: Four Input OR Gate
+            description: Emits a boolean "1" if any of the inputs is truthy. (Truthy means shape, color or boolean "1")
+
     transistor:
         default:
             name: &transistor Transistor
@@ -1384,6 +1392,7 @@ keybindings:
         wire: *wire
         constant_signal: *constant_signal
         logic_gate: Logic Gate
+        four_input_logic_gate: Four Input Logic Gate
         lever: *lever
         filter: *filter
         wire_tunnel: *wire_tunnel

@@ -23,6 +23,7 @@ import { HUDPuzzleEditorControls } from "../hud/parts/puzzle_editor_controls";
 import { HUDPuzzleEditorReview } from "../hud/parts/puzzle_editor_review";
 import { HUDPuzzleEditorSettings } from "../hud/parts/puzzle_editor_settings";
 import { HUDConstantSignalEdit } from "../hud/parts/constant_signal_edit";
+import { MetaFourInputLogicGateBuilding } from "../buildings/four_input_logic_gate";
 
 export class PuzzleEditGameMode extends PuzzleGameMode {
     static getId() {
@@ -50,6 +51,7 @@ export class PuzzleEditGameMode extends PuzzleGameMode {
             MetaWireTunnelBuilding,
             MetaConstantSignalBuilding,
             MetaLogicGateBuilding,
+            MetaFourInputLogicGateBuilding,
             MetaVirtualProcessorBuilding,
             MetaAnalyzerBuilding,
             MetaComparatorBuilding,

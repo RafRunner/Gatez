@@ -21,6 +21,9 @@ export class LogicGateSystem extends GameSystemWithFilter {
             [enumLogicGateType.nor]: this.compute_NOR.bind(this),
             [enumLogicGateType.transistor]: this.compute_IF.bind(this),
 
+            [enumLogicGateType.four_input_and]: this.compute_four_AND.bind(this),
+            [enumLogicGateType.four_input_or]: this.compute_four_OR.bind(this),
+
             [enumLogicGateType.rotater]: this.compute_ROTATE.bind(this),
             [enumLogicGateType.analyzer]: this.compute_ANALYZE.bind(this),
             [enumLogicGateType.cutter]: this.compute_CUT.bind(this),
@@ -378,5 +381,27 @@ export class LogicGateSystem extends GameSystemWithFilter {
         return isTruthyItem(parameters[0]) || isTruthyItem(parameters[1])
             ? BOOL_FALSE_SINGLETON
             : BOOL_TRUE_SINGLETON;
+    }
+
+    /**
+     * @param {Array<BaseItem|null>} parameters
+     * @returns {BaseItem}
+     */
+    compute_four_AND(parameters) {
+        assert(parameters.length === 4, "bad parameter count for four input AND");
+        return isTruthyItem(parameters[0]) && isTruthyItem(parameters[1]) && isTruthyItem(parameters[2]) && isTruthyItem(parameters[3])
+            ? BOOL_TRUE_SINGLETON
+            : BOOL_FALSE_SINGLETON;
+    }
+
+    /**
+     * @param {Array<BaseItem|null>} parameters
+     * @returns {BaseItem}
+     */
+    compute_four_OR(parameters) {
+        assert(parameters.length === 4, "bad parameter count for four input OR");
+        return isTruthyItem(parameters[0]) || isTruthyItem(parameters[1]) || isTruthyItem(parameters[2]) || isTruthyItem(parameters[3])
+            ? BOOL_TRUE_SINGLETON
+            : BOOL_FALSE_SINGLETON;
     }
 }

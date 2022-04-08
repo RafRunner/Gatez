@@ -10,6 +10,9 @@ export const enumLogicGateType = {
     nor: "nor",
     transistor: "transistor",
 
+    four_input_and: "four_input_and",
+    four_input_or: "four_input_or",
+
     analyzer: "analyzer",
     rotater: "rotater",
     unstacker: "unstacker",

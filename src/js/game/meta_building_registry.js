@@ -11,6 +11,7 @@ import { MetaConstantSignalBuilding } from "./buildings/constant_signal";
 import { MetaCutterBuilding } from "./buildings/cutter";
 import { MetaDisplayBuilding } from "./buildings/display";
 import { MetaFilterBuilding } from "./buildings/filter";
+import { MetaFourInputLogicGateBuilding } from "./buildings/four_input_logic_gate";
 import { MetaGoalAcceptorBuilding } from "./buildings/goal_acceptor";
 import { MetaHubBuilding } from "./buildings/hub";
 import { MetaItemProducerBuilding } from "./buildings/item_producer";
@@ -70,6 +71,7 @@ export function initMetaBuildingRegistry() {
         MetaWireBuilding,
         MetaConstantSignalBuilding,
         MetaLogicGateBuilding,
+        MetaFourInputLogicGateBuilding,
         MetaLeverBuilding,
         MetaFilterBuilding,
         MetaWireTunnelBuilding,

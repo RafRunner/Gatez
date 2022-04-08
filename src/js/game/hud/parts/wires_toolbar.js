@@ -12,7 +12,9 @@ import { MetaReaderBuilding } from "../../buildings/reader";
 import { MetaFilterBuilding } from "../../buildings/filter";
 import { MetaDisplayBuilding } from "../../buildings/display";
 import { MetaStorageBuilding } from "../../buildings/storage";
+import { MetaFourInputLogicGateBuilding } from "../../buildings/four_input_logic_gate";
 
+// TODO remote temporaries from here
 export class HUDWiresToolbar extends HUDBaseToolbar {
     constructor(root) {
         super(root, {
@@ -21,6 +23,7 @@ export class HUDWiresToolbar extends HUDBaseToolbar {
                 MetaWireTunnelBuilding,
                 MetaConstantSignalBuilding,
                 MetaLogicGateBuilding,
+                MetaFourInputLogicGateBuilding,
                 MetaVirtualProcessorBuilding,
                 MetaAnalyzerBuilding,
                 MetaComparatorBuilding,
