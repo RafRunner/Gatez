@@ -1,6 +1,7 @@
 import { gMetaBuildingRegistry } from "../core/global_registries";
 import { createLogger } from "../core/logging";
 import { T } from "../translations";
+import { MetaAdderBuilding } from "./buildings/adder";
 import { MetaAnalyzerBuilding } from "./buildings/analyzer";
 import { MetaBalancerBuilding } from "./buildings/balancer";
 import { MetaBeltBuilding } from "./buildings/belt";
@@ -84,6 +85,7 @@ export function initMetaBuildingRegistry() {
         MetaItemProducerBuilding,
         MetaConstantProducerBuilding,
         MetaBlockBuilding,
+        MetaAdderBuilding,
     ];
 
     buildings.forEach(registerBuildingVariants);

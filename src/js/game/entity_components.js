@@ -20,6 +20,7 @@ import { BeltReaderComponent } from "./components/belt_reader";
 import { FilterComponent } from "./components/filter";
 import { ItemProducerComponent } from "./components/item_producer";
 import { GoalAcceptorComponent } from "./components/goal_acceptor";
+import { AdderComponent } from "./components/adder";
 /* typehints:end */
 
 /**
@@ -92,6 +93,9 @@ export class EntityComponentStorage {
 
         /** @type {GoalAcceptorComponent} */
         this.GoalAcceptor;
+
+        /** @type {AdderComponent} */
+        this.Adder;
 
         /* typehints:end */
     }
