@@ -7,8 +7,6 @@ export const IS_DEBUG =
 
 export const SUPPORT_TOUCH = false;
 
-export const IS_MAC = navigator.platform.toLowerCase().indexOf("mac") >= 0 && !G_IS_DEV;
-
 const smoothCanvas = true;
 
 export const THIRDPARTY_URLS = {
@@ -119,6 +117,13 @@ export const globalConfig = {
     rendering: {},
     debug: require("./config.local").default,
 
+    currentDiscount: {
+        amount: 50,
+        until: Date.parse("April 25 2022 23:59 +2:00"),
+
+        active: false, // computed later
+    },
+
     // Secret vars
     info: {
         // Binary file salt
@@ -163,3 +168,6 @@ if (G_IS_DEV && globalConfig.debug.noArtificialDelays) {
     globalConfig.warmupTimeSecondsFast = 0;
     globalConfig.warmupTimeSecondsRegular = 0;
 }
+
+globalConfig.currentDiscount.active =
+    !G_IS_STANDALONE && new Date().getTime() < globalConfig.currentDiscount.until;
