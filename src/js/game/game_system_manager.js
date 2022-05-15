@@ -29,6 +29,7 @@ import { ConstantProducerSystem } from "./systems/constant_producer";
 import { GoalAcceptorSystem } from "./systems/goal_acceptor";
 import { ZoneSystem } from "./systems/zone";
 import { AdderSystem } from "./systems/adder";
+import { MultiplexerSystem } from "./systems/multiplexer";
 
 const logger = createLogger("game_system_manager");
 
@@ -122,6 +123,9 @@ export class GameSystemManager {
             /** @type {AdderSystem} */
             adder: null,
 
+            /** @type {MultiplexerSystem} */
+            multiplexer: null,
+
             /* typehints:end */
         };
         this.systemUpdateOrder = [];
@@ -193,6 +197,8 @@ export class GameSystemManager {
         add("logicGate", LogicGateSystem);
 
         add("adder", AdderSystem);
+
+        add("multiplexes", MultiplexerSystem);
 
         add("beltReader", BeltReaderSystem);
 

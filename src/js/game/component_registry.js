@@ -21,6 +21,7 @@ import { FilterComponent } from "./components/filter";
 import { ItemProducerComponent } from "./components/item_producer";
 import { GoalAcceptorComponent } from "./components/goal_acceptor";
 import { AdderComponent } from "./components/adder";
+import { MultiplexerComponent } from "./components/multiplexer";
 
 export function initComponentRegistry() {
     const components = [
@@ -46,6 +47,7 @@ export function initComponentRegistry() {
         ItemProducerComponent,
         GoalAcceptorComponent,
         AdderComponent,
+        MultiplexerComponent,
     ];
     components.forEach(component => gComponentRegistry.register(component));
 

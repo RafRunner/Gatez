@@ -958,6 +958,14 @@ buildings:
             name: Full Adder
             description: Add 3 boleans together and output the result (top) and carry (leff).
 
+    multiplexer:
+        default:
+            name: Multiplexer
+            description: Select from the two bottom inputs using a boolean on the right input.
+        demuxer:
+            name: Demultiplexer
+            description: Select from the two outputs using a boolean on the right input.
+
 storyRewards:
     # Those are the rewards gained from completing the store
     reward_cutter_and_trash:
@@ -1415,6 +1423,7 @@ keybindings:
         goal_acceptor: *goal_acceptor
         block: *block
         adder: Adder
+        multiplexer: Multiplexer
         # ---
 
         pipette: Pipette

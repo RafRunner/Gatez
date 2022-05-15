@@ -21,6 +21,7 @@ import { FilterComponent } from "./components/filter";
 import { ItemProducerComponent } from "./components/item_producer";
 import { GoalAcceptorComponent } from "./components/goal_acceptor";
 import { AdderComponent } from "./components/adder";
+import { MultiplexerComponent } from "./components/multiplexer";
 /* typehints:end */
 
 /**
@@ -96,6 +97,9 @@ export class EntityComponentStorage {
 
         /** @type {AdderComponent} */
         this.Adder;
+
+        /** @type {MultiplexerComponent} */
+        this.Multiplexer;
 
         /* typehints:end */
     }

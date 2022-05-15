@@ -20,6 +20,7 @@ import { MetaLeverBuilding } from "./buildings/lever";
 import { MetaLogicGateBuilding } from "./buildings/logic_gate";
 import { MetaMinerBuilding } from "./buildings/miner";
 import { MetaMixerBuilding } from "./buildings/mixer";
+import { MetaMultiplexerBuilding } from "./buildings/multiplexer";
 import { MetaPainterBuilding } from "./buildings/painter";
 import { MetaReaderBuilding } from "./buildings/reader";
 import { MetaRotaterBuilding } from "./buildings/rotater";
@@ -86,6 +87,7 @@ export function initMetaBuildingRegistry() {
         MetaConstantProducerBuilding,
         MetaBlockBuilding,
         MetaAdderBuilding,
+        MetaMultiplexerBuilding,
     ];
 
     buildings.forEach(registerBuildingVariants);

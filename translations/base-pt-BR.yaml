@@ -723,10 +723,19 @@ buildings:
     adder:
         default:
             name: Somador Incompleto
-            description: Soma 2 boleanos e emite o resultado (topo) e o carry (esquerda).
+            description: Soma 2 booleanos e emite o resultado (topo) e o carry (esquerda).
         full:
             name: Somador Completo
-            description: Soma 3 boleanos e emite o resultado (topo) e o carry (esquerda).
+            description: Soma 3 booleanos e emite o resultado (topo) e o carry (esquerda).
+
+    multiplexer:
+        default:
+            name: Multiplexer
+            description: Seleciona uma das duas entradas de baixo a partir do booleano da direita.
+        demuxer:
+            name: Demultiplexer
+            description: Seleciona uma das duas saídas de cima a partir do booleano da direita.
+
 storyRewards:
     reward_cutter_and_trash:
         title: Cortando formas
