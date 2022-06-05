@@ -837,6 +837,19 @@ buildings:
             name: &wire_tunnel Wire Crossing
             description: Allows two wires to cross without connecting to each other.
 
+        forward:
+            name: Wire Insulator
+            description: "Prevents a wire from connecting to adjacent wires."
+        turn:
+            name: Wire Insulator
+            description: "Prevents a wire from connecting to adjacent wires."
+        double_turn:
+            name: Wire Insulator
+            description: "Prevents a wire from connecting to adjacent wires."
+        swap:
+            name: Wire Swapper
+            description: Switches two parallel wires.
+
     constant_signal:
         default:
             name: &constant_signal Constant Signal
