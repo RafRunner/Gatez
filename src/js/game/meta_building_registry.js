@@ -11,6 +11,7 @@ import { MetaConstantProducerBuilding } from "./buildings/constant_producer";
 import { MetaConstantSignalBuilding } from "./buildings/constant_signal";
 import { MetaCutterBuilding } from "./buildings/cutter";
 import { MetaDisplayBuilding } from "./buildings/display";
+import { MetaEdgeDetectorBuilding } from "./buildings/edge_detector";
 import { MetaFilterBuilding } from "./buildings/filter";
 import { MetaFourInputLogicGateBuilding } from "./buildings/four_input_logic_gate";
 import { MetaGoalAcceptorBuilding } from "./buildings/goal_acceptor";
@@ -88,6 +89,7 @@ export function initMetaBuildingRegistry() {
         MetaBlockBuilding,
         MetaAdderBuilding,
         MetaMultiplexerBuilding,
+        MetaEdgeDetectorBuilding,
     ];
 
     buildings.forEach(registerBuildingVariants);

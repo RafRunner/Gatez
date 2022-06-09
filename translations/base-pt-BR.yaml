@@ -736,6 +736,17 @@ buildings:
             name: Demultiplexer
             description: Seleciona uma das duas saídas de cima a partir do booleano da direita.
 
+    edge_detector:
+        default:
+            name: Detector de Borda de Subida
+            description: Pulsa verdadeiro quando a entrada vai de baixo para alto.
+        falling:
+            name: Detector de Borda de Descida
+            description: Pulsa verdadeiro quando a entrada vai de alto para baixo.
+        change:
+            name: Detector de Mudança
+            description: Pulsa verdadeiro quando a entrada muda.
+
 storyRewards:
     reward_cutter_and_trash:
         title: Cortando formas
@@ -1163,6 +1174,9 @@ keybindings:
         block: Bloco
         massSelectClear: Limpar esteiras
         showShapeTooltip: Show shape output tooltip
+        adder: Somador
+        multiplexer: Multiplexador
+        edge_detector: Detector de borda
 about:
     title: Sobre o jogo
     body: >-
