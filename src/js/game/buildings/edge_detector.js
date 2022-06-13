@@ -24,21 +24,6 @@ export class MetaEdgeDetectorBuilding extends MetaBuilding {
 
     static getAllVariantCombinations() {
         return [
-            // {
-            //     variant: defaultBuildingVariant,
-            //     name: "Rising Edge Detector",
-            //     description: "Pulses true when the input goes from low to high.",
-            // },
-            // {
-            //     variant: enumEdgeDetectorType.falling,
-            //     name: "Falling Edge Detector",
-            //     description: "Pulses true when the input goes from high to low.",
-            // },
-            // {
-            //     variant: enumEdgeDetectorType.change,
-            //     name: "Change Detector",
-            //     description: "Pulses true when the input changes.",
-            // },
             {
                 internalId: 428,
                 variant: defaultBuildingVariant,

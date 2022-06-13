@@ -5,7 +5,7 @@
 
  import { EdgeDetectorComponent, enumEdgeDetectorType } from "../components/edge_detector";
  import { GameSystemWithFilter } from "../game_system_with_filter";
- import { BOOL_FALSE_SINGLETON, BOOL_TRUE_SINGLETON, isTruthyItem } from "../items/boolean_item";
+ import { castBool, isTruthyItem } from "../items/boolean_item";
 
 export class EdgeDetectorSystem extends GameSystemWithFilter {
     constructor(root) {
@@ -44,7 +44,7 @@ export class EdgeDetectorSystem extends GameSystemWithFilter {
             }
 
             edgeComp.lastValue = inputValue;
-            slotComp.slots[1].value = output ? BOOL_TRUE_SINGLETON : BOOL_FALSE_SINGLETON;
+            slotComp.slots[1].value = castBool(output);
         }
     }
 }

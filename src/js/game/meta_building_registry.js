@@ -19,6 +19,7 @@ import { MetaHubBuilding } from "./buildings/hub";
 import { MetaItemProducerBuilding } from "./buildings/item_producer";
 import { MetaLeverBuilding } from "./buildings/lever";
 import { MetaLogicGateBuilding } from "./buildings/logic_gate";
+import { MetaMemoryBuilding } from "./buildings/memory";
 import { MetaMinerBuilding } from "./buildings/miner";
 import { MetaMixerBuilding } from "./buildings/mixer";
 import { MetaMultiplexerBuilding } from "./buildings/multiplexer";
@@ -90,6 +91,7 @@ export function initMetaBuildingRegistry() {
         MetaAdderBuilding,
         MetaMultiplexerBuilding,
         MetaEdgeDetectorBuilding,
+        MetaMemoryBuilding,
     ];
 
     buildings.forEach(registerBuildingVariants);

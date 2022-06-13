@@ -1,7 +1,7 @@
 $buildings: belt, cutter, miner, mixer, painter, rotater, balancer, stacker, trash, underground_belt, wire,
     constant_signal, logic_gate, lever, filter, wire_tunnel, display, virtual_processor, reader, storage,
     transistor, analyzer, comparator, item_producer, constant_producer, goal_acceptor, block, four_input_logic_gate,
-    adder, multiplexer, edge_detector;
+    adder, multiplexer, edge_detector, memory;
 
 @each $building in $buildings {
     [data-icon="building_icons/#{$building}.png"] {
@@ -18,7 +18,7 @@ $buildingsAndVariants: belt, balancer, underground_belt, underground_belt-tier2,
     logic_gate-xor, analyzer, virtual_processor-rotater, virtual_processor-unstacker, item_producer,
     constant_producer, virtual_processor-stacker, virtual_processor-painter, wire-second, painter,
     painter-mirrored, comparator, goal_acceptor, block, logic_gate-nand, logic_gate-nor, four_input_logic_gate-or,
-    adder-full, multiplexer-demuxer;
+    adder-full, multiplexer-demuxer, memory-d, memory-jk, memory-t;
 
 @each $building in $buildingsAndVariants {
     [data-icon="building_tutorials/#{$building}.png"] {
@@ -87,6 +87,12 @@ $buildingsAndVariants: belt, balancer, underground_belt, underground_belt-tier2,
 [data-icon="building_tutorials/edge_detector-falling.png"],
 [data-icon="building_tutorials/edge_detector-change.png"] {
     background-image: url("../building_tutorials/edge_detector.png") !important;
+}
+
+// Multiplexer
+[data-icon="building_tutorials/memory.png"] {
+    /* @load-async */
+    background-image: uiResource("res/ui/building_tutorials/memory.png") !important;
 }
 
 $icons: notification_saved, notification_success, notification_upgrade, notification_info,

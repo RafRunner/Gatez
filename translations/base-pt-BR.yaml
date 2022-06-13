@@ -731,10 +731,10 @@ buildings:
     multiplexer:
         default:
             name: Multiplexer
-            description: Seleciona uma das duas entradas de baixo a partir do booleano da direita.
+            description: Seleciona uma das duas entradas de baixo a partir da entrada da direita.
         demuxer:
             name: Demultiplexer
-            description: Seleciona uma das duas saídas de cima a partir do booleano da direita.
+            description: Seleciona uma das duas saídas de cima a partir da entrada da direita.
 
     edge_detector:
         default:
@@ -746,6 +746,20 @@ buildings:
         change:
             name: Detector de Mudança
             description: Pulsa verdadeiro quando a entrada muda.
+
+    memory:
+        default:
+            name: Latch SR
+            description: Entrada S Joga a saída para 1 e a R joga para 0.
+        d:
+            name: Latch D
+            description: Guarda a entrada esquerda quando a entrada de baixo está ativada.
+        jk:
+            name: Flip-Flop JK
+            description: Guarda um valor booleano com base em qual entrada foi ativada por último.
+        t:
+            name: Flip-Flop T
+            description: Comuta a saída quando a entrada é ativada.
 
 storyRewards:
     reward_cutter_and_trash:
@@ -1177,6 +1191,7 @@ keybindings:
         adder: Somador
         multiplexer: Multiplexador
         edge_detector: Detector de borda
+        memory: Memória
 about:
     title: Sobre o jogo
     body: >-

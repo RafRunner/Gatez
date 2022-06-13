@@ -1,6 +1,6 @@
 import { types } from "../savegame/serialization";
 import { gItemRegistry } from "../core/global_registries";
-import { BooleanItem, BOOL_TRUE_SINGLETON, BOOL_FALSE_SINGLETON } from "./items/boolean_item";
+import { BooleanItem, castBool } from "./items/boolean_item";
 import { ShapeItem } from "./items/shape_item";
 import { ColorItem, COLOR_ITEM_SINGLETONS } from "./items/color_item";
 
@@ -21,7 +21,7 @@ export function itemResolverSingleton(root, data) {
 
     switch (itemType) {
         case BooleanItem.getId(): {
-            return itemData ? BOOL_TRUE_SINGLETON : BOOL_FALSE_SINGLETON;
+            return castBool(itemData);
         }
         case ShapeItem.getId(): {
             return root.shapeDefinitionMgr.getShapeItemFromShortKey(itemData);

@@ -977,6 +977,20 @@ buildings:
             name: Change Detector
             description: Pulses true when the input changes.
 
+    memory:
+        default:
+            name: Set Reset Latch
+            description: Set input sets output to 1 and Reset input sets output to 0.
+        d:
+            name: Data Latch
+            description: Stores the left input when the bottom input is enabled.
+        jk:
+            name: JK Flip-Flop
+            description: Stores a boolean value based on which input was triggered last.
+        t:
+            name: T Flip-Flop
+            description: Toggles the output when the input is triggered.
+
 storyRewards:
     # Those are the rewards gained from completing the store
     reward_cutter_and_trash:
@@ -1436,6 +1450,7 @@ keybindings:
         adder: Adder
         multiplexer: Multiplexer
         edge_detector: Edge Detector
+        memory: Memory
         # ---
 
         pipette: Pipette

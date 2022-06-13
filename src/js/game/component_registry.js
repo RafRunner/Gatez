@@ -23,6 +23,7 @@ import { GoalAcceptorComponent } from "./components/goal_acceptor";
 import { AdderComponent } from "./components/adder";
 import { MultiplexerComponent } from "./components/multiplexer";
 import { EdgeDetectorComponent } from "./components/edge_detector";
+import { MemoryComponent } from "./components/memory";
 
 export function initComponentRegistry() {
     const components = [
@@ -50,6 +51,7 @@ export function initComponentRegistry() {
         AdderComponent,
         MultiplexerComponent,
         EdgeDetectorComponent,
+        MemoryComponent,
     ];
     components.forEach(component => gComponentRegistry.register(component));
 

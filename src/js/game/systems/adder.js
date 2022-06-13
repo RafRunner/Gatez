@@ -6,7 +6,7 @@
 import { AdderComponent } from "../components/adder";
 import { enumPinSlotType } from "../components/wired_pins";
 import { GameSystemWithFilter } from "../game_system_with_filter";
-import { BOOL_FALSE_SINGLETON, BOOL_TRUE_SINGLETON, isTruthyItem } from "../items/boolean_item";
+import { castBool, isTruthyItem } from "../items/boolean_item";
 
 export class AdderSystem extends GameSystemWithFilter {
     constructor(root) {
@@ -55,7 +55,7 @@ export class AdderSystem extends GameSystemWithFilter {
                 if (slot.type !== enumPinSlotType.logicalEjector) {
                     continue;
                 }
-                slot.value = (sum & mask) ? BOOL_TRUE_SINGLETON : BOOL_FALSE_SINGLETON;
+                slot.value = castBool(sum & mask);
                 mask <<= 1;
             }
         }
