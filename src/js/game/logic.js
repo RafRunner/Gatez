@@ -274,7 +274,7 @@ export class GameLogic {
         }
 
         // Now check if there's a connectable entity on the wires layer
-        const targetEntity = this.root.map.getTileContent(targetTile, "wires");
+        const targetEntity = this.root.map.getTileContent(targetTile, "regular");
         if (!targetEntity) {
             return false;
         }

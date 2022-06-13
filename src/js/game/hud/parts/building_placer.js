@@ -259,32 +259,9 @@ export class HUDBuildingPlacer extends HUDBuildingPlacerLogic {
             this.drawRegularPlacement(parameters);
         }
 
-        if (metaBuilding.getShowWiresLayerPreview()) {
-            this.drawLayerPeek(parameters);
-        }
-    }
-
-    /**
-     *
-     * @param {DrawParameters} parameters
-     */
-    drawLayerPeek(parameters) {
-        const mousePosition = this.root.app.mousePosition;
-        if (!mousePosition) {
-            // Not on screen
-            return;
-        }
-
-        const worldPosition = this.root.camera.screenToWorld(mousePosition);
-
-        // Draw peeker
-        if (this.root.hud.parts.layerPreview) {
-            this.root.hud.parts.layerPreview.renderPreview(
-                parameters,
-                worldPosition,
-                1 / this.root.camera.zoomLevel
-            );
-        }
+        // if (metaBuilding.getShowWiresLayerPreview()) {
+        //     this.drawLayerPeek(parameters);
+        // }
     }
 
     /**

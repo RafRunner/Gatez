@@ -110,11 +110,6 @@ export class MetaWireBuilding extends MetaBuilding {
         return true;
     }
 
-    /** @returns {"wires"} **/
-    getLayer() {
-        return "wires";
-    }
-
     getSprite() {
         return null;
     }

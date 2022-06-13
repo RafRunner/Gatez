@@ -17,7 +17,6 @@ export class HUDWiresOverlay extends BaseHUDPart {
     initialize() {
         // Probably not the best location, but the one which makes most sense
         this.root.keyMapper.getBinding(KEYMAPPINGS.ingame.switchLayers).add(this.switchLayers, this);
-        this.root.keyMapper.getBinding(KEYMAPPINGS.placement.copyWireValue).add(this.copyWireValue, this);
 
         this.generateTilePattern();
 
@@ -68,46 +67,6 @@ export class HUDWiresOverlay extends BaseHUDPart {
             this.currentAlpha = desiredAlpha;
         } else {
             this.currentAlpha = lerp(this.currentAlpha, desiredAlpha, 0.12);
-        }
-    }
-
-    /**
-     * Copies the wires value below the cursor
-     */
-    copyWireValue() {
-        if (this.root.currentLayer !== "wires") {
-            return;
-        }
-
-        const mousePos = this.root.app.mousePosition;
-        if (!mousePos) {
-            return;
-        }
-
-        const tile = this.root.camera.screenToWorld(mousePos).toTileSpace();
-        const contents = this.root.map.getLayerContentXY(tile.x, tile.y, "wires");
-        if (!contents) {
-            return;
-        }
-
-        let value = null;
-        if (contents.components.Wire) {
-            const network = contents.components.Wire.linkedNetwork;
-            if (network && network.hasValue()) {
-                value = network.currentValue;
-            }
-        }
-
-        if (contents.components.ConstantSignal) {
-            value = contents.components.ConstantSignal.signal;
-        }
-
-        if (value) {
-            copy(value.getAsCopyableKey());
-            this.root.soundProxy.playUi(SOUNDS.copy);
-        } else {
-            copy("");
-            this.root.soundProxy.playUiError();
         }
     }
 

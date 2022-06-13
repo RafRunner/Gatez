@@ -136,8 +136,6 @@ export const KEYMAPPINGS = {
         cycleBuildingVariants: { keyCode: keyToKeyCode("T") },
         cycleBuildings: { keyCode: KEYCODES.Tab },
         switchDirectionLockSide: { keyCode: keyToKeyCode("R") },
-
-        copyWireValue: { keyCode: keyToKeyCode("Z") },
     },
 
     massSelect: {

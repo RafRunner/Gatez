@@ -34,11 +34,6 @@ export class MetaAnalyzerBuilding extends MetaBuilding {
         return root.hubGoals.isRewardUnlocked(enumHubGoalRewards.reward_virtual_processing);
     }
 
-    /** @returns {"wires"} **/
-    getLayer() {
-        return "wires";
-    }
-
     getDimensions() {
         return new Vector(1, 1);
     }
