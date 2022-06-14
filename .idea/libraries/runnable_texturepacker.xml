@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="runnable-texturepacker">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/gulp/runnable-texturepacker.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>
