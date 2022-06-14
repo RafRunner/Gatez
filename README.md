@@ -91,7 +91,7 @@ This project is based on ES5 (If I would develop it again, I would definitely us
 2. Create the building meta class, e.g. `MetaMyFancyBuilding extends MetaBuilding`
 3. Override the methods from MetaBuilding you want to override.
 4. Most important is `setupEntityComponents`
-5. Add the building to `src/js/game/meta_building_registry.js`: You need to register it on the registry, and also call `registerBuildingVariant`.
+5. Add the building to `src/js/game/meta_building_registry.js`: You need to register it on the registry.
 6. Add the building to the right toolbar, e.g. `src/js/game/hud/parts/buildings_toolbar.js`:`supportedBuildings`
 7. Add a keybinding for the building in `src/js/game/key_action_mapper.js` in `KEYMAPPINGS.buildings`
 8. In `translations/base-en.yaml` add it to two sections: `buildings.[my_building].XXX` (See other buildings) and also `keybindings.mappings.[my_building]`. Be sure to do it the same way as other buildings do!

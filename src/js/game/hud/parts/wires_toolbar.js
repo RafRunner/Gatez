@@ -15,6 +15,8 @@ import { MetaStorageBuilding } from "../../buildings/storage";
 import { MetaFourInputLogicGateBuilding } from "../../buildings/four_input_logic_gate";
 import { MetaAdderBuilding } from "../../buildings/adder";
 import { MetaMultiplexerBuilding } from "../../buildings/multiplexer";
+import { MetaEdgeDetectorBuilding } from "../../buildings/edge_detector";
+import { MetaMemoryBuilding } from "../../buildings/memory";
 
 // TODO remote temporaries from here
 export class HUDWiresToolbar extends HUDBaseToolbar {
@@ -32,6 +34,8 @@ export class HUDWiresToolbar extends HUDBaseToolbar {
                 MetaTransistorBuilding,
                 MetaAdderBuilding,
                 MetaMultiplexerBuilding,
+                MetaEdgeDetectorBuilding,
+                MetaMemoryBuilding,
             ],
             secondaryBuildings: [
                 MetaStorageBuilding,

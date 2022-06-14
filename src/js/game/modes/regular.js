@@ -22,7 +22,6 @@ import { HUDNotifications } from "../hud/parts/notifications";
 import { HUDScreenshotExporter } from "../hud/parts/screenshot_exporter";
 import { HUDWiresOverlay } from "../hud/parts/wires_overlay";
 import { HUDShapeViewer } from "../hud/parts/shape_viewer";
-import { HUDLayerPreview } from "../hud/parts/layer_preview";
 import { HUDTutorialVideoOffer } from "../hud/parts/tutorial_video_offer";
 import { HUDMinerHighlight } from "../hud/parts/miner_highlight";
 import { HUDGameMenu } from "../hud/parts/game_menu";
@@ -34,8 +33,6 @@ import { HUDStandaloneAdvantages } from "../hud/parts/standalone_advantages";
 import { HUDCatMemes } from "../hud/parts/cat_memes";
 import { HUDPartTutorialHints } from "../hud/parts/tutorial_hints";
 import { HUDInteractiveTutorial } from "../hud/parts/interactive_tutorial";
-import { HUDSandboxController } from "../hud/parts/sandbox_controller";
-import { queryParamOptions } from "../../core/query_parameters";
 import { MetaBlockBuilding } from "../buildings/block";
 import { MetaItemProducerBuilding } from "../buildings/item_producer";
 import { MOD_SIGNALS } from "../../mods/mod_signals";
@@ -570,7 +567,6 @@ export class RegularGameMode extends GameMode {
             screenshotExporter: HUDScreenshotExporter,
             wiresOverlay: HUDWiresOverlay,
             shapeViewer: HUDShapeViewer,
-            layerPreview: HUDLayerPreview,
             minerHighlight: HUDMinerHighlight,
             tutorialVideoOffer: HUDTutorialVideoOffer,
             gameMenu: HUDGameMenu,

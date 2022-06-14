@@ -22,6 +22,8 @@ import { ItemProducerComponent } from "./components/item_producer";
 import { GoalAcceptorComponent } from "./components/goal_acceptor";
 import { AdderComponent } from "./components/adder";
 import { MultiplexerComponent } from "./components/multiplexer";
+import { EdgeDetectorComponent } from "./components/edge_detector";
+import { MemoryComponent } from "./components/memory";
 /* typehints:end */
 
 /**
@@ -100,6 +102,12 @@ export class EntityComponentStorage {
 
         /** @type {MultiplexerComponent} */
         this.Multiplexer;
+
+        /** @type {EdgeDetectorComponent} */
+        this.EdgeDetector;
+
+        /** @type {MemoryComponent} */
+        this.Memory;
 
         /* typehints:end */
     }

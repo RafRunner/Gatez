@@ -1,7 +1,7 @@
 import { Loader } from "../../core/loader";
 import { LeverComponent } from "../components/lever";
 import { GameSystemWithFilter } from "../game_system_with_filter";
-import { BOOL_FALSE_SINGLETON, BOOL_TRUE_SINGLETON } from "../items/boolean_item";
+import { castBool } from "../items/boolean_item";
 import { MapChunkView } from "../map_chunk_view";
 
 export class LeverSystem extends GameSystemWithFilter {
@@ -20,7 +20,7 @@ export class LeverSystem extends GameSystemWithFilter {
             const pinsComp = entity.components.WiredPins;
 
             // Simply sync the status to the first slot
-            pinsComp.slots[0].value = leverComp.toggled ? BOOL_TRUE_SINGLETON : BOOL_FALSE_SINGLETON;
+            pinsComp.slots[0].value = castBool(leverComp.toggled);
         }
     }
 

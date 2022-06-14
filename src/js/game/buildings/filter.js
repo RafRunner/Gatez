@@ -39,10 +39,6 @@ export class MetaFilterBuilding extends MetaBuilding {
         return new Vector(2, 1);
     }
 
-    getShowWiresLayerPreview() {
-        return true;
-    }
-
     /**
      * @param {GameRoot} root
      * @param {string} variant

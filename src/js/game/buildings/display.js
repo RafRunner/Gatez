@@ -35,8 +35,9 @@ export class MetaDisplayBuilding extends MetaBuilding {
         return new Vector(1, 1);
     }
 
-    getShowWiresLayerPreview() {
-        return true;
+    getRenderPins() {
+        // We already have it included
+        return false;
     }
 
     /**

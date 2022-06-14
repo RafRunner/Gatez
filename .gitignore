@@ -59,4 +59,6 @@ config.local.js
 app.vdf
 
 steamtmp
+
+# Unwanted editor configurations
 .idea/

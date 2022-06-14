@@ -60,11 +60,6 @@ export class MetaAdderBuilding extends MetaBuilding {
         return root.hubGoals.isRewardUnlocked(enumHubGoalRewards.reward_logic_gates);
     }
 
-    /** @returns {"wires"} **/
-    getLayer() {
-        return "wires";
-    }
-
     getDimensions() {
         return new Vector(2, 1);
     }

@@ -30,6 +30,8 @@ import { GoalAcceptorSystem } from "./systems/goal_acceptor";
 import { ZoneSystem } from "./systems/zone";
 import { AdderSystem } from "./systems/adder";
 import { MultiplexerSystem } from "./systems/multiplexer";
+import { EdgeDetectorSystem } from "./systems/edge_detector";
+import { MemorySystem } from "./systems/memory";
 
 const logger = createLogger("game_system_manager");
 
@@ -126,6 +128,12 @@ export class GameSystemManager {
             /** @type {MultiplexerSystem} */
             multiplexer: null,
 
+            /** @type {EdgeDetectorSystem} */
+            edgeDetector: null,
+
+            /** @type {MemorySystem} */
+            memory: null,
+
             /* typehints:end */
         };
         this.systemUpdateOrder = [];
@@ -198,7 +206,11 @@ export class GameSystemManager {
 
         add("adder", AdderSystem);
 
-        add("multiplexes", MultiplexerSystem);
+        add("multiplexer", MultiplexerSystem);
+
+        add("edgeDetector", EdgeDetectorSystem);
+
+        add("memory", MemorySystem);
 
         add("beltReader", BeltReaderSystem);
 

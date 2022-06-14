@@ -97,11 +97,6 @@ export class MetaWireTunnelBuilding extends MetaBuilding {
         return new Vector(1, 1);
     }
 
-    /** @returns {"wires"} **/
-    getLayer() {
-        return "wires";
-    }
-
     updateVariants(entity, rotationVariant, variant) {
         const tunnelType = enumWireTunnelVariants[variant];
         entity.components.WireTunnel.type = tunnelType;

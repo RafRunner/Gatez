@@ -108,3 +108,7 @@ export function isTruthyItem(item) {
 
     return true;
 }
+
+export function castBool(value) {
+    return value ? BOOL_TRUE_SINGLETON : BOOL_FALSE_SINGLETON;
+}
