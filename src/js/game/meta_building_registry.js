@@ -1,6 +1,7 @@
 import { gMetaBuildingRegistry } from "../core/global_registries";
 import { createLogger } from "../core/logging";
 import { T } from "../translations";
+import { MetaAdderBuilding } from "./buildings/adder";
 import { MetaAnalyzerBuilding } from "./buildings/analyzer";
 import { MetaBalancerBuilding } from "./buildings/balancer";
 import { MetaBeltBuilding } from "./buildings/belt";
@@ -10,14 +11,18 @@ import { MetaConstantProducerBuilding } from "./buildings/constant_producer";
 import { MetaConstantSignalBuilding } from "./buildings/constant_signal";
 import { MetaCutterBuilding } from "./buildings/cutter";
 import { MetaDisplayBuilding } from "./buildings/display";
+import { MetaEdgeDetectorBuilding } from "./buildings/edge_detector";
 import { MetaFilterBuilding } from "./buildings/filter";
+import { MetaFourInputLogicGateBuilding } from "./buildings/four_input_logic_gate";
 import { MetaGoalAcceptorBuilding } from "./buildings/goal_acceptor";
 import { MetaHubBuilding } from "./buildings/hub";
 import { MetaItemProducerBuilding } from "./buildings/item_producer";
 import { MetaLeverBuilding } from "./buildings/lever";
 import { MetaLogicGateBuilding } from "./buildings/logic_gate";
+import { MetaMemoryBuilding } from "./buildings/memory";
 import { MetaMinerBuilding } from "./buildings/miner";
 import { MetaMixerBuilding } from "./buildings/mixer";
+import { MetaMultiplexerBuilding } from "./buildings/multiplexer";
 import { MetaPainterBuilding } from "./buildings/painter";
 import { MetaReaderBuilding } from "./buildings/reader";
 import { MetaRotaterBuilding } from "./buildings/rotater";
@@ -70,6 +75,7 @@ export function initMetaBuildingRegistry() {
         MetaWireBuilding,
         MetaConstantSignalBuilding,
         MetaLogicGateBuilding,
+        MetaFourInputLogicGateBuilding,
         MetaLeverBuilding,
         MetaFilterBuilding,
         MetaWireTunnelBuilding,
@@ -82,6 +88,10 @@ export function initMetaBuildingRegistry() {
         MetaItemProducerBuilding,
         MetaConstantProducerBuilding,
         MetaBlockBuilding,
+        MetaAdderBuilding,
+        MetaMultiplexerBuilding,
+        MetaEdgeDetectorBuilding,
+        MetaMemoryBuilding,
     ];
 
     buildings.forEach(registerBuildingVariants);

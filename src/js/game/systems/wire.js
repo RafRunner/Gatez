@@ -22,7 +22,6 @@ import { enumPinSlotType, WiredPinsComponent } from "../components/wired_pins";
 import { WireTunnelComponent } from "../components/wire_tunnel";
 import { Entity } from "../entity";
 import { GameSystem } from "../game_system";
-import { GameSystemWithFilter } from "../game_system_with_filter";
 import { isTruthyItem } from "../items/boolean_item";
 import { MapChunkView } from "../map_chunk_view";
 
@@ -602,7 +601,7 @@ export class WireSystem extends GameSystem {
      * @param {MapChunkView} chunk
      */
     drawChunk(parameters, chunk) {
-        const contents = chunk.wireContents;
+        const contents = chunk.contents;
         for (let y = 0; y < globalConfig.mapChunkSize; ++y) {
             for (let x = 0; x < globalConfig.mapChunkSize; ++x) {
                 const entity = contents[x][y];
@@ -618,54 +617,6 @@ export class WireSystem extends GameSystem {
                     const staticComp = entity.components.StaticMapEntity;
                     parameters.context.globalAlpha = opacity;
                     staticComp.drawSpriteOnBoundsClipped(parameters, sprite, 0);
-
-                    // DEBUG Rendering
-                    if (G_IS_DEV && globalConfig.debug.renderWireRotations) {
-                        parameters.context.globalAlpha = 1;
-                        parameters.context.fillStyle = "red";
-                        parameters.context.font = "5px Tahoma";
-                        parameters.context.fillText(
-                            "" + staticComp.originalRotation,
-                            staticComp.origin.x * globalConfig.tileSize,
-                            staticComp.origin.y * globalConfig.tileSize + 5
-                        );
-
-                        parameters.context.fillStyle = "rgba(255, 0, 0, 0.2)";
-                        if (staticComp.originalRotation % 180 === 0) {
-                            parameters.context.fillRect(
-                                (staticComp.origin.x + 0.5) * globalConfig.tileSize,
-                                staticComp.origin.y * globalConfig.tileSize,
-                                3,
-                                globalConfig.tileSize
-                            );
-                        } else {
-                            parameters.context.fillRect(
-                                staticComp.origin.x * globalConfig.tileSize,
-                                (staticComp.origin.y + 0.5) * globalConfig.tileSize,
-                                globalConfig.tileSize,
-                                3
-                            );
-                        }
-                    }
-                }
-
-                // DEBUG Rendering
-                if (G_IS_DEV && globalConfig.debug.renderWireNetworkInfos) {
-                    if (entity) {
-                        const staticComp = entity.components.StaticMapEntity;
-                        const wireComp = entity.components.Wire;
-
-                        // Draw network info for wires
-                        if (wireComp && wireComp.linkedNetwork) {
-                            parameters.context.fillStyle = "red";
-                            parameters.context.font = "5px Tahoma";
-                            parameters.context.fillText(
-                                "W" + wireComp.linkedNetwork.uid,
-                                (staticComp.origin.x + 0.5) * globalConfig.tileSize,
-                                (staticComp.origin.y + 0.5) * globalConfig.tileSize
-                            );
-                        }
-                    }
                 }
             }
         }

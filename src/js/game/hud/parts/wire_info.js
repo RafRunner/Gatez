@@ -16,11 +16,6 @@ export class HUDWireInfo extends BaseHUDPart {
      * @param {import("../../../core/draw_utils").DrawParameters} parameters
      */
     drawOverlays(parameters) {
-        if (this.root.currentLayer !== "wires") {
-            // Not in the wires layer
-            return;
-        }
-
         const mousePos = this.root.app.mousePosition;
         if (!mousePos) {
             // No mouse
@@ -29,7 +24,7 @@ export class HUDWireInfo extends BaseHUDPart {
 
         const worldPos = this.root.camera.screenToWorld(mousePos);
         const tile = worldPos.toTileSpace();
-        const entity = this.root.map.getLayerContentXY(tile.x, tile.y, "wires");
+        const entity = this.root.map.getLayerContentXY(tile.x, tile.y, "regular");
 
         if (!entity) {
             // No entity

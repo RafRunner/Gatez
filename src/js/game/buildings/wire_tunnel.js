@@ -52,11 +52,6 @@ export class MetaWireTunnelBuilding extends MetaBuilding {
         return new Vector(1, 1);
     }
 
-    /** @returns {"wires"} **/
-    getLayer() {
-        return "wires";
-    }
-
     /**
      * Creates the entity at the given location
      * @param {Entity} entity

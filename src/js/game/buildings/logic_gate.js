@@ -9,30 +9,38 @@ import { enumHubGoalRewards } from "../tutorial_goals";
 
 /** @enum {string} */
 export const enumLogicGateVariants = {
+    nand: "nand",
     not: "not",
     xor: "xor",
     or: "or",
+    nor: "nor",
 };
 
 /** @enum {string} */
 const enumVariantToGate = {
     [defaultBuildingVariant]: enumLogicGateType.and,
+    [enumLogicGateVariants.nand]: enumLogicGateType.nand,
     [enumLogicGateVariants.not]: enumLogicGateType.not,
     [enumLogicGateVariants.xor]: enumLogicGateType.xor,
     [enumLogicGateVariants.or]: enumLogicGateType.or,
+    [enumLogicGateVariants.nor]: enumLogicGateType.nor,
 };
 
 const overlayMatrices = {
     [defaultBuildingVariant]: generateMatrixRotations([0, 1, 0, 1, 1, 1, 0, 1, 1]),
+    [enumLogicGateVariants.nand]: generateMatrixRotations([0, 1, 0, 1, 1, 1, 0, 1, 1]),
     [enumLogicGateVariants.xor]: generateMatrixRotations([0, 1, 0, 1, 1, 1, 0, 1, 1]),
     [enumLogicGateVariants.or]: generateMatrixRotations([0, 1, 0, 1, 1, 1, 0, 1, 1]),
+    [enumLogicGateVariants.nor]: generateMatrixRotations([0, 1, 0, 1, 1, 1, 0, 1, 1]),
     [enumLogicGateVariants.not]: generateMatrixRotations([0, 1, 0, 0, 1, 0, 0, 1, 0]),
 };
 
 const colors = {
     [defaultBuildingVariant]: "#f48d41",
+    [enumLogicGateVariants.nand]: "#f4a241",
     [enumLogicGateVariants.xor]: "#f4a241",
     [enumLogicGateVariants.or]: "#f4d041",
+    [enumLogicGateVariants.nor]: "#f4d041",
     [enumLogicGateVariants.not]: "#f44184",
 };
 
@@ -48,6 +56,10 @@ export class MetaLogicGateBuilding extends MetaBuilding {
                 variant: defaultBuildingVariant,
             },
             {
+                internalId: 420,
+                variant: enumLogicGateVariants.nand,
+            },
+            {
                 internalId: 34,
                 variant: enumLogicGateVariants.not,
             },
@@ -58,6 +70,10 @@ export class MetaLogicGateBuilding extends MetaBuilding {
             {
                 internalId: 36,
                 variant: enumLogicGateVariants.or,
+            },
+            {
+                internalId: 421,
+                variant: enumLogicGateVariants.nor,
             },
         ];
     }
@@ -73,11 +89,6 @@ export class MetaLogicGateBuilding extends MetaBuilding {
         return root.hubGoals.isRewardUnlocked(enumHubGoalRewards.reward_logic_gates);
     }
 
-    /** @returns {"wires"} **/
-    getLayer() {
-        return "wires";
-    }
-
     getDimensions() {
         return new Vector(1, 1);
     }
@@ -89,7 +100,9 @@ export class MetaLogicGateBuilding extends MetaBuilding {
     getAvailableVariants() {
         return [
             defaultBuildingVariant,
+            enumLogicGateVariants.nand,
             enumLogicGateVariants.or,
+            enumLogicGateVariants.nor,
             enumLogicGateVariants.not,
             enumLogicGateVariants.xor,
         ];
@@ -113,8 +126,10 @@ export class MetaLogicGateBuilding extends MetaBuilding {
 
         switch (gateType) {
             case enumLogicGateType.and:
+            case enumLogicGateType.nand:
             case enumLogicGateType.xor:
-            case enumLogicGateType.or: {
+            case enumLogicGateType.or:
+            case enumLogicGateType.nor: {
                 pinComp.setSlots([
                     {
                         pos: new Vector(0, 0),

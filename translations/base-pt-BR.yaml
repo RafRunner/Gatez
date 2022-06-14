@@ -612,24 +612,22 @@ buildings:
     constant_signal:
         default:
             name: Sinal Constante
-            description: Emite um sinal constante, que pode ser uma forma, cor ou binário (1
-                / 0).
+            description: Emite um sinal constante.
     lever:
         default:
             name: Interruptor
             description: Pode ser ativado para emitir um sinal binário (1 / 0) no plano da
-                fiação, que pode então ser usado para controlar um filtro, por
-                exemplo.
+                fiação.
     logic_gate:
         default:
             name: Portão E (AND)
             description: Emite um sinal binário "1" se ambas as entradas forem verdadeiras.
-                (Ser verdadeira significa receber um sinal de forma, cor ou
-                binário "1")
+        nand:
+            name: Portão E NEGADO (NAND)
+            description: Emite um sinal binário "1" se uma das entradas não forem verdadeiras.
         not:
             name: Portão NEGAR (NOT)
-            description: Emite um sinal binário "1" se a entrada for falsa. (Ser verdadeira
-                significa receber um sinal de forma, cor ou binário "1")
+            description: Emite um sinal binário "1" se a entrada for falsa.
         xor:
             name: Portão OU EXCLUSIVO (XOR)
             description: Emite um sinal binário "1" se uma das entradas for verdadeira, mas
@@ -637,9 +635,17 @@ buildings:
                 cor ou binário "1")
         or:
             name: Portão OU (OR)
-            description: Emite um sinal binário "1" se uma das entradas for verdadeira. (Ser
-                verdadeira significa receber um sinal de forma, cor ou binário
-                "1")
+            description: Emite um sinal binário "1" se uma das entradas for verdadeira.
+        nor:
+            name: Portão OU NEGADO (NOR)
+            description: Emite um sinal binário "1" se ambas as entradas forem não verdadeiras.
+    four_input_logic_gate:
+        default:
+            name: Portão E de 4 entradas
+            description: Emite um sinal binário "1" se todas as entradas forem verdadeiras.
+        or:
+            name: Portão OU de 4 entradas
+            description: Emite um sinal binário "1" se pelo menos uma das entradas for verdadeira.
     transistor:
         default:
             name: Transistor
@@ -713,6 +719,48 @@ buildings:
         default:
             name: Bloco
             description: Te permite bloquear um espaço.
+
+    adder:
+        default:
+            name: Somador Incompleto
+            description: Soma 2 booleanos e emite o resultado (topo) e o carry (esquerda).
+        full:
+            name: Somador Completo
+            description: Soma 3 booleanos e emite o resultado (topo) e o carry (esquerda).
+
+    multiplexer:
+        default:
+            name: Multiplexer
+            description: Seleciona uma das duas entradas de baixo a partir da entrada da direita.
+        demuxer:
+            name: Demultiplexer
+            description: Seleciona uma das duas saídas de cima a partir da entrada da direita.
+
+    edge_detector:
+        default:
+            name: Detector de Borda de Subida
+            description: Pulsa verdadeiro quando a entrada vai de baixo para alto.
+        falling:
+            name: Detector de Borda de Descida
+            description: Pulsa verdadeiro quando a entrada vai de alto para baixo.
+        change:
+            name: Detector de Mudança
+            description: Pulsa verdadeiro quando a entrada muda.
+
+    memory:
+        default:
+            name: Latch SR
+            description: Entrada S Joga a saída para 1 e a R joga para 0.
+        d:
+            name: Latch D
+            description: Guarda a entrada esquerda quando a entrada de baixo está ativada.
+        jk:
+            name: Flip-Flop JK
+            description: Guarda um valor booleano com base em qual entrada foi ativada por último.
+        t:
+            name: Flip-Flop T
+            description: Comuta a saída quando a entrada é ativada.
+
 storyRewards:
     reward_cutter_and_trash:
         title: Cortando formas
@@ -1140,6 +1188,10 @@ keybindings:
         block: Bloco
         massSelectClear: Limpar esteiras
         showShapeTooltip: Show shape output tooltip
+        adder: Somador
+        multiplexer: Multiplexador
+        edge_detector: Detector de borda
+        memory: Memória
 about:
     title: Sobre o jogo
     body: >-

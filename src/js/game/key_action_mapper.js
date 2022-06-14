@@ -112,15 +112,17 @@ export const KEYMAPPINGS = {
         filter: { keyCode: keyToKeyCode("O") },
         display: { keyCode: keyToKeyCode("P") },
 
+        // TODO remote temporaries from here
         // Wires toolbar
         wire: { keyCode: keyToKeyCode("1") },
         wire_tunnel: { keyCode: keyToKeyCode("2") },
         constant_signal: { keyCode: keyToKeyCode("3") },
         logic_gate: { keyCode: keyToKeyCode("4") },
-        virtual_processor: { keyCode: keyToKeyCode("5") },
-        analyzer: { keyCode: keyToKeyCode("6") },
-        comparator: { keyCode: keyToKeyCode("7") },
-        transistor: { keyCode: keyToKeyCode("8") },
+        four_input_logic_gate: { keyCode: keyToKeyCode("5") },
+        virtual_processor: { keyCode: keyToKeyCode("6") },
+        analyzer: { keyCode: keyToKeyCode("7") },
+        comparator: { keyCode: keyToKeyCode("8") },
+        transistor: { keyCode: keyToKeyCode("9") },
     },
 
     placement: {
@@ -134,8 +136,6 @@ export const KEYMAPPINGS = {
         cycleBuildingVariants: { keyCode: keyToKeyCode("T") },
         cycleBuildings: { keyCode: KEYCODES.Tab },
         switchDirectionLockSide: { keyCode: keyToKeyCode("R") },
-
-        copyWireValue: { keyCode: keyToKeyCode("Z") },
     },
 
     massSelect: {

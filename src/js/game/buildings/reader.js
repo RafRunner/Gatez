@@ -42,10 +42,6 @@ export class MetaReaderBuilding extends MetaBuilding {
         return new Vector(1, 1);
     }
 
-    getShowWiresLayerPreview() {
-        return true;
-    }
-
     /**
      * @param {number} rotation
      * @param {number} rotationVariant

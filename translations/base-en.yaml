@@ -840,26 +840,40 @@ buildings:
     constant_signal:
         default:
             name: &constant_signal Constant Signal
-            description: Emits a constant signal, which can be either a shape, color or boolean (1 or 0).
+            description: Emits a constant signal.
 
     lever:
         default:
             name: &lever Switch
-            description: Can be toggled to emit a boolean signal (1 or 0) on the wires layer, which can then be used to control components, for example an item filter.
+            description: Can be toggled to emit a boolean signal (1 or 0) on the wires layer, which can then be used to control components.
 
     logic_gate:
         default:
             name: AND Gate
-            description: Emits a boolean "1" if both inputs are truthy. (Truthy means shape, color or boolean "1")
+            description: Emits a boolean "1" if both inputs are truthy.
+        nand:
+            name: NAND Gate
+            description: Emits a boolean "1" if one of the inputs are not truthy.
         not:
             name: NOT Gate
-            description: Emits a boolean "1" if the input is not truthy. (Truthy means shape, color or boolean "1")
+            description: Emits a boolean "1" if the input is not truthy.
         xor:
             name: XOR Gate
-            description: Emits a boolean "1" if one of the inputs is truthy, but not both. (Truthy means shape, color or boolean "1")
+            description: Emits a boolean "1" if one of the inputs is truthy, but not both.
         or:
             name: OR Gate
-            description: Emits a boolean "1" if one of the inputs is truthy. (Truthy means shape, color or boolean "1")
+            description: Emits a boolean "1" if one of the inputs is truthy.
+        nor:
+            name: NOR Gate
+            description: Emits a boolean "1" if both inputs are not truthy.
+
+    four_input_logic_gate:
+        default:
+            name: Four Input AND Gate
+            description: Emits a boolean "1" if all inputs are truthy.
+        or:
+            name: Four Input OR Gate
+            description: Emits a boolean "1" if any of the inputs is truthy.
 
     transistor:
         default:
@@ -935,6 +949,47 @@ buildings:
         default:
             name: &block Block
             description: Allows you to block a tile.
+
+    adder:
+        default:
+            name: Half Adder
+            description: Add 2 booleans together and output the result (top) and carry (left).
+        full:
+            name: Full Adder
+            description: Add 3 boleans together and output the result (top) and carry (leff).
+
+    multiplexer:
+        default:
+            name: Multiplexer
+            description: Select from the two bottom inputs using a boolean on the right input.
+        demuxer:
+            name: Demultiplexer
+            description: Select from the two outputs using a boolean on the right input.
+
+    edge_detector:
+        default:
+            name: Rising Edge Detector
+            description: Pulses true when the input goes from low to high.
+        falling:
+            name: Falling Edge Detector
+            description: Pulses true when the input goes from high to low.
+        change:
+            name: Change Detector
+            description: Pulses true when the input changes.
+
+    memory:
+        default:
+            name: Set Reset Latch
+            description: Set input sets output to 1 and Reset input sets output to 0.
+        d:
+            name: Data Latch
+            description: Stores the left input when the bottom input is enabled.
+        jk:
+            name: JK Flip-Flop
+            description: Stores a boolean value based on which input was triggered last.
+        t:
+            name: T Flip-Flop
+            description: Toggles the output when the input is triggered.
 
 storyRewards:
     # Those are the rewards gained from completing the store
@@ -1378,6 +1433,7 @@ keybindings:
         wire: *wire
         constant_signal: *constant_signal
         logic_gate: Logic Gate
+        four_input_logic_gate: Four Input Logic Gate
         lever: *lever
         filter: *filter
         wire_tunnel: *wire_tunnel
@@ -1391,6 +1447,10 @@ keybindings:
         constant_producer: *constant_producer
         goal_acceptor: *goal_acceptor
         block: *block
+        adder: Adder
+        multiplexer: Multiplexer
+        edge_detector: Edge Detector
+        memory: Memory
         # ---
 
         pipette: Pipette

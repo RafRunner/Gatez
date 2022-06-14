@@ -34,11 +34,6 @@ export class MetaConstantSignalBuilding extends MetaBuilding {
         return root.hubGoals.isRewardUnlocked(enumHubGoalRewards.reward_constant_signal);
     }
 
-    /** @returns {"wires"} **/
-    getLayer() {
-        return "wires";
-    }
-
     getDimensions() {
         return new Vector(1, 1);
     }

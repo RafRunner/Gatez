@@ -28,6 +28,10 @@ import { ItemProducerSystem } from "./systems/item_producer";
 import { ConstantProducerSystem } from "./systems/constant_producer";
 import { GoalAcceptorSystem } from "./systems/goal_acceptor";
 import { ZoneSystem } from "./systems/zone";
+import { AdderSystem } from "./systems/adder";
+import { MultiplexerSystem } from "./systems/multiplexer";
+import { EdgeDetectorSystem } from "./systems/edge_detector";
+import { MemorySystem } from "./systems/memory";
 
 const logger = createLogger("game_system_manager");
 
@@ -118,6 +122,18 @@ export class GameSystemManager {
             /** @type {ZoneSystem} */
             zone: null,
 
+            /** @type {AdderSystem} */
+            adder: null,
+
+            /** @type {MultiplexerSystem} */
+            multiplexer: null,
+
+            /** @type {EdgeDetectorSystem} */
+            edgeDetector: null,
+
+            /** @type {MemorySystem} */
+            memory: null,
+
             /* typehints:end */
         };
         this.systemUpdateOrder = [];
@@ -187,6 +203,14 @@ export class GameSystemManager {
         // IMPORTANT: We have 2 phases: In phase 1 we compute the output values of all gates,
         // processors etc. In phase 2 we propagate it through the wires network
         add("logicGate", LogicGateSystem);
+
+        add("adder", AdderSystem);
+
+        add("multiplexer", MultiplexerSystem);
+
+        add("edgeDetector", EdgeDetectorSystem);
+
+        add("memory", MemorySystem);
 
         add("beltReader", BeltReaderSystem);
 

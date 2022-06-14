@@ -3,10 +3,15 @@ import { Component } from "../component";
 /** @enum {string} */
 export const enumLogicGateType = {
     and: "and",
+    nand: "nand",
     not: "not",
     xor: "xor",
     or: "or",
+    nor: "nor",
     transistor: "transistor",
+
+    four_input_and: "four_input_and",
+    four_input_or: "four_input_or",
 
     analyzer: "analyzer",
     rotater: "rotater",
