@@ -55,7 +55,7 @@ export class HUDPuzzlePlayMetadata extends BaseHUDPart {
         this.trackClicks(this.element.querySelector("button.report"), this.report);
 
         /** @type {HTMLElement} */ (this.element.querySelector(".author span")).innerText =
-            puzzle.meta.author;
+            puzzle.meta.authorName;
     }
 
     initialize() {}

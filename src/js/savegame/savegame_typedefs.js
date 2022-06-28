@@ -65,6 +65,7 @@ import { MetaBuilding } from "../game/meta_building";
  * averageTime: number | null;
  * title: string;
  * author: string;
+ * authorName: string;
  * completed: boolean;
  * }} PuzzleMetadata
  */
