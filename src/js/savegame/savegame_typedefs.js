@@ -63,10 +63,18 @@ import { MetaBuilding } from "../game/meta_building";
  * completions: number;
  * difficulty: number | null;
  * averageTime: number | null;
+ * averageDifficulty: number | null;
  * title: string;
  * author: string;
  * authorName: string;
+ * description: string;
+ * afterCompletingMessage: string;
+ * minimumComponents: number;
+ * maximumComponents: number | null;
+ * minimumNands: number;
+ * createdAt: string;
  * completed: boolean;
+ * liked: boolean;
  * }} PuzzleMetadata
  */
 
