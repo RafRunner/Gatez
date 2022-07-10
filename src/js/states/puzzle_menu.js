@@ -374,7 +374,7 @@ export class PuzzleMenuState extends TextualGameState {
                 } else if (puzzle.difficulty < 0.2) {
                     difficulty.classList.add("stage--easy");
                     difficulty.innerText = T.puzzleMenu.difficulties.easy;
-                } else if (puzzle.difficulty > 0.6) {
+                } else if (puzzle.difficulty >= 0.6) {
                     difficulty.classList.add("stage--hard");
                     difficulty.innerText = T.puzzleMenu.difficulties.hard;
                 } else {
