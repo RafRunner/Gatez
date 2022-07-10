@@ -2,7 +2,7 @@
 import { Application } from "../application";
 /* typehints:end */
 import { createLogger } from "../core/logging";
-import { compressX64 } from "../core/lzstring";
+import { compressX64, decompressX64 } from "../core/lzstring";
 import { T } from "../translations";
 
 const logger = createLogger("puzzle-api");
@@ -40,17 +40,17 @@ export class ClientAPI {
      *
      * @param {string} endpoint
      * @param {object} options
-     * @param {"GET"|"POST"=} options.method
+     * @param {"GET"|"POST"|"DELETE"=} options.method
      * @param {any=} options.body
      */
     _request(endpoint, options) {
         const headers = {
-            "x-api-key": "d5c54aaa491f200709afff082c153ef2",
+            "Access-Control-Allow-Origin": "*",
             "Content-Type": "application/json",
         };
 
         if (this.token) {
-            headers["x-token"] = this.token;
+            headers["authorization"] = this.token;
         }
 
         return Promise.race([
@@ -62,7 +62,7 @@ export class ClientAPI {
                 body: options.body ? JSON.stringify(options.body) : undefined,
             })
                 .then(res => {
-                    if (res.status !== 200) {
+                    if (!res.status.toString().startsWith("20")) {
                         throw "bad-status: " + res.status + " / " + res.statusText;
                     }
                     return res;
@@ -158,11 +158,12 @@ export class ClientAPI {
      * @param {number} puzzleId
      * @returns {Promise<import("../savegame/savegame_typedefs").PuzzleFullData>}
      */
-    apiDownloadPuzzle(puzzleId) {
+    async apiDownloadPuzzle(puzzleId) {
         if (!this.isLoggedIn()) {
             return Promise.reject("not-logged-in");
         }
-        return this._request("/v1/puzzles/download/" + puzzleId, {});
+        const puzzle = await this._request("/v1/puzzles/download/" + puzzleId, {});
+        return { game: JSON.parse(decompressX64(puzzle.game)), meta: puzzle.meta };
     }
 
     /**
@@ -174,20 +175,22 @@ export class ClientAPI {
             return Promise.reject("not-logged-in");
         }
         return this._request("/v1/puzzles/delete/" + puzzleId, {
-            method: "POST",
+            method: "DELETE",
             body: {},
         });
     }
 
+    // TODO remove
     /**
      * @param {string} shortKey
      * @returns {Promise<import("../savegame/savegame_typedefs").PuzzleFullData>}
      */
-    apiDownloadPuzzleByKey(shortKey) {
+    async apiDownloadPuzzleByKey(shortKey) {
         if (!this.isLoggedIn()) {
             return Promise.reject("not-logged-in");
         }
-        return this._request("/v1/puzzles/download/" + shortKey, {});
+        const puzzle = await this._request("/v1/puzzles/download/" + shortKey, {});
+        return { game: JSON.parse(decompressX64(puzzle.game)), meta: puzzle.meta };
     }
 
     /**

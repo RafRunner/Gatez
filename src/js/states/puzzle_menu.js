@@ -10,7 +10,7 @@ import { Savegame } from "../savegame/savegame";
 import { T } from "../translations";
 
 const navigation = {
-    categories: ["official", "top-rated", "trending", "trending-weekly", "new"],
+    categories: ["official", "top-rated", "new"],
     difficulties: ["easy", "medium", "hard"],
     account: ["mine", "completed"],
     search: ["search"],
@@ -349,7 +349,7 @@ export class PuzzleMenuState extends TextualGameState {
             if (puzzle.author && !["official", "mine"].includes(this.activeCategory)) {
                 const author = document.createElement("div");
                 author.classList.add("author");
-                author.innerText = "by " + puzzle.author;
+                author.innerText = "by " + puzzle.authorName;
                 elem.appendChild(author);
             }
 
@@ -551,6 +551,7 @@ export class PuzzleMenuState extends TextualGameState {
         this.trackClicks(this.htmlElement.querySelector("button.loadPuzzle"), () => this.loadPuzzle());
     }
 
+    // TODO remove. Keeping for now to use as reference
     loadPuzzle() {
         const shortKeyInput = new FormElementInput({
             id: "shortKey",
