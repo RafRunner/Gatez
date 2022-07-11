@@ -22,6 +22,49 @@
         }
     }
 
+    .difficultyButton {
+        background: $accentColorBright;
+        border-radius: 0;
+        color: $accentColorDark;
+        transition: all 0.12s ease-in-out;
+        transition-property: opacity, background-color, color;
+
+        &:first-child {
+            @include S(border-top-left-radius, $globalBorderRadius);
+            @include S(border-bottom-left-radius, $globalBorderRadius);
+        }
+        &:last-child {
+            border-top-right-radius: $globalBorderRadius;
+            border-bottom-right-radius: $globalBorderRadius;
+        }
+
+        &.active {
+            background: $colorBlueBright;
+            opacity: 1 !important;
+            color: #fff;
+            cursor: default;
+        }
+
+        @include DarkThemeOverride {
+            background: $accentColorDark;
+            color: #bbbbc4;
+
+            &.active {
+                background: $colorBlueBright;
+                color: #fff;
+            }
+        }
+
+        &.root {
+            @include S(padding-top, 10px);
+            @include S(padding-bottom, 10px);
+            @include Text;
+        }
+        &.child {
+            @include PlainText;
+        }
+    }
+
     > .dialog {
         // background: rgba(#222428, 0.5);
         @include S(border-radius, $globalBorderRadius);
