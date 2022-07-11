@@ -9,6 +9,8 @@ import { T } from "../../../translations";
 import { BaseHUDPart } from "../base_hud_part";
 import { DynamicDomAttach } from "../dynamic_dom_attach";
 
+const difficultyLabels = ["easy", "medium", "hard"];
+
 export class HUDPuzzleCompleteNotification extends BaseHUDPart {
     initialize() {
         this.visible = false;
@@ -19,7 +21,7 @@ export class HUDPuzzleCompleteNotification extends BaseHUDPart {
 
         this.root.signals.puzzleComplete.add(this.show, this);
         this.userDidLikePuzzle = false;
-        this.userRatedDifficulty = undefined;
+        this.userRatedDifficulty = null;
         this.timeOfCompletion = 0;
     }
 
@@ -42,10 +44,9 @@ export class HUDPuzzleCompleteNotification extends BaseHUDPart {
         this.buttonLikeYes = document.createElement("button");
         this.buttonLikeYes.classList.add("liked-yes");
         likeButtons.appendChild(this.buttonLikeYes);
-        console.log("userDidLikePuzzle", this.userDidLikePuzzle);
         this.trackClicks(this.buttonLikeYes, () => {
             this.userDidLikePuzzle = !this.userDidLikePuzzle;
-            this.updateState();
+            this.updateLiked();
         });
 
         const stepRating = makeDiv(this.elemContents, null, ["step", "stepLike"]);
@@ -62,7 +63,7 @@ export class HUDPuzzleCompleteNotification extends BaseHUDPart {
         difficultyButtonBar.appendChild(this.easyBtn);
         this.trackClicks(this.easyBtn, () => {
             this.userRatedDifficulty = 0;
-            this.updateRadioButton("easy");
+            this.updateDifficultyRating("easy");
         });
 
         this.mediumBtn = document.createElement("button");
@@ -71,7 +72,7 @@ export class HUDPuzzleCompleteNotification extends BaseHUDPart {
         difficultyButtonBar.appendChild(this.mediumBtn);
         this.trackClicks(this.mediumBtn, () => {
             this.userRatedDifficulty = 1;
-            this.updateRadioButton("medium");
+            this.updateDifficultyRating("medium");
         });
 
         this.hardBtn = document.createElement("button");
@@ -80,7 +81,7 @@ export class HUDPuzzleCompleteNotification extends BaseHUDPart {
         difficultyButtonBar.appendChild(this.hardBtn);
         this.trackClicks(this.hardBtn, () => {
             this.userRatedDifficulty = 2;
-            this.updateRadioButton("hard");
+            this.updateDifficultyRating("hard");
         });
 
         const buttonBar = document.createElement("div");
@@ -116,29 +117,21 @@ export class HUDPuzzleCompleteNotification extends BaseHUDPart {
         }
     }
 
-    updateState() {
+    updateLiked() {
         this.buttonLikeYes.classList.toggle("active", this.userDidLikePuzzle === true);
     }
 
     show() {
-        //if hte person has already liked the puzzle, it be showed
+        // if the person has already liked the puzzle, it`s shown
         this.metaPuzzle = /** @type {PuzzlePlayGameMode} */ (this.root.gameMode).puzzle.meta;
         this.userDidLikePuzzle = this.metaPuzzle.liked;
-        this.updateState();
+        this.updateLiked();
 
-        // if the person has already rated the puzzle, it be showed
+        // if the person has already rated the puzzle, it`s shown
         if (this.metaPuzzle.difficultyRating) {
-            if (this.metaPuzzle.difficultyRating === "easy") {
-                this.userRatedDifficulty = 0;
-            } else if (this.metaPuzzle.difficultyRating === "medium") {
-                this.userRatedDifficulty = 1;
-            } else {
-                this.userRatedDifficulty = 2;
-            }
-            this.updateRadioButton(this.metaPuzzle.difficultyRating);
+            this.userRatedDifficulty = difficultyLabels.indexOf(this.metaPuzzle.difficultyRating);
+            this.updateDifficultyRating(this.metaPuzzle.difficultyRating);
         }
-
-        console.log("elemContents", this.elemContents);
 
         this.root.soundProxy.playUi(SOUNDS.levelComplete);
         this.root.app.inputMgr.makeSureAttachedAndOnTop(this.inputReciever);
@@ -153,7 +146,7 @@ export class HUDPuzzleCompleteNotification extends BaseHUDPart {
     /**
      * @param {string} difficulty
      */
-    updateRadioButton(difficulty) {
+    updateDifficultyRating(difficulty) {
         const difficultyButtonBar = this.elemContents.querySelector("#difficultyButtonBar");
         const buttons = difficultyButtonBar.querySelectorAll("button");
         buttons.forEach(button => {
