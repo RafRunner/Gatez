@@ -18,8 +18,8 @@ export class HUDPuzzleCompleteNotification extends BaseHUDPart {
         });
 
         this.root.signals.puzzleComplete.add(this.show, this);
-
         this.userDidLikePuzzle = false;
+        this.userRatedDifficulty = undefined;
         this.timeOfCompletion = 0;
     }
 
@@ -42,9 +42,45 @@ export class HUDPuzzleCompleteNotification extends BaseHUDPart {
         this.buttonLikeYes = document.createElement("button");
         this.buttonLikeYes.classList.add("liked-yes");
         likeButtons.appendChild(this.buttonLikeYes);
+        console.log("userDidLikePuzzle", this.userDidLikePuzzle);
         this.trackClicks(this.buttonLikeYes, () => {
             this.userDidLikePuzzle = !this.userDidLikePuzzle;
             this.updateState();
+        });
+
+        const stepRating = makeDiv(this.elemContents, null, ["step", "stepLike"]);
+        makeDiv(stepRating, null, ["title"], T.ingame.puzzleCompletion.titleRating);
+
+        const difficultyButtonBar = document.createElement("div");
+        difficultyButtonBar.classList.add("buttonBar");
+        difficultyButtonBar.id = "difficultyButtonBar";
+        this.elemContents.appendChild(difficultyButtonBar);
+
+        this.easyBtn = document.createElement("button");
+        this.easyBtn.classList.add("styledButton", "difficultyButton", "easy");
+        this.easyBtn.innerText = T.puzzleMenu.difficulties.easy;
+        difficultyButtonBar.appendChild(this.easyBtn);
+        this.trackClicks(this.easyBtn, () => {
+            this.userRatedDifficulty = 0;
+            this.updateRadioButton("easy");
+        });
+
+        this.mediumBtn = document.createElement("button");
+        this.mediumBtn.classList.add("styledButton", "difficultyButton", "medium");
+        this.mediumBtn.innerText = T.puzzleMenu.difficulties.medium;
+        difficultyButtonBar.appendChild(this.mediumBtn);
+        this.trackClicks(this.mediumBtn, () => {
+            this.userRatedDifficulty = 1;
+            this.updateRadioButton("medium");
+        });
+
+        this.hardBtn = document.createElement("button");
+        this.hardBtn.classList.add("styledButton", "difficultyButton", "hard");
+        this.hardBtn.innerText = T.puzzleMenu.difficulties.hard;
+        difficultyButtonBar.appendChild(this.hardBtn);
+        this.trackClicks(this.hardBtn, () => {
+            this.userRatedDifficulty = 2;
+            this.updateRadioButton("hard");
         });
 
         const buttonBar = document.createElement("div");
@@ -85,6 +121,25 @@ export class HUDPuzzleCompleteNotification extends BaseHUDPart {
     }
 
     show() {
+        //if hte person has already liked the puzzle, it be showed
+        this.metaPuzzle = /** @type {PuzzlePlayGameMode} */ (this.root.gameMode).puzzle.meta;
+        this.userDidLikePuzzle = this.metaPuzzle.liked;
+        this.updateState();
+
+        // if the person has already rated the puzzle, it be showed
+        if (this.metaPuzzle.difficultyRating) {
+            if (this.metaPuzzle.difficultyRating === "easy") {
+                this.userRatedDifficulty = 0;
+            } else if (this.metaPuzzle.difficultyRating === "medium") {
+                this.userRatedDifficulty = 1;
+            } else {
+                this.userRatedDifficulty = 2;
+            }
+            this.updateRadioButton(this.metaPuzzle.difficultyRating);
+        }
+
+        console.log("elemContents", this.elemContents);
+
         this.root.soundProxy.playUi(SOUNDS.levelComplete);
         this.root.app.inputMgr.makeSureAttachedAndOnTop(this.inputReciever);
         this.visible = true;
@@ -95,22 +150,45 @@ export class HUDPuzzleCompleteNotification extends BaseHUDPart {
         this.root.app.inputMgr.makeSureDetached(this.inputReciever);
     }
 
+    /**
+     * @param {string} difficulty
+     */
+    updateRadioButton(difficulty) {
+        const difficultyButtonBar = this.elemContents.querySelector("#difficultyButtonBar");
+        const buttons = difficultyButtonBar.querySelectorAll("button");
+        buttons.forEach(button => {
+            button.classList.remove("active");
+        });
+        const button = difficultyButtonBar.querySelector(`.${difficulty}`);
+        button.classList.add("active");
+    }
+
     isBlockingOverlay() {
         return this.visible;
     }
 
     nextPuzzle() {
         const gameMode = /** @type {PuzzlePlayGameMode} */ (this.root.gameMode);
-        gameMode.trackCompleted(this.userDidLikePuzzle, Math.round(this.timeOfCompletion)).then(() => {
-            this.root.gameState.moveToState("PuzzleMenuState", {
-                continueQueue: gameMode.nextPuzzles,
+        gameMode
+            .trackCompleted(
+                this.userDidLikePuzzle,
+                this.userRatedDifficulty,
+                Math.round(this.timeOfCompletion)
+            )
+            .then(() => {
+                this.root.gameState.moveToState("PuzzleMenuState", {
+                    continueQueue: gameMode.nextPuzzles,
+                });
             });
-        });
     }
 
     close(toMenu) {
         /** @type {PuzzlePlayGameMode} */ (this.root.gameMode)
-            .trackCompleted(this.userDidLikePuzzle, Math.round(this.timeOfCompletion))
+            .trackCompleted(
+                this.userDidLikePuzzle,
+                this.userRatedDifficulty,
+                Math.round(this.timeOfCompletion)
+            )
             .then(() => {
                 if (toMenu) {
                     this.root.gameState.moveToState("PuzzleMenuState");

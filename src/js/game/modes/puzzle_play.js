@@ -138,15 +138,17 @@ export class PuzzlePlayGameMode extends PuzzleGameMode {
     /**
      *
      * @param {boolean} liked
+     * @param {number} difficultyRating
      * @param {number} time
      */
-    trackCompleted(liked, time) {
+    trackCompleted(liked, difficultyRating, time) {
         const closeLoading = this.root.hud.parts.dialogs.showLoadingDialog();
 
         return this.root.app.clientApi
             .apiCompletePuzzle(this.puzzle.meta.id, {
                 time,
                 liked,
+                difficultyRating,
             })
             .catch(err => {
                 logger.warn("Failed to complete puzzle:", err);

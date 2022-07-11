@@ -212,6 +212,7 @@ export class ClientAPI {
      * @param {object} payload
      * @param {number} payload.time
      * @param {boolean} payload.liked
+     * @param {number} payload.difficultyRating
      * @returns {Promise<{ success: true }>}
      */
     apiCompletePuzzle(puzzleId, payload) {

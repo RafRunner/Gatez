@@ -62,6 +62,7 @@ import { MetaBuilding } from "../game/meta_building";
  * downloads: number;
  * completions: number;
  * difficulty: number | null;
+ * difficultyRating: string | null;
  * averageTime: number | null;
  * averageDifficulty: number | null;
  * title: string;
