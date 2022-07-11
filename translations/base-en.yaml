@@ -991,6 +991,11 @@ buildings:
             name: T Flip-Flop
             description: Toggles the output when the input is triggered.
 
+    programmable_signal:
+        default:
+            name: Programmable Signal
+            description: Let's you input a list os signals separated by , that will serve ass the input of the puzzle.
+
 storyRewards:
     # Those are the rewards gained from completing the store
     reward_cutter_and_trash:
@@ -1451,6 +1456,7 @@ keybindings:
         multiplexer: Multiplexer
         edge_detector: Edge Detector
         memory: Memory
+        programmable_signal: Programmable Signal
         # ---
 
         pipette: Pipette

@@ -84,6 +84,14 @@ export class GameRoot {
          */
         this.immutableOperationRunning = false;
 
+        // Indicates whether we are in a logic puzzle simulation
+        /** @type {Boolean} */
+        this.inSimulation = false;
+
+        // Indicates on which frame (update) of the simulation we're in
+        /** @type {Number} */
+        this.currentSimulationFrame = 0;
+
         //////// Other properties ///////
 
         /** @type {Camera} */

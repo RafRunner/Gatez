@@ -761,6 +761,11 @@ buildings:
             name: Flip-Flop T
             description: Comuta a saída quando a entrada é ativada.
 
+    programmable_signal:
+        default:
+            name: Sinal Programável
+            description: Permite que você entre com uma lista de sinais separados por , que servem de entrada para o desafio.
+
 storyRewards:
     reward_cutter_and_trash:
         title: Cortando formas

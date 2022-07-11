@@ -1,7 +1,7 @@
 $buildings: belt, cutter, miner, mixer, painter, rotater, balancer, stacker, trash, underground_belt, wire,
     constant_signal, logic_gate, lever, filter, wire_tunnel, display, virtual_processor, reader, storage,
-    transistor, analyzer, comparator, item_producer, constant_producer, goal_acceptor, block, four_input_logic_gate,
-    adder, multiplexer, edge_detector, memory;
+    transistor, analyzer, comparator, item_producer, constant_producer, goal_acceptor, block,
+    four_input_logic_gate, adder, multiplexer, edge_detector, memory, programmable_signal;
 
 @each $building in $buildings {
     [data-icon="building_icons/#{$building}.png"] {
@@ -17,8 +17,9 @@ $buildingsAndVariants: belt, balancer, underground_belt, underground_belt-tier2,
     reader, rotater-rotate180, display, constant_signal, wire, wire_tunnel, logic_gate-or, logic_gate-not,
     logic_gate-xor, analyzer, virtual_processor-rotater, virtual_processor-unstacker, item_producer,
     constant_producer, virtual_processor-stacker, virtual_processor-painter, wire-second, painter,
-    painter-mirrored, comparator, goal_acceptor, block, logic_gate-nand, logic_gate-nor, four_input_logic_gate-or,
-    adder-full, multiplexer-demuxer, memory-d, memory-jk, memory-t;
+    painter-mirrored, comparator, goal_acceptor, block, logic_gate-nand, logic_gate-nor,
+    four_input_logic_gate-or, adder-full, multiplexer-demuxer, memory-d, memory-jk, memory-t,
+    programmable_signal;
 
 @each $building in $buildingsAndVariants {
     [data-icon="building_tutorials/#{$building}.png"] {
@@ -89,10 +90,16 @@ $buildingsAndVariants: belt, balancer, underground_belt, underground_belt-tier2,
     background-image: url("../building_tutorials/edge_detector.png") !important;
 }
 
-// Multiplexer
+// Memory
 [data-icon="building_tutorials/memory.png"] {
     /* @load-async */
     background-image: uiResource("res/ui/building_tutorials/memory.png") !important;
+}
+
+// ProgrammableSignal
+[data-icon="building_tutorials/programmable_signal.png"] {
+    /* @load-async */
+    background-image: uiResource("res/ui/building_tutorials/programmable_signal.png") !important;
 }
 
 $icons: notification_saved, notification_success, notification_upgrade, notification_info,

@@ -8,6 +8,7 @@ import { enumGameModeTypes, GameMode } from "../game_mode";
 import { HUDPuzzleBackToMenu } from "../hud/parts/puzzle_back_to_menu";
 import { HUDPuzzleDLCLogo } from "../hud/parts/puzzle_dlc_logo";
 import { HUDMassSelector } from "../hud/parts/mass_selector";
+import { HUDProgrammableSignalClick } from "../hud/parts/programmable_signal_click";
 
 export class PuzzleGameMode extends GameMode {
     static getType() {
@@ -32,6 +33,8 @@ export class PuzzleGameMode extends GameMode {
             puzzleBackToMenu: HUDPuzzleBackToMenu,
             puzzleDlcLogo: HUDPuzzleDLCLogo,
             massSelector: HUDMassSelector,
+            // leverToggle: HUDLeverToggle,
+            programmableSignalClick: HUDProgrammableSignalClick,
         };
 
         this.zoneWidth = data.zoneWidth || 8;

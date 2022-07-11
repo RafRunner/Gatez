@@ -36,6 +36,7 @@ import { HUDInteractiveTutorial } from "../hud/parts/interactive_tutorial";
 import { MetaBlockBuilding } from "../buildings/block";
 import { MetaItemProducerBuilding } from "../buildings/item_producer";
 import { MOD_SIGNALS } from "../../mods/mod_signals";
+import { MetaProgrammableSignalBuilding } from "../buildings/programmable_signal";
 
 /** @typedef {{
  *   shape: string,
@@ -593,6 +594,7 @@ export class RegularGameMode extends GameMode {
         /** @type {(typeof MetaBuilding)[]} */
         this.hiddenBuildings = [
             MetaConstantProducerBuilding,
+            MetaProgrammableSignalBuilding,
             MetaGoalAcceptorBuilding,
             MetaBlockBuilding,
             MetaItemProducerBuilding,

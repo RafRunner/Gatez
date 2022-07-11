@@ -32,6 +32,7 @@ import { MetaBuilding } from "../meta_building";
 import { gMetaBuildingRegistry } from "../../core/global_registries";
 import { HUDPuzzleNextPuzzle } from "../hud/parts/next_puzzle";
 import { MetaFourInputLogicGateBuilding } from "../buildings/four_input_logic_gate";
+import { MetaProgrammableSignalBuilding } from "../buildings/programmable_signal";
 
 const logger = createLogger("puzzle-play");
 const copy = require("clipboard-copy");
@@ -53,6 +54,7 @@ export class PuzzlePlayGameMode extends PuzzleGameMode {
         /** @type {Array<typeof MetaBuilding>} */
         let excludedBuildings = [
             MetaConstantProducerBuilding,
+            MetaProgrammableSignalBuilding,
             MetaGoalAcceptorBuilding,
             MetaBlockBuilding,
 
@@ -75,6 +77,7 @@ export class PuzzlePlayGameMode extends PuzzleGameMode {
             MetaTransistorBuilding,
         ];
 
+        // List of variant ids of excluded buildings
         if (puzzle.game.excludedBuildings) {
             /**
              * @type {any}
@@ -146,6 +149,7 @@ export class PuzzlePlayGameMode extends PuzzleGameMode {
     trackCompleted(liked, difficultyRating, time) {
         const closeLoading = this.root.hud.parts.dialogs.showLoadingDialog();
 
+        // TODO send other information here
         return this.root.app.clientApi
             .apiCompletePuzzle(this.puzzle.meta.id, {
                 time,
@@ -160,6 +164,7 @@ export class PuzzlePlayGameMode extends PuzzleGameMode {
             });
     }
 
+    // TODO this is an example of an "alert box", but we should remove it since we're not going to use shortKeys as unique
     sharePuzzle() {
         copy(this.puzzle.meta.shortKey);
 

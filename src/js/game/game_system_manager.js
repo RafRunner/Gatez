@@ -32,6 +32,7 @@ import { AdderSystem } from "./systems/adder";
 import { MultiplexerSystem } from "./systems/multiplexer";
 import { EdgeDetectorSystem } from "./systems/edge_detector";
 import { MemorySystem } from "./systems/memory";
+import { ProgrammableSignalSystem } from "./systems/programmable_signal";
 
 const logger = createLogger("game_system_manager");
 
@@ -134,6 +135,9 @@ export class GameSystemManager {
             /** @type {MemorySystem} */
             memory: null,
 
+            /** @type {ProgrammableSignalSystem} */
+            programmableSignal: null,
+
             /* typehints:end */
         };
         this.systemUpdateOrder = [];
@@ -217,6 +221,8 @@ export class GameSystemManager {
         add("display", DisplaySystem);
 
         add("itemProcessorOverlays", ItemProcessorOverlaysSystem);
+
+        add("programmableSignal", ProgrammableSignalSystem);
 
         add("constantProducer", ConstantProducerSystem);
 

@@ -7,6 +7,7 @@ import { T } from "../../../translations";
 import { MetaBlockBuilding } from "../../buildings/block";
 import { MetaConstantProducerBuilding } from "../../buildings/constant_producer";
 import { MetaGoalAcceptorBuilding } from "../../buildings/goal_acceptor";
+import { MetaProgrammableSignalBuilding } from "../../buildings/programmable_signal";
 import { StaticMapEntityComponent } from "../../components/static_map_entity";
 import { PuzzleGameMode } from "../../modes/puzzle";
 import { BaseHUDPart } from "../base_hud_part";
@@ -78,7 +79,12 @@ export class HUDPuzzleEditorSettings extends BaseHUDPart {
             }
 
             if (
-                [MetaGoalAcceptorBuilding, MetaConstantProducerBuilding, MetaBlockBuilding]
+                [
+                    MetaGoalAcceptorBuilding,
+                    MetaConstantProducerBuilding,
+                    MetaProgrammableSignalBuilding,
+                    MetaBlockBuilding,
+                ]
                     .map(metaClass => gMetaBuildingRegistry.findByClass(metaClass).id)
                     .includes(staticComp.getMetaBuilding().id)
             ) {
