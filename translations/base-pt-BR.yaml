@@ -72,7 +72,7 @@ mainMenu:
     savegameLevel: Nível <x>
     savegameLevelUnknown: Nível desconhecido
     savegameUnnamed: Sem nome
-    puzzleMode: Modo Puzzle
+    puzzleMode: Modo Desafio
     back: Voltar
     puzzleDlcText: Você gosta de compactar e otimizar fábricas? Adquira a Puzzle DLC
         já disponível na Steam para se divertir ainda mais!
@@ -259,8 +259,8 @@ dialogs:
         title: Insira código
         desc: Insira o código do desafio para carrega-lo.
     puzzleDelete:
-        title: Delete Puzzle?
-        desc: Are you sure you want to delete '<title>'? This can not be undone!
+        title: Deletar Desafio?
+        desc: Tem certeza que quer deletar '<title>'? Isso não pode ser desfeito!
     modsDifference:
         title: Mod Warning
         desc: The currently installed mods differ from the mods the savegame was created
@@ -1293,7 +1293,7 @@ tips:
 puzzleMenu:
     play: Jogar
     edit: Editar
-    title: Modo Puzzle
+    title: Modo Desafio
     createPuzzle: Criar Desafio
     loadPuzzle: Carregar
     reviewPuzzle: Revisar e Publicar
@@ -1308,14 +1308,14 @@ puzzleMenu:
         easy: Fácil
         hard: Difícil
         completed: Completados
-        medium: Medium
-        official: Official
-        trending: Trending today
-        trending-weekly: Trending weekly
+        medium: Médio
+        official: Oficial
+        trending: Em destaque hoje
+        trending-weekly: Em destaque na semana
         categories: Categories
-        difficulties: By Difficulty
-        account: My Puzzles
-        search: Search
+        difficulties: Por Dificuldade
+        account: Meus Desafios
+        search: Procurar
     validation:
         title: Desafio inválido
         noProducers: Por favor coloque um Produtor Constante!
@@ -1331,15 +1331,15 @@ puzzleMenu:
             Produtores Constantes não estão entregando diretamente aos seus
             Receptores de Objetivo.
     difficulties:
-        easy: Easy
-        medium: Medium
-        hard: Hard
-        unknown: Unrated
+        easy: Fácil
+        medium: Médio
+        hard: Difícil
+        unknown: Não avaliado
     dlcHint: Purchased the DLC already? Make sure it is activated by right clicking
         shapez.io in your library, selecting Properties > DLCs.
     search:
-        action: Search
-        placeholder: Enter a puzzle or author name
+        action: Procurar
+        placeholder: Digite o nome do Desafio ou Autor
         includeCompleted: Include Completed
         difficulties:
             any: Any Difficulty
@@ -1374,15 +1374,15 @@ backendErrors:
     bad-payload: O pedido contém dados inválidos.
     bad-building-placement: Seu desafio contém construções colocadas de forma inválida.
     timeout: Acabou o tempo do pedido.
-    too-many-likes-already: The puzzle alreay got too many likes. If you still want
-        to remove it, please contact support@shapez.io!
-    no-permission: You do not have the permission to perform this action.
+    too-many-likes-already: O desafio já tem muitos likes! Se ainda quiser removê-lo,
+        entre em contato com o suporte.
+    no-permission: Você não tem permissão para fazer isso.
 mods:
     title: Mods
-    author: Author
-    version: Version
+    author: Autor
+    version: Versão
     modWebsite: Website
-    openFolder: Open Mods Folder
+    openFolder: Abrir pasta de mods
     folderOnlyStandalone: Opening the mod folder is only possible when running the standalone.
     browseMods: Browse Mods
     modsInfo: To install and manage mods, copy them to the mods folder within the
