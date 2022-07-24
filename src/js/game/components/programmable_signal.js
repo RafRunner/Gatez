@@ -10,7 +10,7 @@ export class ProgrammableSignalComponent extends Component {
 
     static getSchema() {
         return {
-            signalList: types.array(types.nullable(typeItemSingleton)),
+            signalList: types.array(typeItemSingleton),
             toggled: types.bool,
         };
     }
@@ -30,7 +30,7 @@ export class ProgrammableSignalComponent extends Component {
      * @param {BaseItem[]=} param0.signalList The signalList to store
      * @param {boolean=} param0.toggled
      */
-    constructor({ signalList = null, toggled = false }) {
+    constructor({ signalList = [], toggled = false }) {
         super();
         this.signalList = signalList;
         this.toggled = toggled;

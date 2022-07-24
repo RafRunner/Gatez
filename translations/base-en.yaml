@@ -319,6 +319,10 @@ dialogs:
     editConstantProducer:
         title: Set Item
 
+    editProgrammableSignal:
+        title: Type a input sequence
+        description: "The signal sequence must contain only binaries separated by commas. Ex: 1,0,1,0"
+
     markerDemoLimit:
         desc: You can only create two custom markers in the demo. Get the standalone for unlimited markers!
 

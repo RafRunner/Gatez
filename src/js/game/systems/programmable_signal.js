@@ -9,12 +9,12 @@ export class ProgrammableSignalSystem extends GameSystemWithFilter {
         super(root, [ProgrammableSignalComponent]);
 
         // TODO create a new HUD or modify this one to accept a list of signals (and maybe multiple bit numbers)
-        // this.root.signals.entityManuallyPlaced.add(entity => {
-        //     const editorHud = this.root.hud.parts.constantSignalEdit;
-        //     if (editorHud) {
-        //         editorHud.editConstantSignal(entity, { deleteOnCancel: true });
-        //     }
-        // });
+        this.root.signals.entityManuallyPlaced.add(entity => {
+            const editorHud = this.root.hud.parts.editProgrammableSignal;
+            if (editorHud) {
+                editorHud.editProgrammableSignal(entity, { deleteOnCancel: true });
+            }
+        });
 
         this.spriteOn = Loader.getSprite("sprites/wires/programmable_signal_on.png");
         this.spriteOff = Loader.getSprite("sprites/buildings/programmable_signal.png");

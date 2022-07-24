@@ -24,6 +24,7 @@ import { HUDPuzzleEditorReview } from "../hud/parts/puzzle_editor_review";
 import { HUDPuzzleEditorSettings } from "../hud/parts/puzzle_editor_settings";
 import { HUDConstantSignalEdit } from "../hud/parts/constant_signal_edit";
 import { MetaFourInputLogicGateBuilding } from "../buildings/four_input_logic_gate";
+import { HUDProgrammableSignalEdit } from "../hud/parts/programmable_signal_edit";
 
 export class PuzzleEditGameMode extends PuzzleGameMode {
     static getId() {
@@ -62,6 +63,7 @@ export class PuzzleEditGameMode extends PuzzleGameMode {
         this.additionalHudParts.puzzleEditorReview = HUDPuzzleEditorReview;
         this.additionalHudParts.puzzleEditorSettings = HUDPuzzleEditorSettings;
         this.additionalHudParts.constantSignalEdit = HUDConstantSignalEdit;
+        this.additionalHudParts.editProgrammableSignal = HUDProgrammableSignalEdit;
     }
 
     getIsEditor() {

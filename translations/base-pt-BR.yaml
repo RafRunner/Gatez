@@ -197,6 +197,9 @@ dialogs:
             Inglês. Gostaria de assistí-lo?
     editConstantProducer:
         title: Selecionar Item
+    editProgrammableSignal:
+        title: Digite uma sequência de entrada
+        description: "A sequência de sinais deve conter somente binários separados por vírugula. Ex: 1,0,1,0"
     puzzleLoadFailed:
         title: O carregamento dos desafios falhou
         desc: "Infelizmente os desafios não puderam ser carregados:"

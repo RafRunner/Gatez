@@ -30,12 +30,12 @@ export class HUDConstantSignalEdit extends BaseHUDPart {
      * @param {enumMouseButton} button
      */
     downPreHandler(pos, button) {
-        if (this.root.currentLayer !== "wires") {
+        if (this.root.currentLayer !== "regular") {
             return;
         }
 
         const tile = this.root.camera.screenToWorld(pos).toTileSpace();
-        const contents = this.root.map.getLayerContentXY(tile.x, tile.y, "wires");
+        const contents = this.root.map.getLayerContentXY(tile.x, tile.y, "regular");
         if (contents) {
             const constantComp = contents.components.ConstantSignal;
             if (constantComp) {
