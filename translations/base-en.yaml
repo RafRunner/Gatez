@@ -323,6 +323,10 @@ dialogs:
         title: Type a input sequence
         description: "The signal sequence must contain only binaries separated by commas. Ex: 1,0,1,0"
 
+    editProgrammableAcceptor:
+        title: Type a expected output sequence
+        description: "The signal sequence must contain only binaries or X/null (meaning you don't care about that output) separated by commas. Ex: 1,0,X,0"
+
     markerDemoLimit:
         desc: You can only create two custom markers in the demo. Get the standalone for unlimited markers!
 
@@ -669,6 +673,7 @@ ingame:
         clearItems: Clear Items
         clearBuildings: Clear Buildings
         resetPuzzle: Reset Puzzle
+        testPuzzle: Test Puzzle
         share: Share
         report: Report
 
@@ -998,7 +1003,12 @@ buildings:
     programmable_signal:
         default:
             name: Programmable Signal
-            description: Let's you input a list os signals separated by , that will serve ass the input of the puzzle.
+            description: Lets you input a list os signals separated by , that will serve as the input of the puzzle.
+
+    programmable_acceptor:
+        default:
+            name: Programmable Acceptor
+            description: Lets you input a list os signals separated by , that will serve as the expected output of the puzzle.
 
 storyRewards:
     # Those are the rewards gained from completing the store

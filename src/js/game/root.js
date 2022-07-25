@@ -200,6 +200,9 @@ export class GameRoot {
 
             // Puzzle mode
             puzzleComplete: /** @type {TypedSignal<[]>} */ (new Signal()),
+
+            // TODO remove and setup the above signal correctly. Only testing
+            puzzleCompleteTest: /** @type {TypedSignal<[]>} */ (new Signal()),
         };
 
         // RNG's

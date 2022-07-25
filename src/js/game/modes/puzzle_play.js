@@ -33,6 +33,7 @@ import { gMetaBuildingRegistry } from "../../core/global_registries";
 import { HUDPuzzleNextPuzzle } from "../hud/parts/next_puzzle";
 import { MetaFourInputLogicGateBuilding } from "../buildings/four_input_logic_gate";
 import { MetaProgrammableSignalBuilding } from "../buildings/programmable_signal";
+import { MetaProgrammableAcceptorBuilding } from "../buildings/programmable_acceptor";
 
 const logger = createLogger("puzzle-play");
 const copy = require("clipboard-copy");
@@ -55,6 +56,7 @@ export class PuzzlePlayGameMode extends PuzzleGameMode {
         let excludedBuildings = [
             MetaConstantProducerBuilding,
             MetaProgrammableSignalBuilding,
+            MetaProgrammableAcceptorBuilding,
             MetaGoalAcceptorBuilding,
             MetaBlockBuilding,
 

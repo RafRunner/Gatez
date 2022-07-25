@@ -37,6 +37,7 @@ import { MetaBlockBuilding } from "../buildings/block";
 import { MetaItemProducerBuilding } from "../buildings/item_producer";
 import { MOD_SIGNALS } from "../../mods/mod_signals";
 import { MetaProgrammableSignalBuilding } from "../buildings/programmable_signal";
+import { MetaProgrammableAcceptorBuilding } from "../buildings/programmable_acceptor";
 
 /** @typedef {{
  *   shape: string,
@@ -595,6 +596,7 @@ export class RegularGameMode extends GameMode {
         this.hiddenBuildings = [
             MetaConstantProducerBuilding,
             MetaProgrammableSignalBuilding,
+            MetaProgrammableAcceptorBuilding,
             MetaGoalAcceptorBuilding,
             MetaBlockBuilding,
             MetaItemProducerBuilding,

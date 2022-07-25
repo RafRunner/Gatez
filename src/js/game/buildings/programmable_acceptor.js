@@ -4,31 +4,31 @@ import { Entity } from "../entity";
 import { defaultBuildingVariant, MetaBuilding } from "../meta_building";
 import { GameRoot } from "../root";
 import { enumHubGoalRewards } from "../tutorial_goals";
-import { ProgrammableSignalComponent } from "../components/programmable_signal";
+import { ProgrammableAcceptorComponent } from "../components/programmable_acceptor";
 
-export class MetaProgrammableSignalBuilding extends MetaBuilding {
+export class MetaProgrammableAcceptorBuilding extends MetaBuilding {
     constructor() {
-        super("programmable_signal");
+        super("programmable_acceptor");
     }
 
     static getAllVariantCombinations() {
         return [
             {
-                internalId: 435,
+                internalId: 436,
                 variant: defaultBuildingVariant,
             },
         ];
     }
 
     getSilhouetteColor() {
-        return "#2b84fd";
+        return "#aaaaaa";
     }
 
     /**
      * @param {GameRoot} root
      */
     getIsUnlocked(root) {
-        return root.hubGoals.isRewardUnlocked(enumHubGoalRewards.reward_constant_signal);
+        return root.hubGoals.isRewardUnlocked(enumHubGoalRewards.reward_display);
     }
 
     getDimensions() {
@@ -36,11 +36,8 @@ export class MetaProgrammableSignalBuilding extends MetaBuilding {
     }
 
     getRenderPins() {
+        // We already have it included
         return false;
-    }
-
-    getSprite() {
-        return null;
     }
 
     /**
@@ -53,12 +50,12 @@ export class MetaProgrammableSignalBuilding extends MetaBuilding {
                 slots: [
                     {
                         pos: new Vector(0, 0),
-                        direction: enumDirection.top,
-                        type: enumPinSlotType.logicalEjector,
+                        direction: enumDirection.bottom,
+                        type: enumPinSlotType.logicalAcceptor,
                     },
                 ],
             })
         );
-        entity.addComponent(new ProgrammableSignalComponent({}));
+        entity.addComponent(new ProgrammableAcceptorComponent({}));
     }
 }

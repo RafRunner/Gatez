@@ -28,9 +28,7 @@ export class HUDProgrammableSignalClick extends BaseHUDPart {
         if (this.root.inSimulation) {
             return;
         }
-        if (this.root.gameMode.getIsEditor()) {
-            // TODO implement setting the signalList during editing. Look in constant_signal_edit.js
-        } else {
+        if (!this.root.gameMode.getIsEditor()) {
             // taken from lever_toggle.js
             if (button === enumMouseButton.left) {
                 signalComp.toggled = !signalComp.toggled;

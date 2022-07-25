@@ -33,6 +33,7 @@ import { MultiplexerSystem } from "./systems/multiplexer";
 import { EdgeDetectorSystem } from "./systems/edge_detector";
 import { MemorySystem } from "./systems/memory";
 import { ProgrammableSignalSystem } from "./systems/programmable_signal";
+import { ProgrammableAcceptorSystem } from "./systems/programmable_acceptor";
 
 const logger = createLogger("game_system_manager");
 
@@ -138,6 +139,9 @@ export class GameSystemManager {
             /** @type {ProgrammableSignalSystem} */
             programmableSignal: null,
 
+            /** @type {ProgrammableAcceptorSystem} */
+            programmableAcceptor: null,
+
             /* typehints:end */
         };
         this.systemUpdateOrder = [];
@@ -227,6 +231,8 @@ export class GameSystemManager {
         add("constantProducer", ConstantProducerSystem);
 
         add("goalAcceptor", GoalAcceptorSystem);
+
+        add("programmableAcceptor", ProgrammableAcceptorSystem);
 
         if (this.root.gameMode.getBuildableZones()) {
             add("zone", ZoneSystem);

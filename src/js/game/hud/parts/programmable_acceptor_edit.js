@@ -9,7 +9,7 @@ import { Entity } from "../../entity";
 import { BOOL_FALSE_SINGLETON, BOOL_TRUE_SINGLETON } from "../../items/boolean_item";
 import { BaseHUDPart } from "../base_hud_part";
 
-export class HUDProgrammableSignalEdit extends BaseHUDPart {
+export class HUDProgrammableAcceptorEdit extends BaseHUDPart {
     initialize() {
         this.root.camera.downPreHandler.add(this.downPreHandler, this);
     }
@@ -26,10 +26,10 @@ export class HUDProgrammableSignalEdit extends BaseHUDPart {
         const tile = this.root.camera.screenToWorld(pos).toTileSpace();
         const contents = this.root.map.getLayerContentXY(tile.x, tile.y, "regular");
         if (contents) {
-            const signalComp = contents.components.ProgrammableSignal;
-            if (signalComp) {
+            const acceptorComp = contents.components.ProgrammableAcceptor;
+            if (acceptorComp) {
                 if (button === enumMouseButton.left) {
-                    this.editProgrammableSignal(contents, {
+                    this.editExpectedSignal(contents, {
                         deleteOnCancel: false,
                     });
                     return STOP_PROPAGATION;
@@ -44,25 +44,25 @@ export class HUDProgrammableSignalEdit extends BaseHUDPart {
      * @param {object} param0
      * @param {boolean=} param0.deleteOnCancel
      */
-    editProgrammableSignal(entity, { deleteOnCancel = true }) {
-        if (!entity.components.ProgrammableSignal) {
+    editExpectedSignal(entity, { deleteOnCancel = true }) {
+        if (!entity.components.ProgrammableAcceptor) {
             return;
         }
 
         // Ok, query, but also save the uid because it could get stale
         const uid = entity.uid;
 
-        const signalList = entity.components.ProgrammableSignal.signalList;
+        const expectedSignals = entity.components.ProgrammableAcceptor.expectedSignals;
 
         const signalValueInput = new FormElementInput({
             id: "signalListValue",
-            label: T.dialogs.editProgrammableSignal.description,
+            label: T.dialogs.editProgrammableAcceptor.description,
             placeholder: "",
-            defaultValue: signalList.map(it => it.getAsCopyableKey()).join(", "),
+            defaultValue: expectedSignals.map(it => (it ? it.getAsCopyableKey() : "x")).join(", "),
             validator: val => this.parseSignalListCode(entity, val),
         });
 
-        // TODO maybe add this back in a way where you can keep selecting 0 or 1 and the signal without having to type
+        // TODO maybe add this back in a way where you can keep selecting 0, 1 or null building the signal without having to type
         // const items = [BOOL_FALSE_SINGLETON, BOOL_TRUE_SINGLETON];
 
         // const itemInput = new FormElementItemChooser({
@@ -73,7 +73,7 @@ export class HUDProgrammableSignalEdit extends BaseHUDPart {
 
         const dialog = new DialogWithForm({
             app: this.root.app,
-            title: T.dialogs.editProgrammableSignal.title,
+            title: T.dialogs.editProgrammableAcceptor.title,
             desc: "",
             formElements: [signalValueInput],
             buttons: ["cancel:bad:escape", "ok:good:enter"],
@@ -94,13 +94,13 @@ export class HUDProgrammableSignalEdit extends BaseHUDPart {
                 return;
             }
 
-            const signalComp = entityRef.components.ProgrammableSignal;
-            if (!signalComp) {
+            const acceptorComp = entityRef.components.ProgrammableAcceptor;
+            if (!acceptorComp) {
                 // no longer interesting
                 return;
             }
 
-            signalComp.signalList = this.parseSignalListCode(entity, signalValueInput.getValue());
+            acceptorComp.expectedSignals = this.parseSignalListCode(entity, signalValueInput.getValue());
         };
 
         dialog.buttonSignals.ok.add(() => {
@@ -125,7 +125,7 @@ export class HUDProgrammableSignalEdit extends BaseHUDPart {
                     return;
                 }
 
-                const signalComp = entityRef.components.ProgrammableSignal;
+                const signalComp = entityRef.components.ProgrammableAcceptor;
                 if (!signalComp) {
                     // no longer interesting
                     return;
@@ -160,6 +160,8 @@ export class HUDProgrammableSignalEdit extends BaseHUDPart {
                 returnList.push(BOOL_TRUE_SINGLETON);
             } else if (code === "0" || codeLower === "false") {
                 returnList.push(BOOL_FALSE_SINGLETON);
+            } else if (code === "null" || codeLower === "null" || codeLower === "x") {
+                returnList.push(null);
             }
             // Couldn't parse the value
             else {

@@ -52,6 +52,10 @@ export class HUDPuzzleEditorSettings extends BaseHUDPart {
                         <button class="styledButton resetPuzzle">${T.ingame.puzzleEditorSettings.resetPuzzle}</button>
                     </div>
 
+                    <div class="buildingsButton">
+                        <button class="styledButton testPuzzle">${T.ingame.puzzleEditorSettings.testPuzzle}</button>
+                    </div>
+
                 </div>`
             );
 
@@ -62,6 +66,7 @@ export class HUDPuzzleEditorSettings extends BaseHUDPart {
             bind("button.trim", this.trim);
             bind("button.clearItems", this.clearItems);
             bind("button.resetPuzzle", this.resetPuzzle);
+            bind("button.testPuzzle", this.testPuzzle);
         }
     }
 
@@ -181,6 +186,7 @@ export class HUDPuzzleEditorSettings extends BaseHUDPart {
     }
 
     initialize() {
+        this.root.signals.puzzleCompleteTest.add(this.showTest, this);
         this.visible = true;
         this.updateZoneValues();
     }
@@ -233,5 +239,22 @@ export class HUDPuzzleEditorSettings extends BaseHUDPart {
 
         this.element.querySelector(".zoneWidth > .value").textContent = String(mode.zoneWidth);
         this.element.querySelector(".zoneHeight > .value").textContent = String(mode.zoneHeight);
+    }
+
+    testPuzzle() {
+        this.root.inSimulation = true;
+    }
+
+    // TODO remove and add a real notification on puzzle play settings. Only for testing
+    showTest() {
+        const allAcceptors = this.root.systemMgr.systems.programmableAcceptor.allEntities;
+        let puzzlePassed = allAcceptors.every(it =>
+            it.components.ProgrammableAcceptor.simulationResults.every(it1 => it1 === true)
+        );
+        if (puzzlePassed) {
+            window.alert("Desafio concluído!");
+        } else {
+            window.alert("Um ou mais dos testes não passou!");
+        }
     }
 }

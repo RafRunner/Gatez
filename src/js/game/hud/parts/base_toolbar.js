@@ -5,6 +5,7 @@ import { makeDiv, safeModulo } from "../../../core/utils";
 import { MetaBlockBuilding } from "../../buildings/block";
 import { MetaConstantProducerBuilding } from "../../buildings/constant_producer";
 import { MetaGoalAcceptorBuilding } from "../../buildings/goal_acceptor";
+import { MetaProgrammableAcceptorBuilding } from "../../buildings/programmable_acceptor";
 import { MetaProgrammableSignalBuilding } from "../../buildings/programmable_signal";
 import { StaticMapEntityComponent } from "../../components/static_map_entity";
 import { KEYMAPPINGS } from "../../key_action_mapper";
@@ -321,6 +322,7 @@ export class HUDBaseToolbar extends BaseHUDPart {
         const requiredBuildings = [
             gMetaBuildingRegistry.findByClass(MetaConstantProducerBuilding),
             gMetaBuildingRegistry.findByClass(MetaProgrammableSignalBuilding),
+            gMetaBuildingRegistry.findByClass(MetaProgrammableAcceptorBuilding),
             gMetaBuildingRegistry.findByClass(MetaGoalAcceptorBuilding),
             gMetaBuildingRegistry.findByClass(MetaBlockBuilding),
         ];
