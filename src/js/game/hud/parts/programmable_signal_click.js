@@ -39,6 +39,9 @@ export class HUDProgrammableSignalClick extends BaseHUDPart {
                 }
                 return STOP_PROPAGATION;
             }
+        } else if (button === enumMouseButton.middle) {
+            signalComp.toggled = !signalComp.toggled;
+            return STOP_PROPAGATION;
         }
     }
 }

@@ -4,21 +4,8 @@ import { GameRoot } from "../root";
 
 import { enumGameModeIds } from "../game_mode";
 import { PuzzleGameMode } from "./puzzle";
-import { MetaStorageBuilding } from "../buildings/storage";
-import { MetaReaderBuilding } from "../buildings/reader";
-import { MetaFilterBuilding } from "../buildings/filter";
 import { MetaDisplayBuilding } from "../buildings/display";
 import { MetaLeverBuilding } from "../buildings/lever";
-import { MetaItemProducerBuilding } from "../buildings/item_producer";
-import { MetaMinerBuilding } from "../buildings/miner";
-import { MetaWireBuilding } from "../buildings/wire";
-import { MetaWireTunnelBuilding } from "../buildings/wire_tunnel";
-import { MetaConstantSignalBuilding } from "../buildings/constant_signal";
-import { MetaLogicGateBuilding } from "../buildings/logic_gate";
-import { MetaVirtualProcessorBuilding } from "../buildings/virtual_processor";
-import { MetaAnalyzerBuilding } from "../buildings/analyzer";
-import { MetaComparatorBuilding } from "../buildings/comparator";
-import { MetaTransistorBuilding } from "../buildings/transistor";
 import { MetaConstantProducerBuilding } from "../buildings/constant_producer";
 import { MetaGoalAcceptorBuilding } from "../buildings/goal_acceptor";
 import { PuzzleSerializer } from "../../savegame/puzzle_serializer";
@@ -31,7 +18,6 @@ import { MetaBlockBuilding } from "../buildings/block";
 import { MetaBuilding } from "../meta_building";
 import { gMetaBuildingRegistry } from "../../core/global_registries";
 import { HUDPuzzleNextPuzzle } from "../hud/parts/next_puzzle";
-import { MetaFourInputLogicGateBuilding } from "../buildings/four_input_logic_gate";
 import { MetaProgrammableSignalBuilding } from "../buildings/programmable_signal";
 import { MetaProgrammableAcceptorBuilding } from "../buildings/programmable_acceptor";
 
@@ -60,23 +46,8 @@ export class PuzzlePlayGameMode extends PuzzleGameMode {
             MetaGoalAcceptorBuilding,
             MetaBlockBuilding,
 
-            MetaStorageBuilding,
-            MetaReaderBuilding,
-            MetaFilterBuilding,
-            MetaDisplayBuilding,
             MetaLeverBuilding,
-            MetaItemProducerBuilding,
-            MetaMinerBuilding,
-
-            MetaWireBuilding,
-            MetaWireTunnelBuilding,
-            MetaConstantSignalBuilding,
-            MetaLogicGateBuilding,
-            MetaFourInputLogicGateBuilding,
-            MetaVirtualProcessorBuilding,
-            MetaAnalyzerBuilding,
-            MetaComparatorBuilding,
-            MetaTransistorBuilding,
+            MetaDisplayBuilding,
         ];
 
         // List of variant ids of excluded buildings

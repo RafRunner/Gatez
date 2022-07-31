@@ -121,12 +121,12 @@ export class HUDPuzzleCompleteNotification extends BaseHUDPart {
     }
 
     show() {
-        //if hte person has already liked the puzzle, it be showed
+        // If hte person has already liked the puzzle, it's shown
         this.metaPuzzle = /** @type {PuzzlePlayGameMode} */ (this.root.gameMode).puzzle.meta;
         this.userDidLikePuzzle = this.metaPuzzle.liked;
         this.updateState();
 
-        // if the person has already rated the puzzle, it be showed
+        // If the person has already rated the puzzle, it's shown
         if (this.metaPuzzle.difficultyRating) {
             if (this.metaPuzzle.difficultyRating === "easy") {
                 this.userRatedDifficulty = 0;

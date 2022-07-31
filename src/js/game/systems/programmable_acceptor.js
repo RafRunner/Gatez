@@ -17,6 +17,7 @@ export class ProgrammableAcceptorSystem extends GameSystemWithFilter {
             }
         });
 
+        this.root.signals.simulationComplete.add(this.computeSimulationResults, this);
         this.spriteOn = Loader.getSprite("sprites/wires/display/white.png");
     }
 
@@ -53,28 +54,23 @@ export class ProgrammableAcceptorSystem extends GameSystemWithFilter {
             if (network) {
                 // We consider conflicts errors no matter what. TODO maybe add some special treatment
                 if (network.valueConflict) {
-                    console.log(`Test ${currentSimulationStep} failed. Conflit on output.`);
                     acceptorComp.simulationResults.push(false);
                     continue;
                 }
 
                 // If the expected signal is "don't care", we consider it a success
                 if (expectedSignal === null) {
-                    console.log(`Test ${currentSimulationStep} success. Don't care output.`);
                     acceptorComp.simulationResults.push(true);
                     continue;
                 }
 
                 if (network.currentValue === expectedSignal) {
-                    console.log(`Test ${currentSimulationStep} success. Correct output.`);
                     acceptorComp.simulationResults.push(true);
                 } else {
-                    console.log(`Test ${currentSimulationStep} failed. Incorrect output.`);
                     acceptorComp.simulationResults.push(false);
                 }
             } else {
                 // The acceptor is not connected
-                console.log(`Test ${currentSimulationStep} failed. Acceptor not connected.`);
                 acceptorComp.simulationResults.push(false);
             }
         }
@@ -113,6 +109,30 @@ export class ProgrammableAcceptorSystem extends GameSystemWithFilter {
                     globalConfig.tileSize
                 );
             }
+        }
+    }
+
+    /**
+     * Determines whether all programmable signals got the expected signal on all steps and dispatches the appropriate signal
+     */
+    computeSimulationResults() {
+        let wasSuccessful = true;
+        const isEditorMode = this.root.gameMode.getIsEditor();
+
+        for (let i = 0; i < this.allEntities.length; ++i) {
+            const entity = this.allEntities[i];
+            const acceptorComp = entity.components.ProgrammableAcceptor;
+
+            if (acceptorComp.simulationResults.some(it => it === false)) {
+                wasSuccessful = false;
+                break;
+            }
+        }
+
+        if (isEditorMode) {
+            this.root.signals.puzzleCompleteEdit.dispatch(wasSuccessful);
+        } else {
+            this.root.signals.puzzleComplete.dispatch(wasSuccessful);
         }
     }
 }

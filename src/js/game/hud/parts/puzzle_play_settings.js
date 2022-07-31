@@ -36,11 +36,6 @@ export class HUDPuzzlePlaySettings extends BaseHUDPart {
     resetPuzzle() {
         for (const entity of this.root.entityMgr.getAllWithComponent(StaticMapEntityComponent)) {
             const staticComp = entity.components.StaticMapEntity;
-            const goalComp = entity.components.GoalAcceptor;
-
-            if (goalComp) {
-                goalComp.clear();
-            }
 
             if (staticComp.getMetaBuilding().getIsRemovable(this.root)) {
                 this.root.map.removeStaticEntity(entity);

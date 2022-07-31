@@ -5,8 +5,7 @@ import { Rectangle } from "../../../core/rectangle";
 import { makeDiv } from "../../../core/utils";
 import { T } from "../../../translations";
 import { MetaBlockBuilding } from "../../buildings/block";
-import { MetaConstantProducerBuilding } from "../../buildings/constant_producer";
-import { MetaGoalAcceptorBuilding } from "../../buildings/goal_acceptor";
+import { MetaProgrammableAcceptorBuilding } from "../../buildings/programmable_acceptor";
 import { MetaProgrammableSignalBuilding } from "../../buildings/programmable_signal";
 import { StaticMapEntityComponent } from "../../components/static_map_entity";
 import { PuzzleGameMode } from "../../modes/puzzle";
@@ -43,9 +42,8 @@ export class HUDPuzzleEditorSettings extends BaseHUDPart {
                         <button class="styledButton plus">+</button>
                     </div>
 
-                    <div class="buttonBar">
+                    <div class="buildingsButton">
                         <button class="styledButton trim">${T.ingame.puzzleEditorSettings.trimZone}</button>
-                        <button class="styledButton clearItems">${T.ingame.puzzleEditorSettings.clearItems}</button>
                     </div>
 
                     <div class="buildingsButton">
@@ -64,32 +62,17 @@ export class HUDPuzzleEditorSettings extends BaseHUDPart {
             bind(".zoneHeight .minus", () => this.modifyZone(0, -1));
             bind(".zoneHeight .plus", () => this.modifyZone(0, 1));
             bind("button.trim", this.trim);
-            bind("button.clearItems", this.clearItems);
             bind("button.resetPuzzle", this.resetPuzzle);
             bind("button.testPuzzle", this.testPuzzle);
         }
     }
 
-    clearItems() {
-        this.root.logic.clearAllBeltsAndItems();
-    }
-
     resetPuzzle() {
         for (const entity of this.root.entityMgr.getAllWithComponent(StaticMapEntityComponent)) {
             const staticComp = entity.components.StaticMapEntity;
-            const goalComp = entity.components.GoalAcceptor;
-
-            if (goalComp) {
-                goalComp.clear();
-            }
 
             if (
-                [
-                    MetaGoalAcceptorBuilding,
-                    MetaConstantProducerBuilding,
-                    MetaProgrammableSignalBuilding,
-                    MetaBlockBuilding,
-                ]
+                [MetaProgrammableSignalBuilding, MetaProgrammableAcceptorBuilding, MetaBlockBuilding]
                     .map(metaClass => gMetaBuildingRegistry.findByClass(metaClass).id)
                     .includes(staticComp.getMetaBuilding().id)
             ) {
@@ -186,7 +169,7 @@ export class HUDPuzzleEditorSettings extends BaseHUDPart {
     }
 
     initialize() {
-        this.root.signals.puzzleCompleteTest.add(this.showTest, this);
+        this.root.signals.puzzleCompleteEdit.add(this.puzzleCompleted, this);
         this.visible = true;
         this.updateZoneValues();
     }
@@ -245,16 +228,17 @@ export class HUDPuzzleEditorSettings extends BaseHUDPart {
         this.root.inSimulation = true;
     }
 
-    // TODO remove and add a real notification on puzzle play settings. Only for testing
-    showTest() {
-        const allAcceptors = this.root.systemMgr.systems.programmableAcceptor.allEntities;
-        let puzzlePassed = allAcceptors.every(it =>
-            it.components.ProgrammableAcceptor.simulationResults.every(it1 => it1 === true)
-        );
-        if (puzzlePassed) {
-            window.alert("Desafio concluído!");
+    puzzleCompleted(wasSuccessful) {
+        if (wasSuccessful) {
+            this.root.hud.parts.dialogs.showInfo(
+                T.dialogs.puzzleCompleteEdit.titleSuccess,
+                T.dialogs.puzzleCompleteEdit.descSuccess
+            );
         } else {
-            window.alert("Um ou mais dos testes não passou!");
+            this.root.hud.parts.dialogs.showWarning(
+                T.dialogs.puzzleCompleteEdit.titleFail,
+                T.dialogs.puzzleCompleteEdit.descFail
+            );
         }
     }
 }

@@ -22,8 +22,6 @@ export class HUDPuzzleEditorReview extends BaseHUDPart {
     }
 
     createElements(parent) {
-        const key = this.root.gameMode.getId();
-
         this.element = makeDiv(parent, "ingame_HUD_PuzzleEditorReview");
         this.button = document.createElement("button");
         this.button.classList.add("button");
@@ -35,6 +33,7 @@ export class HUDPuzzleEditorReview extends BaseHUDPart {
 
     initialize() {}
 
+    // TODO update to check using our logic puzzle
     startReview() {
         const validationError = this.validatePuzzle();
         if (validationError) {

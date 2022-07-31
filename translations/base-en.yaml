@@ -439,6 +439,12 @@ dialogs:
         missingMods: Missing Mods
         newMods: Newly installed Mods
 
+    puzzleCompleteEdit:
+        titleSuccess: Sucess
+        descSuccess: Puzzle completed! You can now publish it.
+        titleFail: Failed
+        descFail: One or more tests did not pass! All tests need to pass before you can publish your Puzzle.
+
 ingame:
     # This is shown in the top left corner and displays useful keybindings in
     # every situation

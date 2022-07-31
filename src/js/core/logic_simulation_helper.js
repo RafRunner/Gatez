@@ -19,5 +19,5 @@ export function getCurrentSimulationStep(root) {
  * @returns {boolean}
  */
 export function isSamplingFrame(root) {
-    return root.currentSimulationFrame !== 0 && (root.currentSimulationFrame + 1) % FRAMES_PER_STEP === 0;
+    return (root.currentSimulationFrame + 1) % FRAMES_PER_STEP === 0;
 }

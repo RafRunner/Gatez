@@ -199,10 +199,10 @@ export class GameRoot {
             bulkAchievementCheck: /** @type {TypedSignal<(string|any)[]>} */ (new Signal()),
 
             // Puzzle mode
-            puzzleComplete: /** @type {TypedSignal<[]>} */ (new Signal()),
+            puzzleComplete: /** @type {TypedSignal<[Boolean]>} */ (new Signal()),
+            puzzleCompleteEdit: /** @type {TypedSignal<[Boolean]>} */ (new Signal()),
 
-            // TODO remove and setup the above signal correctly. Only testing
-            puzzleCompleteTest: /** @type {TypedSignal<[]>} */ (new Signal()),
+            simulationComplete: /** @type {TypedSignal<[]>} */ (new Signal()),
         };
 
         // RNG's

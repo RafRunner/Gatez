@@ -60,7 +60,7 @@ export class ProgrammableSignalSystem extends GameSystemWithFilter {
         if (currentSimulationStep >= sampleSignalComp.signalList.length) {
             this.root.inSimulation = false;
             this.root.currentSimulationFrame = 0;
-            this.root.signals.puzzleCompleteTest.dispatch();
+            this.root.signals.simulationComplete.dispatch();
             return;
         }
     }

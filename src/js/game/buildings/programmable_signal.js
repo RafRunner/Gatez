@@ -35,12 +35,16 @@ export class MetaProgrammableSignalBuilding extends MetaBuilding {
         return new Vector(1, 1);
     }
 
-    getRenderPins() {
-        return false;
-    }
-
     getSprite() {
         return null;
+    }
+
+    /**
+     * @param {import("../../savegame/savegame_serializer").GameRoot} root
+     * @returns
+     */
+    getIsRemovable(root) {
+        return root.gameMode.getIsEditor();
     }
 
     /**

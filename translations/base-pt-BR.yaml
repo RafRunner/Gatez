@@ -277,6 +277,13 @@ dialogs:
             you sure you want to continue?
         missingMods: Missing Mods
         newMods: Newly installed Mods
+
+    puzzleCompleteEdit:
+        titleSuccess: Sucesso
+        descSuccess: Desafio concluído! Você pode agora publicá-lo.
+        titleFail: Falha
+        descFail: Um ou mais dos testes não passou! Todos os testes precisam passar antes que você publique seu Desafio.
+
 ingame:
     keybindingsOverlay:
         moveMap: Mover
