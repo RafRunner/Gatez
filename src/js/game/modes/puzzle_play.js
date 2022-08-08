@@ -105,11 +105,6 @@ export class PuzzlePlayGameMode extends PuzzleGameMode {
                     desc: T.dialogs.puzzleLoadError.desc + " " + errorText,
                 },
             });
-            // const signals = this.root.hud.parts.dialogs.showWarning(
-            //     T.dialogs.puzzleLoadError.title,
-            //     T.dialogs.puzzleLoadError.desc + " " + errorText
-            // );
-            // signals.ok.add(() => this.root.gameState.moveToState("PuzzleMenuState"));
         }
     }
 

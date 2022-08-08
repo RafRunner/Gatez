@@ -104,9 +104,25 @@ import { MetaBuilding } from "../game/meta_building";
 
 /**
  * @typedef {{
+ *   type: "programmableSignal";
+ *   signalList: string;
+ *   pos: { x: number; y: number; r: number }
+ * }} PuzzleGameBuildingProgrammableSignal
+ */
+
+/**
+ * @typedef {{
+ *   type: "programmableAcceptor";
+ *   expectedSignals: string;
+ *   pos: { x: number; y: number; r: number }
+ * }} PuzzleGameBuildingProgrammableAcceptor
+ */
+
+/**
+ * @typedef {{
  *   version: number;
  *   bounds: { w: number; h: number; },
- *   buildings: (PuzzleGameBuildingGoal | PuzzleGameBuildingConstantProducer | PuzzleGameBuildingBlock)[],
+ *   buildings: (PuzzleGameBuildingBlock|PuzzleGameBuildingProgrammableSignal|PuzzleGameBuildingProgrammableAcceptor)[],
  *   excludedBuildings: Array<string>,
  * }} PuzzleGameData
  */

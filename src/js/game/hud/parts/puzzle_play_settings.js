@@ -20,12 +20,14 @@ export class HUDPuzzlePlaySettings extends BaseHUDPart {
                 `
                         <button class="styledButton clearItems">${T.ingame.puzzleEditorSettings.clearItems}</button>
                         <button class="styledButton resetPuzzle">${T.ingame.puzzleEditorSettings.resetPuzzle}</button>
+                        <button class="styledButton testPuzzle">${T.ingame.puzzleEditorSettings.testPuzzle}</button>
 
                 `
             );
 
             bind("button.clearItems", this.clearItems);
             bind("button.resetPuzzle", this.resetPuzzle);
+            bind("button.testPuzzle", this.testPuzzle);
         }
     }
 
@@ -47,5 +49,9 @@ export class HUDPuzzlePlaySettings extends BaseHUDPart {
 
     initialize() {
         this.visible = true;
+    }
+
+    testPuzzle() {
+        this.root.inSimulation = true;
     }
 }

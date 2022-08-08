@@ -195,6 +195,10 @@ puzzleMenu:
             One or more buildings are outside of the buildable area. Either increase the area or remove them.
         autoComplete: >-
             Your puzzle autocompletes itself! Please make sure your constant producers are not directly delivering to your goal acceptors.
+        signalsMustHaveSameLength: >-
+            All programmable signals must have the same length! Please verify them and try again.
+        mustTestBefore: You need to test your puzzle before you can publish it!
+        testMustPass: All tests must pass before you can publish your Puzzle! Solve it and try again.
 
 dialogs:
     buttons:
@@ -444,6 +448,9 @@ dialogs:
         descSuccess: Puzzle completed! You can now publish it.
         titleFail: Failed
         descFail: One or more tests did not pass! All tests need to pass before you can publish your Puzzle.
+
+    puzzleCompletePlay:
+        descFail: That is not a correct solution to the puzzle! Try again.
 
 ingame:
     # This is shown in the top left corner and displays useful keybindings in

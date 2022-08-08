@@ -284,6 +284,9 @@ dialogs:
         titleFail: Falha
         descFail: Um ou mais dos testes não passou! Todos os testes precisam passar antes que você publique seu Desafio.
 
+    puzzleCompletePlay:
+        descFail: Essa não é uma solução correta para o Desafio! Tente novamente.
+
 ingame:
     keybindingsOverlay:
         moveMap: Mover
@@ -1338,6 +1341,7 @@ puzzleMenu:
         difficulties: Por Dificuldade
         account: Meus Desafios
         search: Procurar
+
     validation:
         title: Desafio inválido
         noProducers: Por favor coloque um Produtor Constante!
@@ -1352,6 +1356,10 @@ puzzleMenu:
         autoComplete: Seu desafio se completa sozinho! Por favor garanta que seus
             Produtores Constantes não estão entregando diretamente aos seus
             Receptores de Objetivo.
+        signalsMustHaveSameLength: Todos os sinais programáveis devem ter o mesmo comprimento! Verifique e tente novamente.
+        mustTestBefore: É preciso rodar a simulação antes de publicar o Desafio!
+        testMustPass: É necessário que todas as saídas esperadas sejam satisfeitas para publicar o Desafio! Solucione ele primeiro.
+
     difficulties:
         easy: Fácil
         medium: Médio

@@ -120,7 +120,18 @@ export class HUDPuzzleCompleteNotification extends BaseHUDPart {
         this.buttonLikeYes.classList.toggle("active", this.userDidLikePuzzle === true);
     }
 
-    show() {
+    /**
+     * @param {boolean} wasSuccessful
+     */
+    show(wasSuccessful) {
+        if (!wasSuccessful) {
+            this.root.hud.parts.dialogs.showInfo(
+                T.dialogs.puzzleCompleteEdit.titleFail,
+                T.dialogs.puzzleCompletePlay.descFail
+            );
+            return;
+        }
+
         // If hte person has already liked the puzzle, it's shown
         this.metaPuzzle = /** @type {PuzzlePlayGameMode} */ (this.root.gameMode).puzzle.meta;
         this.userDidLikePuzzle = this.metaPuzzle.liked;
