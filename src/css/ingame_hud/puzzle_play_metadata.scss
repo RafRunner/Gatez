@@ -6,7 +6,7 @@
 
     display: flex;
     flex-direction: column;
-    @include S(width, 200px);
+    @include S(width, 400px);
 
     > .info {
         display: flex;
@@ -19,7 +19,7 @@
             @include SuperDuperSmallText;
             color: $accentColorDark;
         }
-        > span {
+        span {
             display: flex;
             color: darken($accentColorDark, 25);
             @include SuperSmallText;
@@ -27,13 +27,22 @@
                 color: lighten($accentColorDark, 15);
             }
         }
+
+        #truth-table-list {
+            display: flex;
+            flex-direction: column;
+
+            span {
+                font-family: "DK Canoodle", sans-serif, monospace;
+            }
+        }
     }
 
     > .plays {
         display: flex;
         align-items: center;
-        justify-self: end;
-        align-self: end;
+        justify-self: start;
+        align-self: flex-start;
         flex-direction: row;
         @include S(margin-bottom, 10px);
         opacity: 0.8;
@@ -75,12 +84,6 @@
                 /* @load-async */
                 background: uiResource("icons/puzzle_upvotes.png") #{D(2px)} center / #{D(8px)} #{D(8px)} no-repeat;
             }
-        }
-    }
-
-    > .key {
-        button {
-            @include S(margin-top, 2px);
         }
     }
 

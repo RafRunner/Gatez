@@ -20,6 +20,8 @@ import { gMetaBuildingRegistry } from "../../core/global_registries";
 import { HUDPuzzleNextPuzzle } from "../hud/parts/next_puzzle";
 import { MetaProgrammableSignalBuilding } from "../buildings/programmable_signal";
 import { MetaProgrammableAcceptorBuilding } from "../buildings/programmable_acceptor";
+import { ProgrammableSignalComponent } from "../components/programmable_signal";
+import { ProgrammableAcceptorComponent } from "../components/programmable_acceptor";
 
 const logger = createLogger("puzzle-play");
 const copy = require("clipboard-copy");
@@ -105,7 +107,13 @@ export class PuzzlePlayGameMode extends PuzzleGameMode {
                     desc: T.dialogs.puzzleLoadError.desc + " " + errorText,
                 },
             });
+            return;
         }
+
+        this.root.signals.populateTruthTableSignal.dispatch(
+            this.root.entityMgr.getAllWithComponent(ProgrammableSignalComponent),
+            this.root.entityMgr.getAllWithComponent(ProgrammableAcceptorComponent)
+        );
     }
 
     /**

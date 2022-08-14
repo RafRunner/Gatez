@@ -198,6 +198,8 @@ export class GameRoot {
             achievementCheck: /** @type {TypedSignal<[string, any]>} */ (new Signal()),
             bulkAchievementCheck: /** @type {TypedSignal<(string|any)[]>} */ (new Signal()),
 
+            populateTruthTableSignal: /** @type {TypedSignal<[Entity[], Entity[]]>} */ (new Signal()),
+
             // Puzzle mode
             puzzleComplete: /** @type {TypedSignal<[Boolean]>} */ (new Signal()),
             puzzleCompleteEdit: /** @type {TypedSignal<[Boolean]>} */ (new Signal()),

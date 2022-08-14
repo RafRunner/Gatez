@@ -5,8 +5,7 @@ import { PuzzlePlayGameMode } from "../../modes/puzzle_play";
 import { formatBigNumberFull, formatSeconds, makeDiv } from "../../../core/utils";
 import { T } from "../../../translations";
 import { BaseHUDPart } from "../base_hud_part";
-
-const copy = require("clipboard-copy");
+import { Entity } from "../../entity";
 
 export class HUDPuzzlePlayMetadata extends BaseHUDPart {
     createElements(parent) {
@@ -29,9 +28,6 @@ export class HUDPuzzlePlayMetadata extends BaseHUDPart {
 
 
             <div class="info author"><label>${T.ingame.puzzleMetadata.author}</label><span></span></div>
-            <div class="info key">
-                <label>${T.ingame.puzzleMetadata.shortKey}</label><span>${puzzle.meta.shortKey}</span>
-            </div>
             <div class="info rating">
                 <label>${T.ingame.puzzleMetadata.averageDuration}</label>
                 <span>${puzzle.meta.averageTime ? formatSeconds(puzzle.meta.averageTime) : "-"}</span>
@@ -44,7 +40,19 @@ export class HUDPuzzlePlayMetadata extends BaseHUDPart {
                         : "-"
                 }</span>
             </div>
-
+            <div class="info truth-table">
+                <label>${T.ingame.puzzleEditorSettings.expectedOutputs}</label>
+                <div id="truth-table-list">
+                </div>
+            </div>
+            ${
+                puzzle.meta.description.trim.length === 0
+                    ? ""
+                    : `<div class="info level-description">
+                <label>${T.ingame.puzzleEditorSettings.expectedOutputs}</label>
+                <span>${puzzle.meta.description}</span>
+            </div>`
+            }
             <div class="buttons">
                 <button class="styledButton share">${T.ingame.puzzleEditorSettings.share}</button>
                 <button class="styledButton report">${T.ingame.puzzleEditorSettings.report}</button>
@@ -56,6 +64,8 @@ export class HUDPuzzlePlayMetadata extends BaseHUDPart {
 
         /** @type {HTMLElement} */ (this.element.querySelector(".author span")).innerText =
             puzzle.meta.authorName;
+
+        this.root.signals.populateTruthTableSignal.add(this.populateTruthTable, this);
     }
 
     initialize() {}
@@ -68,5 +78,31 @@ export class HUDPuzzlePlayMetadata extends BaseHUDPart {
     report() {
         const mode = /** @type {PuzzlePlayGameMode} */ (this.root.gameMode);
         mode.reportPuzzle();
+    }
+
+    /**
+     * @param {Entity[]} programmableSignals
+     * @param {Entity[]} programmableAcceptors
+     */
+    populateTruthTable(programmableSignals, programmableAcceptors) {
+        const truthTable = document.getElementById("truth-table-list");
+
+        const signalComps = programmableSignals.map(it => it.components.ProgrammableSignal);
+        const acceptorComps = programmableAcceptors.map(it => it.components.ProgrammableAcceptor);
+
+        const numberOfLines = signalComps[0].signalList.length;
+
+        for (let i = 0; i < numberOfLines && i < 16; i++) {
+            const innerHTML =
+                signalComps.map(it => it.signalList[i].getAsCopyableKey()).join(",") +
+                " 🠚 " +
+                acceptorComps
+                    .map(it => (it.expectedSignals[i] ? it.expectedSignals[i].getAsCopyableKey() : "x"))
+                    .join(",");
+
+            const line = document.createElement("span");
+            line.innerHTML = innerHTML;
+            truthTable.appendChild(line);
+        }
     }
 }

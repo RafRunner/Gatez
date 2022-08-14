@@ -687,6 +687,8 @@ ingame:
         clearBuildings: Clear Buildings
         resetPuzzle: Reset Puzzle
         testPuzzle: Test Puzzle
+        expectedOutputs: Expected Outputs
+        description: Puzzle Description
         share: Share
         report: Report
 

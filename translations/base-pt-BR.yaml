@@ -468,9 +468,11 @@ ingame:
         clearItems: Limpar Items
         share: Compartilhar
         report: Denunciar
-        clearBuildings: Clear Buildings
+        clearBuildings: Limpar Contruções
         resetPuzzle: Resetar Desafio
         testPuzzle: Testar Desafio
+        expectedOutputs: Saída esperadas
+        description: Descrição do Desafio
     puzzleEditorControls:
         title: Criador de Desafios
         instructions:
