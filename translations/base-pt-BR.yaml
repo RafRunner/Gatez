@@ -215,7 +215,10 @@ dialogs:
         descIcon: "Por favor crie um código exclusivo, o qual será o ícone do seu
             Desafio (Você pode gera-los <link>aqui</link>, ou escolha um dos
             gerados aleatoriamente abaixo):"
+        descDescription: >-
+            Insira uma descrição sobre seu Desafio, para ajudar outros jogadores a entender o que deve ser feito (opcional):
         placeholderName: Nome do desafio
+        placeholderDescription: Descrição
     puzzleResizeBadBuildings:
         title: Mudar o tamanho não é possível
         desc: Você não pode deixar a zona menor, porque algumas construções ficariam

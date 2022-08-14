@@ -1,4 +1,4 @@
-import { globalConfig, THIRDPARTY_URLS } from "../../../core/config";
+import { THIRDPARTY_URLS } from "../../../core/config";
 import { createLogger } from "../../../core/logging";
 import { DialogWithForm } from "../../../core/modal_dialog_elements";
 import { FormElementInput, FormElementItemChooser } from "../../../core/modal_dialog_forms";
@@ -6,10 +6,8 @@ import { STOP_PROPAGATION } from "../../../core/signal";
 import { fillInLinkIntoTranslation, makeDiv } from "../../../core/utils";
 import { PuzzleSerializer } from "../../../savegame/puzzle_serializer";
 import { T } from "../../../translations";
-import { ConstantSignalComponent } from "../../components/constant_signal";
 import { GoalAcceptorComponent } from "../../components/goal_acceptor";
 import { ProgrammableAcceptorComponent } from "../../components/programmable_acceptor";
-import { ProgrammableSignalComponent } from "../../components/programmable_signal";
 import { StaticMapEntityComponent } from "../../components/static_map_entity";
 import { ShapeItem } from "../../items/shape_item";
 import { ShapeDefinition } from "../../shape_definition";
@@ -45,7 +43,7 @@ export class HUDPuzzleEditorReview extends BaseHUDPart {
         this.startSubmit();
     }
 
-    startSubmit(title = "", shortKey = "") {
+    startSubmit(title = "", shortKey = "", description = "") {
         const regex = /^[a-zA-Z0-9_\- ]{4,30}$/;
         const nameInput = new FormElementInput({
             id: "nameInput",
@@ -55,57 +53,38 @@ export class HUDPuzzleEditorReview extends BaseHUDPart {
             validator: val => trim(val).match(regex) && trim(val).length > 0,
         });
 
-        let items = new Set();
-        const acceptors = this.root.entityMgr.getAllWithComponent(GoalAcceptorComponent);
-        for (const acceptor of acceptors) {
-            const item = acceptor.components.GoalAcceptor.item;
-            if (item.getItemType() === "shape") {
-                items.add(item);
-            }
-        }
+        // TODO implement a better way to choose an icon (maybe of a gate/component) for the puzzle
+        const randomItem = this.root.hubGoals.computeFreeplayShape(Math.round(10 + Math.random() * 10000));
 
-        while (items.size < 8) {
-            // add some randoms
-            const item = this.root.hubGoals.computeFreeplayShape(Math.round(10 + Math.random() * 10000));
-            items.add(new ShapeItem(item));
-        }
-
-        const itemInput = new FormElementItemChooser({
-            id: "signalItem",
-            label: fillInLinkIntoTranslation(T.dialogs.submitPuzzle.descIcon, THIRDPARTY_URLS.shapeViewer),
-            items: Array.from(items),
-        });
-
-        const shapeKeyInput = new FormElementInput({
-            id: "shapeKeyInput",
-            label: null,
-            placeholder: "CuCuCuCu",
-            defaultValue: shortKey,
-            validator: val => ShapeDefinition.isValidShortKey(trim(val)),
+        // TODO use a rich text box with multi line support and a smaller font
+        const descriptionInput = new FormElementInput({
+            id: "descriptionInput",
+            label: T.dialogs.submitPuzzle.descDescription,
+            placeholder: T.dialogs.submitPuzzle.placeholderDescription,
+            defaultValue: description,
+            validator: val => trim(val).length < 1000,
+            maxlength: 1000,
         });
 
         const dialog = new DialogWithForm({
             app: this.root.app,
             title: T.dialogs.submitPuzzle.title,
             desc: "",
-            formElements: [nameInput, itemInput, shapeKeyInput],
+            formElements: [nameInput, descriptionInput],
             buttons: ["ok:good:enter"],
-        });
-
-        itemInput.valueChosen.add(value => {
-            shapeKeyInput.setValue(value.definition.getHash());
         });
 
         this.root.hud.parts.dialogs.internalShowDialog(dialog);
 
         dialog.buttonSignals.ok.add(() => {
             const title = trim(nameInput.getValue());
-            const shortKey = trim(shapeKeyInput.getValue());
-            this.doSubmitPuzzle(title, shortKey);
+            const shortKey = randomItem.getHash();
+            const description = trim(descriptionInput.getValue());
+            this.doSubmitPuzzle(title, shortKey, description);
         });
     }
 
-    doSubmitPuzzle(title, shortKey) {
+    doSubmitPuzzle(title, shortKey, description) {
         const serialized = new PuzzleSerializer().generateDumpFromGameRoot(this.root);
 
         logger.log("Submitting puzzle, title=", title, "shortKey=", shortKey);
@@ -119,6 +98,7 @@ export class HUDPuzzleEditorReview extends BaseHUDPart {
             .apiSubmitPuzzle({
                 title,
                 shortKey,
+                description,
                 data: serialized,
             })
             .then(
@@ -138,7 +118,7 @@ export class HUDPuzzleEditorReview extends BaseHUDPart {
                         T.dialogs.puzzleSubmitError.desc + " " + err,
                         ["cancel", "retry:good"]
                     );
-                    signals.retry.add(() => this.startSubmit(title, shortKey));
+                    signals.retry.add(() => this.startSubmit(title, shortKey, description));
                 }
             );
     }

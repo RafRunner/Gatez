@@ -361,8 +361,10 @@ dialogs:
             Give your puzzle a name:
         descIcon: >-
             Please enter a unique short key, which will be shown as the icon of your puzzle (You can generate them <link>here</link>, or choose one of the randomly suggested shapes below):
-
+        descDescription: >-
+            Write a description for your Puzzle if you wish to better explain to other players what they should do (optional):
         placeholderName: Puzzle Title
+        placeholderDescription: Description
 
     puzzleResizeBadBuildings:
         title: Resize not possible

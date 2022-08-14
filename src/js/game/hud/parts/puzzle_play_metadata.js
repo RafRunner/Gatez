@@ -46,10 +46,10 @@ export class HUDPuzzlePlayMetadata extends BaseHUDPart {
                 </div>
             </div>
             ${
-                puzzle.meta.description.trim.length === 0
+                puzzle.meta.description.trim().length === 0
                     ? ""
                     : `<div class="info level-description">
-                <label>${T.ingame.puzzleEditorSettings.expectedOutputs}</label>
+                <label>${T.ingame.puzzleEditorSettings.description}</label>
                 <span>${puzzle.meta.description}</span>
             </div>`
             }

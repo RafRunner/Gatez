@@ -229,6 +229,7 @@ export class ClientAPI {
      * @param {object} payload
      * @param {string} payload.title
      * @param {string} payload.shortKey
+     * @param {string} payload.description
      * @param {import("../savegame/savegame_typedefs").PuzzleGameData} payload.data
      * @returns {Promise<{ success: true }>}
      */
