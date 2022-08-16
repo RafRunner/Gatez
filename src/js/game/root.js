@@ -88,6 +88,10 @@ export class GameRoot {
         /** @type {Boolean} */
         this.inSimulation = false;
 
+        // Whether we are in a simulation to submit the puzzle
+        /** @type {Boolean} */
+        this.validatingSubmit = false;
+
         // Indicates on which frame (update) of the simulation we're in
         /** @type {Number} */
         this.currentSimulationFrame = 0;
@@ -203,6 +207,7 @@ export class GameRoot {
             // Puzzle mode
             puzzleComplete: /** @type {TypedSignal<[Boolean]>} */ (new Signal()),
             puzzleCompleteEdit: /** @type {TypedSignal<[Boolean]>} */ (new Signal()),
+            puzzleCompleteSubmit: /** @type {TypedSignal<[Boolean]>} */ (new Signal()),
 
             simulationComplete: /** @type {TypedSignal<[]>} */ (new Signal()),
         };

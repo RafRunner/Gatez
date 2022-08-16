@@ -1349,8 +1349,8 @@ puzzleMenu:
 
     validation:
         title: Desafio inválido
-        noProducers: Por favor coloque um Produtor Constante!
-        noGoalAcceptors: Por favor coloque um Receptor de Objetivo!
+        noProducers: Por favor coloque um Sinal Programável!
+        noGoalAcceptors: Por favor coloque um Receptor Programável!
         goalAcceptorNoItem: Um ou mais Receptores de Objetivo ainda não tiveram um item
             determinado. Entregue um item a ele para definir seu objetivo.
         goalAcceptorRateNotMet: Um ou mais Receptores de Objetivo não estão recebendo
@@ -1362,8 +1362,6 @@ puzzleMenu:
             Produtores Constantes não estão entregando diretamente aos seus
             Receptores de Objetivo.
         signalsMustHaveSameLength: Todos os sinais programáveis devem ter o mesmo comprimento! Verifique e tente novamente.
-        mustTestBefore: É preciso rodar a simulação antes de publicar o Desafio!
-        testMustPass: É necessário que todas as saídas esperadas sejam satisfeitas para publicar o Desafio! Solucione ele primeiro.
 
     difficulties:
         easy: Fácil

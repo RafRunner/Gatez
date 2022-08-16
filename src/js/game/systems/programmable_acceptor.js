@@ -130,7 +130,12 @@ export class ProgrammableAcceptorSystem extends GameSystemWithFilter {
         }
 
         if (isEditorMode) {
-            this.root.signals.puzzleCompleteEdit.dispatch(wasSuccessful);
+            if (this.root.validatingSubmit) {
+                this.root.signals.puzzleCompleteSubmit.dispatch(wasSuccessful);
+                this.root.validatingSubmit = false;
+            } else {
+                this.root.signals.puzzleCompleteEdit.dispatch(wasSuccessful);
+            }
         } else {
             this.root.signals.puzzleComplete.dispatch(wasSuccessful);
         }

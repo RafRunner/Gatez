@@ -185,8 +185,8 @@ puzzleMenu:
 
     validation:
         title: Invalid Puzzle
-        noProducers: Please place a Constant Producer!
-        noGoalAcceptors: Please place a Goal Acceptor!
+        noProducers: Please place a Programmable Signal!
+        noGoalAcceptors: Please place a Programmable Acceptor!
         goalAcceptorNoItem: >-
             One or more Goal Acceptors have not yet assigned an item. Deliver a shape to them to set a goal.
         goalAcceptorRateNotMet: >-
@@ -197,8 +197,6 @@ puzzleMenu:
             Your puzzle autocompletes itself! Please make sure your constant producers are not directly delivering to your goal acceptors.
         signalsMustHaveSameLength: >-
             All programmable signals must have the same length! Please verify them and try again.
-        mustTestBefore: You need to test your puzzle before you can publish it!
-        testMustPass: All tests must pass before you can publish your Puzzle! Solve it and try again.
 
 dialogs:
     buttons:

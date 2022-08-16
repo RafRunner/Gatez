@@ -1,16 +1,12 @@
-import { THIRDPARTY_URLS } from "../../../core/config";
 import { createLogger } from "../../../core/logging";
 import { DialogWithForm } from "../../../core/modal_dialog_elements";
 import { FormElementInput, FormElementItemChooser } from "../../../core/modal_dialog_forms";
 import { STOP_PROPAGATION } from "../../../core/signal";
-import { fillInLinkIntoTranslation, makeDiv } from "../../../core/utils";
+import { makeDiv } from "../../../core/utils";
+import { validatePuzzle } from "../../../core/logic_simulation_helper";
 import { PuzzleSerializer } from "../../../savegame/puzzle_serializer";
 import { T } from "../../../translations";
-import { GoalAcceptorComponent } from "../../components/goal_acceptor";
-import { ProgrammableAcceptorComponent } from "../../components/programmable_acceptor";
 import { StaticMapEntityComponent } from "../../components/static_map_entity";
-import { ShapeItem } from "../../items/shape_item";
-import { ShapeDefinition } from "../../shape_definition";
 import { BaseHUDPart } from "../base_hud_part";
 
 const trim = require("trim");
@@ -31,16 +27,39 @@ export class HUDPuzzleEditorReview extends BaseHUDPart {
         this.trackClicks(this.button, this.startReview);
     }
 
-    initialize() {}
+    initialize() {
+        this.root.signals.puzzleCompleteSubmit.add(wasSuccessful => {
+            if (wasSuccessful) {
+                this.startSubmit();
+            } else {
+                this.root.hud.parts.dialogs.showWarning(
+                    T.dialogs.puzzleCompleteEdit.titleFail,
+                    T.dialogs.puzzleCompleteEdit.descFail
+                );
+            }
+        }, this);
+    }
 
     startReview() {
-        const validationError = this.validatePuzzle();
+        let validationError = null;
+
+        // Check if all buildings are within the area
+        const entities = this.root.entityMgr.getAllWithComponent(StaticMapEntityComponent);
+        for (const entity of entities) {
+            if (this.root.systemMgr.systems.zone.prePlacementCheck(entity) === STOP_PROPAGATION) {
+                validationError = T.puzzleMenu.validation.buildingOutOfBounds;
+            }
+        }
+
         if (validationError) {
             this.root.hud.parts.dialogs.showWarning(T.puzzleMenu.validation.title, validationError);
             return;
         }
 
-        this.startSubmit();
+        validatePuzzle(this.root, T, () => {
+            this.root.validatingSubmit = true;
+            this.root.inSimulation = true;
+        });
     }
 
     startSubmit(title = "", shortKey = "", description = "") {
@@ -84,6 +103,8 @@ export class HUDPuzzleEditorReview extends BaseHUDPart {
         });
     }
 
+    checkIfSuccessfullAndSubmit(wasSuccessful) {}
+
     doSubmitPuzzle(title, shortKey, description) {
         const serialized = new PuzzleSerializer().generateDumpFromGameRoot(this.root);
 
@@ -121,31 +142,5 @@ export class HUDPuzzleEditorReview extends BaseHUDPart {
                     signals.retry.add(() => this.startSubmit(title, shortKey, description));
                 }
             );
-    }
-
-    validatePuzzle() {
-        // Check there is at least one programmable signal and acceptor
-        const programmableAcceptor = this.root.entityMgr.getAllWithComponent(ProgrammableAcceptorComponent);
-
-        // Check if all programmable acceptors are satisfied
-        for (const acceptor of programmableAcceptor) {
-            const acceptorComp = acceptor.components.ProgrammableAcceptor;
-
-            if (acceptorComp.simulationResults.length === 0) {
-                return T.puzzleMenu.validation.mustTestBefore;
-            }
-
-            if (acceptorComp.simulationResults.some(result => result === false)) {
-                return T.puzzleMenu.validation.testMustPass;
-            }
-        }
-
-        // Check if all buildings are within the area
-        const entities = this.root.entityMgr.getAllWithComponent(StaticMapEntityComponent);
-        for (const entity of entities) {
-            if (this.root.systemMgr.systems.zone.prePlacementCheck(entity) === STOP_PROPAGATION) {
-                return T.puzzleMenu.validation.buildingOutOfBounds;
-            }
-        }
     }
 }

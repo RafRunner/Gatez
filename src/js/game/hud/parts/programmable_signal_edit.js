@@ -151,23 +151,27 @@ export class HUDProgrammableSignalEdit extends BaseHUDPart {
         codes = codes.replace(/\s/g, "");
         const values = codes.split(",");
 
-        let returnList = [];
+        if (values.length === 0) {
+            return null;
+        }
+
+        let signals = [];
 
         for (let code of values) {
             const codeLower = code.toLowerCase();
 
             if (code === "1" || codeLower === "true") {
-                returnList.push(BOOL_TRUE_SINGLETON);
+                signals.push(BOOL_TRUE_SINGLETON);
             } else if (code === "0" || codeLower === "false") {
-                returnList.push(BOOL_FALSE_SINGLETON);
+                signals.push(BOOL_FALSE_SINGLETON);
             }
             // Couldn't parse the value
             else {
-                returnList = null;
+                signals = null;
                 break;
             }
         }
 
-        return returnList;
+        return signals;
     }
 }

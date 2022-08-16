@@ -1,18 +1,16 @@
 import { globalConfig } from "../../../core/config";
 import { gMetaBuildingRegistry } from "../../../core/global_registries";
 import { createLogger } from "../../../core/logging";
+import { validatePuzzle } from "../../../core/logic_simulation_helper";
 import { Rectangle } from "../../../core/rectangle";
 import { makeDiv } from "../../../core/utils";
 import { T } from "../../../translations";
 import { MetaBlockBuilding } from "../../buildings/block";
 import { MetaProgrammableAcceptorBuilding } from "../../buildings/programmable_acceptor";
 import { MetaProgrammableSignalBuilding } from "../../buildings/programmable_signal";
-import { ProgrammableAcceptorComponent } from "../../components/programmable_acceptor";
-import { ProgrammableSignalComponent } from "../../components/programmable_signal";
 import { StaticMapEntityComponent } from "../../components/static_map_entity";
 import { PuzzleGameMode } from "../../modes/puzzle";
 import { BaseHUDPart } from "../base_hud_part";
-import { enumNotificationType } from "./notifications";
 
 const logger = createLogger("puzzle-editor");
 
@@ -228,39 +226,9 @@ export class HUDPuzzleEditorSettings extends BaseHUDPart {
     }
 
     testPuzzle() {
-        const programmableSignals = this.root.entityMgr.getAllWithComponent(ProgrammableSignalComponent);
-        const programmableAcceptors = this.root.entityMgr.getAllWithComponent(ProgrammableAcceptorComponent);
-
-        if (programmableSignals.length === 0) {
-            return this.root.hud.signals.notification.dispatch(
-                T.puzzleMenu.validation.noProducers,
-                enumNotificationType.error
-            );
-        }
-
-        if (programmableAcceptors.length === 0) {
-            return this.root.hud.signals.notification.dispatch(
-                T.puzzleMenu.validation.noGoalAcceptors,
-                enumNotificationType.error
-            );
-        }
-
-        const signalComps = programmableSignals.map(ps => ps.components.ProgrammableSignal);
-        const acceptorComps = programmableAcceptors.map(pa => pa.components.ProgrammableAcceptor);
-
-        const expectedLength = signalComps[0].signalList.length;
-
-        if (
-            signalComps.some(sc => sc.signalList.length != expectedLength) ||
-            acceptorComps.some(ac => ac.expectedSignals.length != expectedLength)
-        ) {
-            return this.root.hud.signals.notification.dispatch(
-                T.puzzleMenu.validation.signalsMustHaveSameLength,
-                enumNotificationType.error
-            );
-        }
-
-        this.root.inSimulation = true;
+        validatePuzzle(this.root, T, () => {
+            this.root.inSimulation = true;
+        });
     }
 
     puzzleCompleted(wasSuccessful) {
