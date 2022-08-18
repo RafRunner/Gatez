@@ -351,6 +351,13 @@ export class PuzzleMenuState extends TextualGameState {
                 elem.appendChild(title);
             }
 
+            if (puzzle.id) {
+                const id = document.createElement("div");
+                id.classList.add("id");
+                id.innerText = `#${puzzle.id}`;
+                elem.appendChild(id);
+            }
+
             if (puzzle.author && !["official", "mine"].includes(this.activeCategory)) {
                 const author = document.createElement("div");
                 author.classList.add("author");
@@ -563,7 +570,7 @@ export class PuzzleMenuState extends TextualGameState {
             label: null,
             placeholder: "",
             defaultValue: "",
-            validator: val => ShapeDefinition.isValidShortKey(val) || val.startsWith("/"),
+            validator: val => /^[0-9]+$/.test(val),
         });
 
         const dialog = new DialogWithForm({

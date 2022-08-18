@@ -213,7 +213,7 @@ export class ClientAPI {
      * @param {number} payload.time
      * @param {boolean} payload.liked
      * @param {number} payload.difficultyRating
-     * @returns {Promise<{ success: true }>}
+     * @returns {Promise<{ trophies: number, completeData: any }>}
      */
     apiCompletePuzzle(puzzleId, payload) {
         if (!this.isLoggedIn()) {

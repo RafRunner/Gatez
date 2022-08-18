@@ -223,6 +223,20 @@
                         @include S(height, 17px);
                     }
 
+                    > .id {
+                        font-size: 14px;
+                        @include PlainText;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+                        overflow: hidden;
+                        align-self: center;
+                        justify-self: start;
+                        width: 100%;
+                        box-sizing: border-box;
+                        @include S(padding, 2px, 5px);
+                        @include S(height, 17px);
+                    }
+
                     > .author {
                         grid-column: 2 / 2;
                         grid-row: 2 / 3;
