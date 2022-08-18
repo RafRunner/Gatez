@@ -135,7 +135,11 @@ export class PuzzlePlayGameMode extends PuzzleGameMode {
             .catch(err => {
                 logger.warn("Failed to complete puzzle:", err);
             })
-            .then(() => {
+            .then(data => {
+                // add data.trophies to local storage
+                if (data && data.trophies) {
+                    localStorage.setItem("trophies", data.trophies.toString());
+                }
                 closeLoading();
             });
     }

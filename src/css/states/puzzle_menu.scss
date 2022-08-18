@@ -12,6 +12,23 @@
             background-color: $colorGreenBright;
             @include S(margin-left, 5px);
         }
+
+        .actions {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            .trophies {
+                margin-right: 16px;
+                svg {
+                    margin-right: 4px;
+                }
+
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                width: fit-content;
+            }
+        }
     }
 
     > .container {
