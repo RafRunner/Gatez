@@ -144,13 +144,13 @@ export class PuzzlePlayGameMode extends PuzzleGameMode {
             });
     }
 
-    // TODO this is an example of an "alert box", but we should remove it since we're not going to use shortKeys as unique
     sharePuzzle() {
-        copy(this.puzzle.meta.shortKey);
+        const puzzleId = this.puzzle.meta.id.toString();
+        copy(puzzleId);
 
         this.root.hud.parts.dialogs.showInfo(
             T.dialogs.puzzleShare.title,
-            T.dialogs.puzzleShare.desc.replace("<key>", this.puzzle.meta.shortKey)
+            T.dialogs.puzzleShare.desc.replace("<key>", puzzleId)
         );
     }
 

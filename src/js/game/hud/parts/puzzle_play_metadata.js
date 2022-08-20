@@ -6,6 +6,7 @@ import { formatBigNumberFull, formatSeconds, makeDiv } from "../../../core/utils
 import { T } from "../../../translations";
 import { BaseHUDPart } from "../base_hud_part";
 import { Entity } from "../../entity";
+import { buildInputToExpectedOutputString } from "../../../core/logic_simulation_helper";
 
 export class HUDPuzzlePlayMetadata extends BaseHUDPart {
     createElements(parent) {
@@ -93,12 +94,7 @@ export class HUDPuzzlePlayMetadata extends BaseHUDPart {
         const numberOfLines = signalComps[0].signalList.length;
 
         for (let i = 0; i < numberOfLines && i < 16; i++) {
-            const innerHTML =
-                signalComps.map(it => it.signalList[i].getAsCopyableKey()).join(",") +
-                " 🠚 " +
-                acceptorComps
-                    .map(it => (it.expectedSignals[i] ? it.expectedSignals[i].getAsCopyableKey() : "x"))
-                    .join(",");
+            const innerHTML = buildInputToExpectedOutputString(signalComps, acceptorComps, i);
 
             const line = document.createElement("span");
             line.innerHTML = innerHTML;

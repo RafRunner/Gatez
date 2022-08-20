@@ -8,6 +8,9 @@ import { SOUNDS } from "../../../platform/sound";
 import { T } from "../../../translations";
 import { BaseHUDPart } from "../base_hud_part";
 import { DynamicDomAttach } from "../dynamic_dom_attach";
+import { ProgrammableSignalComponent } from "../../components/programmable_signal";
+import { ProgrammableAcceptorComponent } from "../../components/programmable_acceptor";
+import { buildInputToExpectedOutputString } from "../../../core/logic_simulation_helper";
 
 export class HUDPuzzleCompleteNotification extends BaseHUDPart {
     initialize() {
@@ -125,9 +128,27 @@ export class HUDPuzzleCompleteNotification extends BaseHUDPart {
      */
     show(wasSuccessful) {
         if (!wasSuccessful) {
+            const signalComps = this.root.entityMgr
+                .getAllWithComponent(ProgrammableSignalComponent)
+                .map(ps => ps.components.ProgrammableSignal);
+            const acceptorComps = this.root.entityMgr
+                .getAllWithComponent(ProgrammableAcceptorComponent)
+                .map(pa => pa.components.ProgrammableAcceptor);
+
+            let failedTests = `<div style="font-family: DK Canoodle, sans-serif, monospace !important;"><br>`;
+
+            for (let i = 0; i < acceptorComps[0].expectedSignals.length && i < 16; i++) {
+                // At least one output was worng
+                if (acceptorComps.some(it => it.simulationResults[i] === false)) {
+                    const expected = buildInputToExpectedOutputString(signalComps, acceptorComps, i);
+
+                    failedTests += expected + "<br>";
+                }
+            }
+
             this.root.hud.parts.dialogs.showInfo(
                 T.dialogs.puzzleCompleteEdit.titleFail,
-                T.dialogs.puzzleCompletePlay.descFail
+                T.dialogs.puzzleCompletePlay.descFail.replace("<failed-tests>", failedTests + "</div>")
             );
             return;
         }

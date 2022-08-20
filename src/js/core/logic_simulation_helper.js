@@ -24,6 +24,7 @@ export function getCurrentSimulationStep(root) {
 export function isSamplingFrame(root) {
     return (root.currentSimulationFrame + 1) % FRAMES_PER_STEP === 0;
 }
+
 /**
  * Validates the current puzzle and calls the callback if all succeeds
  * @param {GameRoot} root
@@ -67,4 +68,23 @@ export function validatePuzzle(root, T, callback) {
     }
 
     callback();
+}
+
+/**
+ * Builds a string that represents a series of expected outputs for a set of inputs. It's a line of a truth table
+ * @param {ProgrammableSignalComponent[]} signalComps
+ * @param {ProgrammableAcceptorComponent[]} acceptorComps
+ * @param {Number} i
+ * @returns {string}
+ */
+export function buildInputToExpectedOutputString(signalComps, acceptorComps, i) {
+    return (
+        i +
+        ") " +
+        signalComps.map(it => it.signalList[i].getAsCopyableKey()).join(",") +
+        " -> " +
+        acceptorComps
+            .map(it => (it.expectedSignals[i] ? it.expectedSignals[i].getAsCopyableKey() : "x"))
+            .join(",")
+    );
 }

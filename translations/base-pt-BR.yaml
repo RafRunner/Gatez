@@ -252,9 +252,9 @@ dialogs:
             mecânicas que ainda não foram introduzidas. Você ainda deseja
             continuar?
     puzzleShare:
-        title: Código copiado
-        desc: O código do desafio (<key>) foi copiado para sua área de transferência!
-            Ele pode ser inserido no menu de desafios para acessar o desafio.
+        title: ID copiado
+        desc: O ID do desafio (<key>) foi copiado para sua área de transferência!
+            Ele pode ser inserido no menu de desafios (botão carregar) para acessar o desafio.
     puzzleReport:
         title: Denunciar Desafio
         options:
@@ -288,7 +288,7 @@ dialogs:
         descFail: Um ou mais dos testes não passou! Todos os testes precisam passar antes que você publique seu Desafio.
 
     puzzleCompletePlay:
-        descFail: Essa não é uma solução correta para o Desafio! Tente novamente.
+        descFail: Essa não é uma solução correta para o Desafio! Esses testes falharam:<br><failed-tests><br>Tente novamente.
 
 ingame:
     keybindingsOverlay:
@@ -498,7 +498,7 @@ ingame:
     puzzleCompletion:
         title: Desafio Completo!
         titleLike: "Clique no coração se você gostou do desafio:"
-        titleRating: O qual difícil foi esse desafio?
+        titleRating: O quão difícil foi esse desafio?
         titleRatingDesc: Sua avaliação me ajuda a te fazer sugestões melhores no futuro!
         continueBtn: Continuar jogando
         menuBtn: Menu
