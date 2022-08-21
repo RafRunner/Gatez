@@ -86,9 +86,9 @@ export const KEYMAPPINGS = {
 
     buildings: {
         // Puzzle buildings
-        constant_producer: { keyCode: keyToKeyCode("H") },
-        goal_acceptor: { keyCode: keyToKeyCode("N") },
-        block: { keyCode: keyToKeyCode("4") },
+        programmable_signal: { keyCode: keyToKeyCode("H") },
+        programmable_acceptor: { keyCode: keyToKeyCode("N") },
+        block: { keyCode: keyToKeyCode("0") },
 
         // Primary Toolbar
         belt: { keyCode: keyToKeyCode("1") },
@@ -112,17 +112,15 @@ export const KEYMAPPINGS = {
         filter: { keyCode: keyToKeyCode("O") },
         display: { keyCode: keyToKeyCode("P") },
 
-        // TODO remote temporaries from here
         // Wires toolbar
         wire: { keyCode: keyToKeyCode("1") },
         wire_tunnel: { keyCode: keyToKeyCode("2") },
-        constant_signal: { keyCode: keyToKeyCode("3") },
-        logic_gate: { keyCode: keyToKeyCode("4") },
-        four_input_logic_gate: { keyCode: keyToKeyCode("5") },
-        virtual_processor: { keyCode: keyToKeyCode("6") },
-        analyzer: { keyCode: keyToKeyCode("7") },
-        comparator: { keyCode: keyToKeyCode("8") },
-        transistor: { keyCode: keyToKeyCode("9") },
+        logic_gate: { keyCode: keyToKeyCode("3") },
+        four_input_logic_gate: { keyCode: keyToKeyCode("4") },
+        multiplexer: { keyCode: keyToKeyCode("5") },
+        adder: { keyCode: keyToKeyCode("6") },
+        edge_detector: { keyCode: keyToKeyCode("7") },
+        memory: { keyCode: keyToKeyCode("8") },
     },
 
     placement: {

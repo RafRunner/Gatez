@@ -7,7 +7,6 @@ import { MetaProgrammableAcceptorBuilding } from "../../buildings/programmable_a
 import { MetaWireBuilding } from "../../buildings/wire";
 import { MetaLogicGateBuilding } from "../../buildings/logic_gate";
 import { MetaWireTunnelBuilding } from "../../buildings/wire_tunnel";
-import { MetaTransistorBuilding } from "../../buildings/transistor";
 import { MetaFourInputLogicGateBuilding } from "../../buildings/four_input_logic_gate";
 import { MetaAdderBuilding } from "../../buildings/adder";
 import { MetaMultiplexerBuilding } from "../../buildings/multiplexer";
@@ -24,9 +23,8 @@ export class HUDBuildingsToolbar extends HUDBaseToolbar {
                 MetaWireTunnelBuilding,
                 MetaLogicGateBuilding,
                 MetaFourInputLogicGateBuilding,
-                MetaTransistorBuilding,
-                MetaAdderBuilding,
                 MetaMultiplexerBuilding,
+                MetaAdderBuilding,
                 MetaEdgeDetectorBuilding,
                 MetaMemoryBuilding,
                 MetaBlockBuilding,
