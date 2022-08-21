@@ -447,7 +447,7 @@ dialogs:
         titleSuccess: Sucess
         descSuccess: Puzzle completed! You can now publish it.
         titleFail: Failed
-        descFail: One or more tests did not pass! All tests need to pass before you can publish your Puzzle.
+        descFail: One or more tests did not pass! These tests failed:<br><failed-tests><br>All tests need to pass before you can publish your Puzzle.
 
     puzzleCompletePlay:
         descFail: That is not a correct solution to the puzzle! These tests failed:<br><failed-tests><br>Try again.
@@ -695,12 +695,30 @@ ingame:
     puzzleEditorControls:
         title: Puzzle Creator
         instructions:
-            - 1. Place <strong>Constant Producers</strong> to provide shapes and colors to the player
-            - 2. Build one or more shapes you want the player to build later and deliver it to one or more <strong>Goal Acceptors</strong>
-            - 3. Once a Goal Acceptor receives a shape for a certain amount of time, it <strong>saves it as a goal</strong> that the player must produce later (Indicated by the <strong>green badge</strong>).
-            - 4. Click the <strong>lock button</strong> on a building to disable it.
-            - 5. Once you click review, your puzzle will be validated and you can publish it.
-            - 6. Upon release, <strong>all buildings will be removed</strong> except for the Producers and Goal Acceptors - That's the part that the player is supposed to figure out for themselves, after all :)
+            - 1. Place <string>Programmable Signals</strong> and program a sequence
+              of signals in each of them. Ex:1,0,1,0. What does that mean? It means that
+              for that input, its first value (the first test) will be 1, the second 0
+              and so on.
+            - 2. Place <string>Programmable Acceptors</strong> and program a sequence of
+              signals in each of them. Ex:1,0,0,0. This means that for the first test,
+              the player must generate a 1 signal for this acceptor, and for the other tests
+              it must generate 0, otherwise, the Puzzle will not be completed.
+            - 3. Now you must solve your own Puzzle! Build a circuit that, for
+              each input in each test of the Programmable Signals, the expected signal is sent to
+              each Programmable Receiver. You can use the middle mouse button to turn on/off
+              Programmable Signals to help you test the Puzzle.
+            - 4. When you think you've reached the solution, press the "Test Puzzle" button to
+              see if everything is ok and possibly correct errors.
+            - 5. Click on the <strong>lock button</strong> of a building
+              to disable it.
+            - 6. You can also change the size available for building and add blocks
+              to limit the space available to build the solution,
+            - 7. Once you click review, your Puzzle will be validated and
+              you can publish it.
+            - 8. When your Puzzle is published, <strong>all buildings
+              will be removed</strong> except for Programmable Signals,
+              Programmable Acceptors and Blocks - That's the part that the player is
+              supposed to figure out for themselves, after all :)
 
     puzzleCompletion:
         title: Puzzle Completed!
@@ -1486,6 +1504,7 @@ keybindings:
         edge_detector: Edge Detector
         memory: Memory
         programmable_signal: Programmable Signal
+        programmable_acceptor: Programmable Acceptor
         # ---
 
         pipette: Pipette

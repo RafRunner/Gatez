@@ -3,7 +3,7 @@ import { DialogWithForm } from "../../../core/modal_dialog_elements";
 import { FormElementInput, FormElementItemChooser } from "../../../core/modal_dialog_forms";
 import { STOP_PROPAGATION } from "../../../core/signal";
 import { makeDiv } from "../../../core/utils";
-import { validatePuzzle } from "../../../core/logic_simulation_helper";
+import { buildFailedTestsString, validatePuzzle } from "../../../core/logic_simulation_helper";
 import { PuzzleSerializer } from "../../../savegame/puzzle_serializer";
 import { T } from "../../../translations";
 import { StaticMapEntityComponent } from "../../components/static_map_entity";
@@ -32,9 +32,11 @@ export class HUDPuzzleEditorReview extends BaseHUDPart {
             if (wasSuccessful) {
                 this.startSubmit();
             } else {
+                let failedTests = buildFailedTestsString(this.root);
+
                 this.root.hud.parts.dialogs.showWarning(
                     T.dialogs.puzzleCompleteEdit.titleFail,
-                    T.dialogs.puzzleCompleteEdit.descFail
+                    T.dialogs.puzzleCompleteEdit.descFail.replace("<failed-tests>", failedTests)
                 );
             }
         }, this);

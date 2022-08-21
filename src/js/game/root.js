@@ -29,6 +29,8 @@ import { DynamicTickrate } from "./dynamic_tickrate";
 import { KeyActionMapper } from "./key_action_mapper";
 import { Vector } from "../core/vector";
 import { GameMode } from "./game_mode";
+import { ProgrammableSignalComponent } from "./components/programmable_signal";
+import { ProgrammableAcceptorComponent } from "./components/programmable_acceptor";
 /* typehints:end */
 
 const logger = createLogger("game/root");
@@ -202,7 +204,7 @@ export class GameRoot {
             achievementCheck: /** @type {TypedSignal<[string, any]>} */ (new Signal()),
             bulkAchievementCheck: /** @type {TypedSignal<(string|any)[]>} */ (new Signal()),
 
-            populateTruthTableSignal: /** @type {TypedSignal<[Entity[], Entity[]]>} */ (new Signal()),
+            populateTruthTableSignal: /** @type {TypedSignal<[Array<ProgrammableSignalComponent>, Array<ProgrammableAcceptorComponent>]>} */ (new Signal()),
 
             // Puzzle mode
             puzzleComplete: /** @type {TypedSignal<[Boolean]>} */ (new Signal()),

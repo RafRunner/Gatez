@@ -1,7 +1,7 @@
 import { globalConfig } from "../../../core/config";
 import { gMetaBuildingRegistry } from "../../../core/global_registries";
 import { createLogger } from "../../../core/logging";
-import { validatePuzzle } from "../../../core/logic_simulation_helper";
+import { buildFailedTestsString, validatePuzzle } from "../../../core/logic_simulation_helper";
 import { Rectangle } from "../../../core/rectangle";
 import { makeDiv } from "../../../core/utils";
 import { T } from "../../../translations";
@@ -238,9 +238,11 @@ export class HUDPuzzleEditorSettings extends BaseHUDPart {
                 T.dialogs.puzzleCompleteEdit.descSuccess
             );
         } else {
+            let failedTests = buildFailedTestsString(this.root);
+
             this.root.hud.parts.dialogs.showWarning(
                 T.dialogs.puzzleCompleteEdit.titleFail,
-                T.dialogs.puzzleCompleteEdit.descFail
+                T.dialogs.puzzleCompleteEdit.descFail.replace("<failed-tests>", failedTests)
             );
         }
     }

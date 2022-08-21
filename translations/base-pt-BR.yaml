@@ -285,7 +285,7 @@ dialogs:
         titleSuccess: Sucesso
         descSuccess: Desafio concluído! Você pode agora publicá-lo.
         titleFail: Falha
-        descFail: Um ou mais dos testes não passou! Todos os testes precisam passar antes que você publique seu Desafio.
+        descFail: Um ou mais dos testes não passou! Esses testes falharam:<br><failed-tests><br>Todos os testes precisam passar antes que você publique seu Desafio.
 
     puzzleCompletePlay:
         descFail: Essa não é uma solução correta para o Desafio! Esses testes falharam:<br><failed-tests><br>Tente novamente.
@@ -479,22 +479,30 @@ ingame:
     puzzleEditorControls:
         title: Criador de Desafios
         instructions:
-            - 1. Coloque <strong>Produtores Constantes</strong> para gerar itens
-              e cores ao jogador
-            - 2. Monte uma ou mais itens que você quer que o jogador produza e
-              entregue em um ou mais <strong>Receptores de Objetivo</strong>
-            - 3. Uma vez que um Receptor de Objetivo recebe uma item por uma
-              certa quantidade de tempo, ele <strong>a salva como seu
-              objetivo</strong> , o qual o jogador terá que produzir depois
-              (Indicato pela <strong>insígnia verde</strong>).
-            - 4. Clique no <strong>botao de travar</strong> de uma construção
+            - 1. Coloque <string>Sinais Programáveis</strong> e programe uma sequência
+              de sinais em cada um deles. Ex:1,0,1,0. O que isso significa? Significa que
+              para essa entrada, seu primeiro valor (o primeiro teste) será 1, o segundo 0
+              e assim por diante.
+            - 2. Coloque <string>Receptores Programáveis</strong> e programe uma sequência de
+              sinais em cada um deles. Ex:1,0,0,0. Isso significa que para o primeiro teste,
+              o jogador deve gerar um sinal 1 para esse receptor, e para os demais testes deve
+              gerar 0, caso contrário, o Desafio não será concluído.
+            - 3. Agora você deve solucionar o seu próprio Desafio! Monte um circuito que, para
+              cada entrada em cada teste dos Sinais Programáveis, o sinal esperado é enviado a
+              cada Receptor Programável. Você pode usar o botão do meio do mouse para ligar/desligar
+              os Sinais Programáveis para te ajudar a testar o Desafio.
+            - 4. Quando achar que chegou à solução, pressione o botão "Testar Desafio" para
+              ver se está tudo de acordo e possivelmente corrigir erros.
+            - 5. Clique no <strong>botão de travar</strong> de uma construção
               para desabilita-la.
-            - 5. Uma vez que você clicou em revisar, seu desafio será validado e
+            - 6. Você pode também alterar o tamanho disponível para construção e adicionar blocos
+              para limitar o espaço disponível para construir a solução,
+            - 7. Uma vez que você clicou em revisar, seu Desafio será validado e
               você poderá publica-lo.
-            - 6. Quando seu desafio for publicado, <strong>todas as construções
-              serão removidas</strong> exceto os Produtores Constantes e
-              Receptores de Objetivo - Essa é a parte que o jogador terá que
-              descobrir sozinho, por isso se chama desafio :)
+            - 8. Quando seu Desafio for publicado, <strong>todas as construções
+              serão removidas</strong> exceto os Sinais Programáveis,
+              Receptores Programáveis e blocos - Essa é a parte que o jogador terá que
+              descobrir sozinho, por isso se chama Desafio :)
     puzzleCompletion:
         title: Desafio Completo!
         titleLike: "Clique no coração se você gostou do desafio:"

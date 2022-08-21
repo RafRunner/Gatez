@@ -5,8 +5,9 @@ import { PuzzlePlayGameMode } from "../../modes/puzzle_play";
 import { formatBigNumberFull, formatSeconds, makeDiv } from "../../../core/utils";
 import { T } from "../../../translations";
 import { BaseHUDPart } from "../base_hud_part";
-import { Entity } from "../../entity";
 import { buildInputToExpectedOutputString } from "../../../core/logic_simulation_helper";
+import { ProgrammableSignalComponent } from "../../components/programmable_signal";
+import { ProgrammableAcceptorComponent } from "../../components/programmable_acceptor";
 
 export class HUDPuzzlePlayMetadata extends BaseHUDPart {
     createElements(parent) {
@@ -82,15 +83,11 @@ export class HUDPuzzlePlayMetadata extends BaseHUDPart {
     }
 
     /**
-     * @param {Entity[]} programmableSignals
-     * @param {Entity[]} programmableAcceptors
+     * @param {Array<ProgrammableSignalComponent>} signalComps
+     * @param {Array<ProgrammableAcceptorComponent>} acceptorComps
      */
-    populateTruthTable(programmableSignals, programmableAcceptors) {
+    populateTruthTable(signalComps, acceptorComps) {
         const truthTable = document.getElementById("truth-table-list");
-
-        const signalComps = programmableSignals.map(it => it.components.ProgrammableSignal);
-        const acceptorComps = programmableAcceptors.map(it => it.components.ProgrammableAcceptor);
-
         const numberOfLines = signalComps[0].signalList.length;
 
         for (let i = 0; i < numberOfLines && i < 16; i++) {
