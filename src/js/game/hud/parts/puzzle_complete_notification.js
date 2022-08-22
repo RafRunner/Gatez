@@ -8,7 +8,7 @@ import { SOUNDS } from "../../../platform/sound";
 import { T } from "../../../translations";
 import { BaseHUDPart } from "../base_hud_part";
 import { DynamicDomAttach } from "../dynamic_dom_attach";
-import { buildFailedTestsString } from "../../../core/logic_simulation_helper";
+import { buildFailedTestsString, countComponentsUsed } from "../../../core/logic_simulation_helper";
 
 export class HUDPuzzleCompleteNotification extends BaseHUDPart {
     initialize() {
@@ -49,7 +49,15 @@ export class HUDPuzzleCompleteNotification extends BaseHUDPart {
             this.updateState();
         });
 
-        const stepRating = makeDiv(this.elemContents, null, ["step", "stepLike"]);
+        const stepComponentsUsed = makeDiv(this.elemContents, null, ["step"]);
+        this.componentsUsedComment = makeDiv(
+            stepComponentsUsed,
+            null,
+            ["title"],
+            T.ingame.puzzleCompletion.componentsComment
+        );
+
+        const stepRating = makeDiv(this.elemContents, null, ["step"]);
         makeDiv(stepRating, null, ["title"], T.ingame.puzzleCompletion.titleRating);
 
         const difficultyButtonBar = document.createElement("div");
@@ -135,10 +143,16 @@ export class HUDPuzzleCompleteNotification extends BaseHUDPart {
             return;
         }
 
-        // If hte person has already liked the puzzle, it's shown
+        // If the person has already liked the puzzle, it's shown
         this.metaPuzzle = /** @type {PuzzlePlayGameMode} */ (this.root.gameMode).puzzle.meta;
         this.userDidLikePuzzle = this.metaPuzzle.liked;
         this.updateState();
+
+        this.componentsUsed = countComponentsUsed(this.root);
+
+        this.componentsUsedComment.innerHTML = this.componentsUsedComment.innerHTML
+            .replace("<component-count>", this.componentsUsed.toString())
+            .replace("<minimum-components>", this.metaPuzzle.minimumComponents.toString());
 
         // If the person has already rated the puzzle, it's shown
         if (this.metaPuzzle.difficultyRating) {
@@ -187,7 +201,8 @@ export class HUDPuzzleCompleteNotification extends BaseHUDPart {
             .trackCompleted(
                 this.userDidLikePuzzle,
                 this.userRatedDifficulty,
-                Math.round(this.timeOfCompletion)
+                Math.round(this.timeOfCompletion),
+                this.componentsUsed
             )
             .then(() => {
                 this.root.gameState.moveToState("PuzzleMenuState", {
@@ -201,7 +216,8 @@ export class HUDPuzzleCompleteNotification extends BaseHUDPart {
             .trackCompleted(
                 this.userDidLikePuzzle,
                 this.userRatedDifficulty,
-                Math.round(this.timeOfCompletion)
+                Math.round(this.timeOfCompletion),
+                this.componentsUsed
             )
             .then(() => {
                 if (toMenu) {

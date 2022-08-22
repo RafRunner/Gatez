@@ -213,6 +213,7 @@ export class ClientAPI {
      * @param {number} payload.time
      * @param {boolean} payload.liked
      * @param {number} payload.difficultyRating
+     * @param {number} payload.componentsUsed
      * @returns {Promise<{ trophies: number, completeData: any }>}
      */
     apiCompletePuzzle(puzzleId, payload) {
@@ -230,6 +231,7 @@ export class ClientAPI {
      * @param {string} payload.title
      * @param {string} payload.shortKey
      * @param {string} payload.description
+     * @param {number} payload.minimumComponents
      * @param {import("../savegame/savegame_typedefs").PuzzleGameData} payload.data
      * @returns {Promise<{ success: true }>}
      */

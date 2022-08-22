@@ -3,7 +3,11 @@ import { DialogWithForm } from "../../../core/modal_dialog_elements";
 import { FormElementInput, FormElementItemChooser } from "../../../core/modal_dialog_forms";
 import { STOP_PROPAGATION } from "../../../core/signal";
 import { makeDiv } from "../../../core/utils";
-import { buildFailedTestsString, validatePuzzle } from "../../../core/logic_simulation_helper";
+import {
+    buildFailedTestsString,
+    countComponentsUsed,
+    validatePuzzle,
+} from "../../../core/logic_simulation_helper";
 import { PuzzleSerializer } from "../../../savegame/puzzle_serializer";
 import { T } from "../../../translations";
 import { StaticMapEntityComponent } from "../../components/static_map_entity";
@@ -64,7 +68,7 @@ export class HUDPuzzleEditorReview extends BaseHUDPart {
         });
     }
 
-    startSubmit(title = "", shortKey = "", description = "") {
+    startSubmit(title = "", description = "") {
         const regex = /^[a-zA-Z0-9_\- ]{4,30}$/;
         const nameInput = new FormElementInput({
             id: "nameInput",
@@ -101,13 +105,14 @@ export class HUDPuzzleEditorReview extends BaseHUDPart {
             const title = trim(nameInput.getValue());
             const shortKey = randomItem.getHash();
             const description = trim(descriptionInput.getValue());
-            this.doSubmitPuzzle(title, shortKey, description);
+
+            this.doSubmitPuzzle(title, shortKey, description, countComponentsUsed(this.root));
         });
     }
 
     checkIfSuccessfullAndSubmit(wasSuccessful) {}
 
-    doSubmitPuzzle(title, shortKey, description) {
+    doSubmitPuzzle(title, shortKey, description, minimumComponents) {
         const serialized = new PuzzleSerializer().generateDumpFromGameRoot(this.root);
 
         logger.log("Submitting puzzle, title=", title, "shortKey=", shortKey);
@@ -122,6 +127,7 @@ export class HUDPuzzleEditorReview extends BaseHUDPart {
                 title,
                 shortKey,
                 description,
+                minimumComponents,
                 data: serialized,
             })
             .then(
@@ -141,7 +147,7 @@ export class HUDPuzzleEditorReview extends BaseHUDPart {
                         T.dialogs.puzzleSubmitError.desc + " " + err,
                         ["cancel", "retry:good"]
                     );
-                    signals.retry.add(() => this.startSubmit(title, shortKey, description));
+                    signals.retry.add(() => this.startSubmit(title, description));
                 }
             );
     }

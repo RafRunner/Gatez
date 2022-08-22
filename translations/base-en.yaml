@@ -728,6 +728,8 @@ ingame:
         titleRating: How difficult did you find the puzzle?
         titleRatingDesc: Your rating will help me to make you better suggestions in the future
 
+        componentsComment: You used <component-count> components! The creator of the Puzzle solved it using <minimum-components> components!
+
         continueBtn: Keep Playing
         menuBtn: Menu
         nextPuzzle: Next Puzzle

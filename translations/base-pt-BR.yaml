@@ -508,6 +508,7 @@ ingame:
         titleLike: "Clique no coração se você gostou do desafio:"
         titleRating: O quão difícil foi esse desafio?
         titleRatingDesc: Sua avaliação me ajuda a te fazer sugestões melhores no futuro!
+        componentsComment: Você usou <component-count> componentes! O criador do Desafio o solucionou com <minimum-components> componentes!
         continueBtn: Continuar jogando
         menuBtn: Menu
         nextPuzzle: Next Puzzle

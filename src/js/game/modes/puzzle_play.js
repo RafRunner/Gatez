@@ -123,8 +123,9 @@ export class PuzzlePlayGameMode extends PuzzleGameMode {
      * @param {boolean} liked
      * @param {number} difficultyRating
      * @param {number} time
+     * @param {number} componentsUsed
      */
-    trackCompleted(liked, difficultyRating, time) {
+    trackCompleted(liked, difficultyRating, time, componentsUsed) {
         const closeLoading = this.root.hud.parts.dialogs.showLoadingDialog();
 
         // TODO send other information here
@@ -133,6 +134,7 @@ export class PuzzlePlayGameMode extends PuzzleGameMode {
                 time,
                 liked,
                 difficultyRating,
+                componentsUsed,
             })
             .catch(err => {
                 logger.warn("Failed to complete puzzle:", err);

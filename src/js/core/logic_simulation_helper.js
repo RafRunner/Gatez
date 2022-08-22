@@ -1,3 +1,8 @@
+import { AdderComponent } from "../game/components/adder";
+import { EdgeDetectorComponent } from "../game/components/edge_detector";
+import { LogicGateComponent } from "../game/components/logic_gate";
+import { MemoryComponent } from "../game/components/memory";
+import { MultiplexerComponent } from "../game/components/multiplexer";
 import { ProgrammableAcceptorComponent } from "../game/components/programmable_acceptor";
 import { ProgrammableSignalComponent } from "../game/components/programmable_signal";
 import { enumNotificationType } from "../game/hud/parts/notifications";
@@ -129,4 +134,22 @@ export function buildFailedTestsString(root) {
     }
 
     return failedTests + "</div>";
+}
+
+/**
+ * Counts the number of components used to solve a puzzle
+ * @param {GameRoot} root
+ * @returns {number}
+ */
+export function countComponentsUsed(root) {
+    const countedComponents = [
+        LogicGateComponent,
+        MultiplexerComponent,
+        AdderComponent,
+        EdgeDetectorComponent,
+        MemoryComponent,
+    ];
+    return countedComponents.reduce((count, componentType) => {
+        return count + root.entityMgr.getAllWithComponent(componentType).length;
+    }, 0);
 }
