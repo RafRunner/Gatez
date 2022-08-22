@@ -57,14 +57,25 @@ demoBanners:
     title: Versão Demo
     intro: Compre a versão completa para desbloquear todos os recursos!
 mainMenu:
+    puzzleModeTitle: Modo Puzzle
+    sandboxModeTitle: Modo Sandbox
     play: Jogar
+    signin: Entrar
+    login:
+        nameLabel: Nome
+        passwordLabel: Senha
+        created: |
+            Conta Criada!
+            Agora, você pode logar!
+    playOffline: Jogar Offline
+    crateAccount: Criar Conta
     continue: Continuar
     newGame: Novo jogo
     changelog: Changelog
     subreddit: Reddit
     importSavegame: Importar save
     openSourceHint: Esse jogo tem código aberto!
-    discordLink: Discord oficial
+    upstreamLink: Esse jogo é baseado no Shapez!
     helpTranslate: Ajude a traduzir!
     madeBy: Feito por <author-link>
     browserWarning: O jogo pode ficar lento em seu navegador! Compre a versão

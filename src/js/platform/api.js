@@ -19,7 +19,7 @@ export class ClientAPI {
          * The current users session token
          * @type {string|null}
          */
-        this.token = null;
+        this.token = localStorage.getItem("dev_api_auth_token");
     }
 
     getEndpoint() {
@@ -83,10 +83,11 @@ export class ClientAPI {
             });
     }
 
-    tryLogin() {
-        return this.apiTryLogin()
+    tryLogin(name, password) {
+        return this.apiTryLogin(name, password)
             .then(({ token }) => {
                 this.token = token;
+                localStorage.setItem("dev_api_auth_token", token);
                 return true;
             })
             .catch(err => {
@@ -98,35 +99,36 @@ export class ClientAPI {
     /**
      * @returns {Promise<{token: string}>}
      */
-    apiTryLogin() {
-        if (!G_IS_STANDALONE) {
-            let token = window.localStorage.getItem("dev_api_auth_token");
-            if (!token) {
-                token = window.prompt(
-                    "Please enter the auth token for the puzzle DLC (If you have none, you can't login):"
-                );
-            }
-            if (token) {
-                window.localStorage.setItem("dev_api_auth_token", token);
-            }
-            return Promise.resolve({ token });
-        }
-
-        return ipcRenderer.invoke("steam:get-ticket").then(
-            ticket => {
-                logger.log("Got auth ticket:", ticket);
-                return this._request("/v1/public/login", {
-                    method: "POST",
-                    body: {
-                        token: ticket,
-                    },
-                });
+    apiTryLogin(name, password) {
+        return this._request("/v1/login", {
+            method: "POST",
+            body: {
+                name,
+                password,
             },
-            err => {
-                logger.error("Failed to get auth ticket from steam: ", err);
-                throw err;
-            }
-        );
+        });
+    }
+
+    async verifyToken() {
+        try {
+            await this._request("/v1/login", {
+                method: "GET",
+            });
+            return true;
+        } catch {
+            localStorage.removeItem("dev_api_auth_token");
+            return false;
+        }
+    }
+
+    createUser(name, password) {
+        return this._request("/v1/user", {
+            method: "POST",
+            body: {
+                name,
+                password,
+            },
+        });
     }
 
     /**

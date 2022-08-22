@@ -23,6 +23,8 @@ export class LoginState extends GameState {
      *
      * @param {object} payload
      * @param {string} payload.nextStateId
+     * @param {string} payload.name
+     * @param {string} payload.password
      */
     onEnter(payload) {
         this.payload = payload;
@@ -46,11 +48,11 @@ export class LoginState extends GameState {
         this.lastHintShown = -1000;
         this.nextHintDuration = 0;
 
-        this.tryLogin();
+        this.tryLogin(payload.name, payload.password);
     }
 
-    tryLogin() {
-        this.app.clientApi.tryLogin().then(success => {
+    tryLogin(name, password) {
+        this.app.clientApi.tryLogin(name, password).then(success => {
             console.log("Logged in:", success);
 
             if (!success) {
@@ -61,8 +63,10 @@ export class LoginState extends GameState {
                 );
                 signals.retry.add(() => setTimeout(() => this.tryLogin(), 2000), this);
                 signals.playOffline.add(this.finishLoading, this);
+                this.app.isLoggedIn = false;
             } else {
                 this.finishLoading();
+                this.app.isLoggedIn = true;
             }
         });
     }

@@ -99,14 +99,25 @@ demoBanners:
         Get the full game to unlock all features and content!
 
 mainMenu:
+    puzzleModeTitle: Puzzle Mode
+    sandboxModeTitle: Sandbox Mode
     play: Play
+    signin: Sign in
+    login:
+        nameLabel: Name
+        passwordLabel: Password
+        created: |
+            Account Created!
+            Now you can log in.
+    playOffline: Play Offline
+    crateAccount: Create Account
     continue: Continue
     newGame: New Game
     changelog: Changelog
     subreddit: Reddit
     importSavegame: Import
     openSourceHint: This game is open source!
-    discordLink: Official Discord Server
+    upstreamLink: This game is based on Shapez!
     helpTranslate: Help translate!
     madeBy: Made by <author-link>
 

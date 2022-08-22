@@ -88,6 +88,12 @@ export class FormElementInput extends FormElement {
                 maxlength = 4;
                 break;
             }
+
+            case "password": {
+                classes.push("input-text");
+                inputType = "password";
+                break;
+            }
         }
 
         return `

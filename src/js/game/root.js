@@ -31,6 +31,7 @@ import { Vector } from "../core/vector";
 import { GameMode } from "./game_mode";
 import { ProgrammableSignalComponent } from "./components/programmable_signal";
 import { ProgrammableAcceptorComponent } from "./components/programmable_acceptor";
+import { ClientAPI } from "../platform/api";
 /* typehints:end */
 
 const logger = createLogger("game/root");

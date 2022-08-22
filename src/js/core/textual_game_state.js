@@ -97,7 +97,7 @@ export class TextualGameState extends GameState {
         if (this.getStateHeaderTitle()) {
             headerHtml = `
             <div class="headerBar">
-            
+
                 <h1><button class="backButton"></button> ${this.getStateHeaderTitle()}</h1>
             </div>`;
         }

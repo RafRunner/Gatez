@@ -57,19 +57,14 @@ export class MainMenuState extends GameState {
             }
         }
 
-        let showDiscordLink = showExternalLinks;
+        let showUpstreamLink = showExternalLinks;
         if (G_CHINA_VERSION) {
-            showDiscordLink = true;
+            showUpstreamLink = true;
         }
 
         const showCrosspromo = !G_IS_STANDALONE && showExternalLinks;
         const showDemoAdvertisement =
             showExternalLinks && this.app.restrictionMgr.getIsStandaloneMarketingActive();
-
-        const ownsPuzzleDLC =
-            G_IS_DEV ||
-            (G_IS_STANDALONE &&
-                /** @type { PlatformWrapperImplElectron}*/ (this.app.platformWrapper).dlcs.puzzle);
 
         const bannerHtml = `
             <h3>${T.demoBanners.title}</h3>
@@ -110,7 +105,31 @@ export class MainMenuState extends GameState {
                     ${showDemoAdvertisement ? `<div class="standaloneBanner">${bannerHtml}</div>` : ""}
                 </div>
 
-                <div class="mainContainer">
+                ${
+                    showPuzzleDLC && !hasMods
+                        ? `
+                    <div class="puzzleContainer">
+                        <h3>${T.mainMenu.puzzleModeTitle}</h3>
+                        <div class="buttons">
+                        <button class="styledButton puzzleDlcPlayButton playButton" style="background-color: #66bb6a">${
+                            this.app.isLoggedIn ? T.mainMenu.play : T.mainMenu.signin
+                        }</button>
+                        ${
+                            !this.app.isLoggedIn
+                                ? `
+                                <div class="outer">
+                                    <button class="styledButton commonButton">${T.mainMenu.playOffline}</button>
+                                    <button class="styledButton createAccountButton createButton">${T.mainMenu.crateAccount}</button>
+                                </div>`
+                                : ""
+                        }
+                        </div>
+                    </div>`
+                        : ""
+                }
+
+                <div class="sandboxContainer">
+                <h3>${T.mainMenu.sandboxModeTitle}</h3>
                     ${
                         showBrowserWarning
                             ? `<div class="browserWarning">${T.mainMenu.browserWarning}</div>`
@@ -119,39 +138,7 @@ export class MainMenuState extends GameState {
                     <div class="buttons"></div>
                 </div>
 
-                ${
-                    showPuzzleDLC && ownsPuzzleDLC && !hasMods
-                        ? `
-                    <div class="puzzleContainer">
-                        <img class="dlcLogo" src="${cachebust(
-                            G_CHINA_VERSION || G_WEGAME_VERSION
-                                ? "res/puzzle_dlc_logo_china.png"
-                                : "res/puzzle_dlc_logo.png"
-                        )}" alt="shapez.io Logo">
-                        <button class="styledButton puzzleDlcPlayButton">${T.mainMenu.play}</button>
-                    </div>`
-                        : ""
-                }
 
-                ${
-                    showPuzzleDLC && !ownsPuzzleDLC && !hasMods
-                        ? `
-                    <div class="puzzleContainer notOwned">
-                        <img class="dlcLogo" src="${cachebust(
-                            G_CHINA_VERSION || G_WEGAME_VERSION
-                                ? "res/puzzle_dlc_logo_china.png"
-                                : "res/puzzle_dlc_logo.png"
-                        )}" alt="shapez.io Logo">
-                        <p>${T.mainMenu.puzzleDlcText}</p>
-                        <button class="styledButton puzzleDlcGetButton">${
-                            T.mainMenu.puzzleDlcViewNow
-                        }</button>
-                        <span class="hint">
-                            ${T.puzzleMenu.dlcHint}
-                        </span>
-                    </div>`
-                        : ""
-                }
                 ${
                     hasMods
                         ? `
@@ -214,26 +201,24 @@ export class MainMenuState extends GameState {
                     }
 
                     ${
-                        showDiscordLink
-                            ? `<a class="discordLink boxLink" target="_blank">
+                        showUpstreamLink
+                            ? `<a class="upstreamLink boxLink" target="_blank">
 
-                        ${T.mainMenu.discordLink}
-                        <span class="thirdpartyLogo  discordLogo"></span>
+                        ${T.mainMenu.upstreamLink}
+                        <span class="thirdpartyLogo upstreamLogo"></span>
                     </a>`
                             : ""
                     }
 
-                    <div class="sidelinks">
-                        ${showExternalLinks ? `<a class="redditLink">${T.mainMenu.subreddit}</a>` : ""}
+                    ${
+                        showExternalLinks
+                            ? `<a class="translateLink boxLink" target="_blank">
 
-                        ${showExternalLinks ? `<a class="changelog">${T.changelog.title}</a>` : ""}
-
-                        ${showExternalLinks ? `<a class="helpTranslate">${T.mainMenu.helpTranslate}</a>` : ""}
-                    </div>
-                    <div class="author">${T.mainMenu.madeBy.replace(
-                        "<author-link>",
-                        '<a class="producerLink" target="_blank">tobspr Games</a>'
-                    )}</div>
+                            ${T.mainMenu.helpTranslate}
+                        <span class="thirdpartyLogo helpTranslate"></span>
+                    </a>`
+                            : ""
+                    }
                 </div>
 
                 ${
@@ -330,7 +315,7 @@ export class MainMenuState extends GameState {
         }
 
         if (G_IS_DEV && globalConfig.debug.testPuzzleMode) {
-            this.onPuzzleModeButtonClicked(true);
+            this.onPuzzleModeButtonClicked();
             return;
         }
 
@@ -357,12 +342,12 @@ export class MainMenuState extends GameState {
             ".languageChoose": this.onLanguageChooseClicked,
             ".redditLink": this.onRedditClicked,
             ".changelog": this.onChangelogClicked,
-            ".helpTranslate": this.onTranslationHelpLinkClicked,
+            ".translateLink": this.onTranslationHelpLinkClicked,
             ".exitAppButton": this.onExitAppButtonClicked,
             ".steamLink": this.onSteamLinkClicked,
-            ".discordLink": () => {
-                this.app.analytics.trackUiClick("main_menu_link_discord");
-                this.app.platformWrapper.openExternalLink(THIRDPARTY_URLS.discord);
+            ".upstreamLink": () => {
+                this.app.analytics.trackUiClick("main_menu_link_upstream");
+                this.app.platformWrapper.openExternalLink(THIRDPARTY_URLS.upstream);
             },
             ".githubLink": () => {
                 this.app.analytics.trackUiClick("main_menu_link_github");
@@ -370,6 +355,7 @@ export class MainMenuState extends GameState {
             },
             ".producerLink": () => this.app.platformWrapper.openExternalLink("https://tobspr.io"),
             ".puzzleDlcPlayButton": this.onPuzzleModeButtonClicked,
+            ".createAccountButton": this.onCreateAccountClicked,
             ".puzzleDlcGetButton": this.onPuzzleWishlistButtonClicked,
             ".wegameDisclaimer > .rating": this.onWegameRatingClicked,
             ".editMods": this.onModsClicked,
@@ -388,7 +374,7 @@ export class MainMenuState extends GameState {
     }
 
     renderMainMenu() {
-        const buttonContainer = this.htmlElement.querySelector(".mainContainer .buttons");
+        const buttonContainer = this.htmlElement.querySelector(".sandboxContainer .buttons");
         removeAllChildren(buttonContainer);
 
         const outerDiv = makeDivElement(null, ["outer"], null);
@@ -428,21 +414,84 @@ export class MainMenuState extends GameState {
         buttonContainer.appendChild(outerDiv);
     }
 
-    onPuzzleModeButtonClicked(force = false) {
-        const hasUnlockedBlueprints = this.app.savegameMgr.getSavegamesMetaData().some(s => s.level >= 12);
-        console.log(hasUnlockedBlueprints);
-        if (!force && !hasUnlockedBlueprints) {
-            const { ok } = this.dialogs.showWarning(
-                T.dialogs.puzzlePlayRegularRecommendation.title,
-                T.dialogs.puzzlePlayRegularRecommendation.desc,
-                ["cancel:good", "ok:bad:timeout"]
-            );
-            ok.add(() => this.onPuzzleModeButtonClicked(true));
-            return;
-        }
+    onPuzzleModeButtonClicked() {
+        if (!this.app.isLoggedIn) {
+            const nameInput = new FormElementInput({
+                id: "nameInput",
+                label: T.mainMenu.login.nameLabel,
+                placeholder: T.mainMenu.login.nameLabel,
+            });
 
-        this.moveToState("LoginState", {
-            nextStateId: "PuzzleMenuState",
+            const passwordInput = new FormElementInput({
+                id: "passwordInput",
+                label: T.mainMenu.login.passwordLabel,
+                placeholder: T.mainMenu.login.passwordLabel,
+                inputType: "password",
+            });
+
+            const dialog = new DialogWithForm({
+                app: this.app,
+                title: T.mainMenu.signin,
+                desc: "",
+                formElements: [nameInput, passwordInput],
+                buttons: ["ok:good:enter"],
+            });
+
+            this.dialogs.internalShowDialog(dialog);
+
+            dialog.buttonSignals.ok.add(async () => {
+                const name = trim(nameInput.getValue());
+                const password = trim(passwordInput.getValue());
+
+                this.moveToState("LoginState", {
+                    nextStateId: "PuzzleMenuState",
+                    name,
+                    password,
+                });
+            });
+        } else {
+            this.moveToState("LoginState", {
+                nextStateId: "PuzzleMenuState",
+            });
+        }
+    }
+
+    onCreateAccountClicked() {
+        const nameInput = new FormElementInput({
+            id: "nameInput",
+            label: T.mainMenu.login.nameLabel,
+            placeholder: T.mainMenu.login.nameLabel,
+        });
+
+        const passwordInput = new FormElementInput({
+            id: "passwordInput",
+            label: T.mainMenu.login.passwordLabel,
+            placeholder: T.mainMenu.login.passwordLabel,
+            inputType: "password",
+        });
+
+        const dialog = new DialogWithForm({
+            app: this.app,
+            title: T.mainMenu.signin,
+            desc: "",
+            formElements: [nameInput, passwordInput],
+            buttons: ["ok:good:enter"],
+        });
+
+        this.dialogs.internalShowDialog(dialog);
+
+        dialog.buttonSignals.ok.add(async () => {
+            const name = trim(nameInput.getValue());
+            const password = trim(passwordInput.getValue());
+
+            this.app.clientApi
+                .createUser(name, password)
+                .then(async user => {
+                    alert("Conta Criada!\nAgora, você pode logar!");
+                })
+                .catch(async error => {
+                    alert(`Failed to create account: ${error}`);
+                });
         });
     }
 
@@ -523,13 +572,13 @@ export class MainMenuState extends GameState {
     }
 
     renderSavegames() {
-        const oldContainer = this.htmlElement.querySelector(".mainContainer .savegames");
+        const oldContainer = this.htmlElement.querySelector(".sandboxContainer .savegames");
         if (oldContainer) {
             oldContainer.remove();
         }
         const games = this.savedGames;
         if (games.length > 0) {
-            const parent = makeDiv(this.htmlElement.querySelector(".mainContainer"), null, ["savegames"]);
+            const parent = makeDiv(this.htmlElement.querySelector(".sandboxContainer"), null, ["savegames"]);
 
             for (let i = 0; i < games.length; ++i) {
                 const elem = makeDiv(parent, null, ["savegame"]);
@@ -759,7 +808,7 @@ export class MainMenuState extends GameState {
     onTranslationHelpLinkClicked() {
         this.app.analytics.trackUiClick("translation_help_link");
         this.app.platformWrapper.openExternalLink(
-            "https://github.com/tobspr/shapez.io/blob/master/translations"
+            "https://github.com/RafRunner/shapez.io/blob/master/translations"
         );
     }
 

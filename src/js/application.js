@@ -94,6 +94,7 @@ export class Application {
         this.inputMgr = new InputDistributor(this);
         this.backgroundResourceLoader = new BackgroundResourcesLoader(this);
         this.clientApi = new ClientAPI(this);
+        this.isLoggedIn = false;
 
         // Restrictions (Like demo etc)
         this.restrictionMgr = new RestrictionManager(this);
