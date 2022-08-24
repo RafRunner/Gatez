@@ -18,7 +18,7 @@ import { MetaMultiplexerBuilding } from "../../buildings/multiplexer";
 import { MetaEdgeDetectorBuilding } from "../../buildings/edge_detector";
 import { MetaMemoryBuilding } from "../../buildings/memory";
 
-// TODO remote temporaries from here
+// TODO remove this toolbar
 export class HUDWiresToolbar extends HUDBaseToolbar {
     constructor(root) {
         super(root, {

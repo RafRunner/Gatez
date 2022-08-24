@@ -143,8 +143,25 @@ export class HUDPuzzleCompleteNotification extends BaseHUDPart {
             return;
         }
 
-        // If the person has already liked the puzzle, it's shown
         this.metaPuzzle = /** @type {PuzzlePlayGameMode} */ (this.root.gameMode).puzzle.meta;
+
+        if (this.metaPuzzle.maximumComponents) {
+            const componentsUsed = countComponentsUsed(this.root);
+
+            if (componentsUsed > this.metaPuzzle.maximumComponents) {
+                this.root.hud.parts.dialogs.showInfo(
+                    T.dialogs.puzzleCompleteEdit.titleFail,
+                    T.dialogs.puzzleCompletePlay.descFailMaxComps.replace(
+                        "<components-count>",
+                        this.metaPuzzle.maximumComponents
+                    )
+                );
+                return;
+            }
+        }
+
+        // If the person has already liked the puzzle, it's shown
+        const componentsUsed = countComponentsUsed(this.root);
         this.userDidLikePuzzle = this.metaPuzzle.liked;
         this.updateState();
 

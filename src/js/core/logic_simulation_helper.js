@@ -5,6 +5,7 @@ import { MemoryComponent } from "../game/components/memory";
 import { MultiplexerComponent } from "../game/components/multiplexer";
 import { ProgrammableAcceptorComponent } from "../game/components/programmable_acceptor";
 import { ProgrammableSignalComponent } from "../game/components/programmable_signal";
+import { Entity } from "../game/entity";
 import { enumNotificationType } from "../game/hud/parts/notifications";
 import { GameRoot } from "../game/root";
 
@@ -31,29 +32,43 @@ export function isSamplingFrame(root) {
 }
 
 /**
- * Validates the current puzzle and calls the callback if all succeeds
+ * @param {Entity} a
+ * @param {Entity} b
+ * @returns {Number}
+ */
+function sortByPosition(a, b) {
+    return (
+        a.components.StaticMapEntity.getTileSpaceBounds().x -
+        b.components.StaticMapEntity.getTileSpaceBounds().x
+    );
+}
+
+/**
+ * Returns all ProgrammableSignalComponents
  * @param {GameRoot} root
  * @returns {Array<ProgrammableSignalComponent>}
  */
 export function getAllProgrammableSignalComponents(root) {
     return root.entityMgr
         .getAllWithComponent(ProgrammableSignalComponent)
+        .sort(sortByPosition)
         .map(ps => ps.components.ProgrammableSignal);
 }
 
 /**
- * Validates the current puzzle and calls the callback if all succeeds
+ * Returns all ProgrammableAcceptorComponent
  * @param {GameRoot} root
  * @returns {Array<ProgrammableAcceptorComponent>}
  */
 export function getAllProgrammableAcceptorComponents(root) {
     return root.entityMgr
         .getAllWithComponent(ProgrammableAcceptorComponent)
+        .sort(sortByPosition)
         .map(ps => ps.components.ProgrammableAcceptor);
 }
 
 /**
- * Validates the current puzzle and calls the callback if all succeeds
+ * Validates if the current puzzle is ready for testing and calls the callback if all succeeds
  * @param {GameRoot} root
  * @param {object} T
  * @param {Function} callback

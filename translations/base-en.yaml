@@ -224,7 +224,7 @@ dialogs:
         showKeybindings: Show Keybindings
         retry: Retry
         continue: Continue
-        playOffline: Play Offline
+        returnToMenu: Return to Menu
 
     importSavegameError:
         title: Import Error
@@ -385,9 +385,9 @@ dialogs:
             The puzzle failed to load:
 
     offlineMode:
-        title: Offline Mode
+        title: Authentication Error
         desc: >-
-            We couldn't reach the servers, so the game has to run in offline mode. Please make sure you have an active internet connection.
+            The details provided don't match a valid account or we couldn't connect to the server. Try again or go back to the main menu.
 
     puzzleDownloadError:
         title: Download Error
@@ -461,6 +461,7 @@ dialogs:
 
     puzzleCompletePlay:
         descFail: That is not a correct solution to the puzzle! These tests failed:<br><failed-tests><br>Try again.
+        descFailMaxComps: This is a valid solution but you need to solve this Puzzle using <components-count> maximum components!
 
 ingame:
     # This is shown in the top left corner and displays useful keybindings in

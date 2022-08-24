@@ -128,7 +128,6 @@ export class PuzzlePlayGameMode extends PuzzleGameMode {
     trackCompleted(liked, difficultyRating, time, componentsUsed) {
         const closeLoading = this.root.hud.parts.dialogs.showLoadingDialog();
 
-        // TODO send other information here
         return this.root.app.clientApi
             .apiCompletePuzzle(this.puzzle.meta.id, {
                 time,

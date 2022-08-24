@@ -68,7 +68,7 @@ export class HUDPuzzleEditorReview extends BaseHUDPart {
         });
     }
 
-    startSubmit(title = "", description = "") {
+    startSubmit(title = "", description = "", maxComponents = "") {
         const regex = /^[a-zA-Z0-9_\- ]{4,30}$/;
         const nameInput = new FormElementInput({
             id: "nameInput",
@@ -91,11 +91,22 @@ export class HUDPuzzleEditorReview extends BaseHUDPart {
             maxlength: 1000,
         });
 
+        const componentsUsed = countComponentsUsed(this.root);
+
+        const maxComponentsInput = new FormElementInput({
+            id: "maxComponentsInput",
+            label: T.dialogs.submitPuzzle.descDescription,
+            placeholder: T.dialogs.submitPuzzle.placeholderDescription,
+            defaultValue: maxComponents,
+            validator: val => val === "" || (/^[0-9]+$/.test(val) && new Number(val) >= componentsUsed),
+            maxlength: 3,
+        });
+
         const dialog = new DialogWithForm({
             app: this.root.app,
             title: T.dialogs.submitPuzzle.title,
             desc: "",
-            formElements: [nameInput, descriptionInput],
+            formElements: [nameInput, descriptionInput, maxComponentsInput],
             buttons: ["ok:good:enter"],
         });
 
@@ -105,14 +116,17 @@ export class HUDPuzzleEditorReview extends BaseHUDPart {
             const title = trim(nameInput.getValue());
             const shortKey = randomItem.getHash();
             const description = trim(descriptionInput.getValue());
+            const maxComponentsValue = maxComponentsInput.getValue();
 
-            this.doSubmitPuzzle(title, shortKey, description, countComponentsUsed(this.root));
+            const maxComponents = maxComponentsValue === "" ? undefined : new Number(maxComponentsValue);
+
+            this.doSubmitPuzzle(title, shortKey, description, componentsUsed, maxComponents);
         });
     }
 
     checkIfSuccessfullAndSubmit(wasSuccessful) {}
 
-    doSubmitPuzzle(title, shortKey, description, minimumComponents) {
+    doSubmitPuzzle(title, shortKey, description, minimumComponents, maximumComponents) {
         const serialized = new PuzzleSerializer().generateDumpFromGameRoot(this.root);
 
         logger.log("Submitting puzzle, title=", title, "shortKey=", shortKey);
@@ -128,6 +142,7 @@ export class HUDPuzzleEditorReview extends BaseHUDPart {
                 shortKey,
                 description,
                 minimumComponents,
+                maximumComponents,
                 data: serialized,
             })
             .then(
@@ -147,7 +162,7 @@ export class HUDPuzzleEditorReview extends BaseHUDPart {
                         T.dialogs.puzzleSubmitError.desc + " " + err,
                         ["cancel", "retry:good"]
                     );
-                    signals.retry.add(() => this.startSubmit(title, description));
+                    signals.retry.add(() => this.startSubmit(title, description, maximumComponents));
                 }
             );
     }

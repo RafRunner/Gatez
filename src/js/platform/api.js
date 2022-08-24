@@ -101,6 +101,8 @@ export class ClientAPI {
                 return true;
             })
             .catch(err => {
+                this.token = null;
+                localStorage.removeItem("dev_api_auth_token");
                 logger.warn("Failed to login:", err);
                 return false;
             });
@@ -230,6 +232,7 @@ export class ClientAPI {
      * @param {string} payload.shortKey
      * @param {string} payload.description
      * @param {number} payload.minimumComponents
+     * @param {number|undefined} payload.maximumComponents
      * @param {import("../savegame/savegame_typedefs").PuzzleGameData} payload.data
      * @returns {Promise<{ success: true }>}
      */

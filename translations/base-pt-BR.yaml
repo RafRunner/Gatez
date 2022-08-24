@@ -109,6 +109,7 @@ dialogs:
         retry: Tentar novamente
         continue: Continue
         playOffline: Jogar Offline
+        returnToMenu: Voltar ao Menu
     importSavegameError:
         title: Erro de importação
         text: "Houve uma falha ao importar seu jogo salvo:"
@@ -238,10 +239,8 @@ dialogs:
         title: Desafio Ruim
         desc: "O desafio não pôde ser carregado:"
     offlineMode:
-        title: Modo Offline
-        desc: Não conseguimos nos conectar aos servidores, então o jogo terá que ser
-            jogado no Modo Offline. Por favor garanta que você tenha uma conexão
-            ativa com a internet.
+        title: Erro de autentificação
+        desc: As informações informadas são estão vinculadas à nenhuma conta válida ou tivemos problemas ao conectar com o servidor. Tente novamente ou volte ao menu inicial.
     puzzleDownloadError:
         title: Erro no download
         desc: "Falha ao baixar o desafio:"
@@ -300,6 +299,7 @@ dialogs:
 
     puzzleCompletePlay:
         descFail: Essa não é uma solução correta para o Desafio! Esses testes falharam:<br><failed-tests><br>Tente novamente.
+        descFailMaxComps: Essa é uma solução correta mas você precisa usar no máximo <components-count> componentes!
 
 ingame:
     keybindingsOverlay:

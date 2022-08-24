@@ -55,15 +55,14 @@ export class LoginState extends GameState {
         this.app.clientApi.tryLogin(name, password).then(success => {
             console.log("Logged in:", success);
 
-            // TODO update message and send player back to the main menu
             if (!success) {
                 const signals = this.dialogs.showWarning(
                     T.dialogs.offlineMode.title,
                     T.dialogs.offlineMode.desc,
-                    ["retry", "playOffline:bad"]
+                    ["retry", "returnToMenu:bad"]
                 );
                 signals.retry.add(() => setTimeout(() => this.tryLogin(), 2000), this);
-                signals.playOffline.add(this.finishLoading, this);
+                signals.returnToMenu.add(this.goToPreviousState, this);
                 this.app.isLoggedIn = false;
             } else {
                 this.finishLoading();
@@ -74,6 +73,10 @@ export class LoginState extends GameState {
 
     finishLoading() {
         this.moveToState(this.payload.nextStateId);
+    }
+
+    goToPreviousState() {
+        this.moveToState(this.getDefaultPreviousState());
     }
 
     getDefaultPreviousState() {
