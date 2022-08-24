@@ -104,6 +104,7 @@ export function validatePuzzle(root, T, callback) {
 export function buildInputToExpectedOutputString(signalComps, acceptorComps, i) {
     return (
         i +
+        1 +
         ") " +
         signalComps.map(it => it.signalList[i].getAsCopyableKey()).join(",") +
         " -> " +

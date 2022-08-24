@@ -103,12 +103,12 @@ mainMenu:
     sandboxModeTitle: Sandbox Mode
     play: Play
     signin: Sign in
+    createAccount: Create an Account
     login:
         nameLabel: Name
         passwordLabel: Password
-        created: |
-            Account Created!
-            Now you can log in.
+        created: Account Created!
+        createdFail: Now you can log in.
     playOffline: Play Offline
     crateAccount: Create Account
     continue: Continue
@@ -437,9 +437,8 @@ dialogs:
             Your report could not get processed:
 
     puzzleLoadShortKey:
-        title: Enter short key
-        desc: >-
-            Enter the short key of the puzzle to load it.
+        title: Enter Puzzle id
+        desc: Enter the id of the puzzle to load it.
 
     puzzleDelete:
         title: Delete Puzzle?

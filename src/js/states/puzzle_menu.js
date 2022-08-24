@@ -563,10 +563,9 @@ export class PuzzleMenuState extends TextualGameState {
         this.trackClicks(this.htmlElement.querySelector("button.loadPuzzle"), () => this.loadPuzzle());
     }
 
-    // TODO remove. Keeping for now to use as reference
     loadPuzzle() {
-        const shortKeyInput = new FormElementInput({
-            id: "shortKey",
+        const idInput = new FormElementInput({
+            id: "id",
             label: null,
             placeholder: "",
             defaultValue: "",
@@ -577,13 +576,13 @@ export class PuzzleMenuState extends TextualGameState {
             app: this.app,
             title: T.dialogs.puzzleLoadShortKey.title,
             desc: T.dialogs.puzzleLoadShortKey.desc,
-            formElements: [shortKeyInput],
+            formElements: [idInput],
             buttons: ["ok:good:enter"],
         });
         this.dialogs.internalShowDialog(dialog);
 
         dialog.buttonSignals.ok.add(() => {
-            const searchTerm = shortKeyInput.getValue();
+            const searchTerm = idInput.getValue();
 
             if (searchTerm === "/apikey") {
                 alert("Your api key is: " + this.app.clientApi.token);
@@ -592,7 +591,7 @@ export class PuzzleMenuState extends TextualGameState {
 
             const closeLoading = this.dialogs.showLoadingDialog();
 
-            this.app.clientApi.apiDownloadPuzzleByKey(searchTerm).then(
+            this.app.clientApi.apiDownloadPuzzleById(searchTerm).then(
                 puzzle => {
                     closeLoading();
                     this.startLoadedPuzzle(puzzle);

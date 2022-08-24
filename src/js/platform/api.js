@@ -83,8 +83,18 @@ export class ClientAPI {
             });
     }
 
+    /**
+     * @param {string} name
+     * @param {string} password
+     */
     tryLogin(name, password) {
-        return this.apiTryLogin(name, password)
+        return this._request("/v1/login", {
+            method: "POST",
+            body: {
+                name,
+                password,
+            },
+        })
             .then(({ token }) => {
                 this.token = token;
                 localStorage.setItem("dev_api_auth_token", token);
@@ -94,19 +104,6 @@ export class ClientAPI {
                 logger.warn("Failed to login:", err);
                 return false;
             });
-    }
-
-    /**
-     * @returns {Promise<{token: string}>}
-     */
-    apiTryLogin(name, password) {
-        return this._request("/v1/login", {
-            method: "POST",
-            body: {
-                name,
-                password,
-            },
-        });
     }
 
     async verifyToken() {
@@ -182,16 +179,15 @@ export class ClientAPI {
         });
     }
 
-    // TODO remove
     /**
-     * @param {string} shortKey
+     * @param {string} id
      * @returns {Promise<import("../savegame/savegame_typedefs").PuzzleFullData>}
      */
-    async apiDownloadPuzzleByKey(shortKey) {
+    async apiDownloadPuzzleById(id) {
         if (!this.isLoggedIn()) {
             return Promise.reject("not-logged-in");
         }
-        const puzzle = await this._request("/v1/puzzles/download/" + shortKey, {});
+        const puzzle = await this._request("/v1/puzzles/download/" + id, {});
         return { game: JSON.parse(decompressX64(puzzle.game)), meta: puzzle.meta };
     }
 

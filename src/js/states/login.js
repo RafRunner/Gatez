@@ -55,6 +55,7 @@ export class LoginState extends GameState {
         this.app.clientApi.tryLogin(name, password).then(success => {
             console.log("Logged in:", success);
 
+            // TODO update message and send player back to the main menu
             if (!success) {
                 const signals = this.dialogs.showWarning(
                     T.dialogs.offlineMode.title,

@@ -19,7 +19,6 @@ import {
 import { HUDModalDialogs } from "../game/hud/parts/modal_dialogs";
 import { MODS } from "../mods/modloader";
 import { PlatformWrapperImplBrowser } from "../platform/browser/wrapper";
-import { PlatformWrapperImplElectron } from "../platform/electron/wrapper";
 import { Savegame } from "../savegame/savegame";
 import { T } from "../translations";
 
@@ -38,11 +37,8 @@ export class MainMenuState extends GameState {
     getInnerHTML() {
         const showLanguageIcon = !G_CHINA_VERSION && !G_WEGAME_VERSION;
         const showExitAppButton = G_IS_STANDALONE;
-        const showUpdateLabel = !G_WEGAME_VERSION;
         const showBrowserWarning = !G_IS_STANDALONE && !isSupportedBrowser();
-        const showPuzzleDLC = !G_WEGAME_VERSION && (G_IS_STANDALONE || G_IS_DEV);
         const showWegameFooter = G_WEGAME_VERSION;
-        const hasMods = MODS.anyModsActive();
 
         let showExternalLinks = true;
 
@@ -62,23 +58,6 @@ export class MainMenuState extends GameState {
             showUpstreamLink = true;
         }
 
-        const showCrosspromo = !G_IS_STANDALONE && showExternalLinks;
-        const showDemoAdvertisement =
-            showExternalLinks && this.app.restrictionMgr.getIsStandaloneMarketingActive();
-
-        const bannerHtml = `
-            <h3>${T.demoBanners.title}</h3>
-            <p>${T.demoBanners.intro}</p>
-            <a href="#" class="steamLink ${A_B_TESTING_LINK_TYPE}" target="_blank">
-                ${
-                    globalConfig.currentDiscount.active
-                        ? `<span class='discount'>${globalConfig.currentDiscount.amount}% off!</span>`
-                        : ""
-                }
-
-            </a>
-        `;
-
         return `
             <div class="topButtons">
                 ${
@@ -97,20 +76,13 @@ export class MainMenuState extends GameState {
 
             <div class="logo">
                 <img src="${cachebust("res/" + getLogoSprite())}" alt="shapez.io Logo">
-                ${/*showUpdateLabel ? `<span class="updateLabel">MODS UPDATE!</span>` : ""*/ ""}
             </div>
 
-            <div class="mainWrapper" data-columns="${showDemoAdvertisement || showPuzzleDLC ? 2 : 1}">
-                <div class="sideContainer">
-                    ${showDemoAdvertisement ? `<div class="standaloneBanner">${bannerHtml}</div>` : ""}
-                </div>
+            <div class="mainWrapper" data-columns="1">
 
-                ${
-                    showPuzzleDLC && !hasMods
-                        ? `
-                    <div class="puzzleContainer">
-                        <h3>${T.mainMenu.puzzleModeTitle}</h3>
-                        <div class="buttons">
+            <div class="puzzleContainer">
+                <h3>${T.mainMenu.puzzleModeTitle}</h3>
+                    <div class="buttons">
                         <button class="styledButton puzzleDlcPlayButton playButton" style="background-color: #66bb6a">${
                             this.app.isLoggedIn ? T.mainMenu.play : T.mainMenu.signin
                         }</button>
@@ -123,12 +95,10 @@ export class MainMenuState extends GameState {
                                 </div>`
                                 : ""
                         }
-                        </div>
-                    </div>`
-                        : ""
-                }
+                    </div>
+            </div>
 
-                <div class="sandboxContainer">
+            <div class="sandboxContainer">
                 <h3>${T.mainMenu.sandboxModeTitle}</h3>
                     ${
                         showBrowserWarning
@@ -136,42 +106,8 @@ export class MainMenuState extends GameState {
                             : ""
                     }
                     <div class="buttons"></div>
-                </div>
-
-
-                ${
-                    hasMods
-                        ? `
-
-                        <div class="modsOverview">
-                            <div class="header">
-                                <h3>${T.mods.title}</h3>
-                                <button class="styledButton editMods"></button>
-                            </div>
-                            <div class="modsList">
-                            ${MODS.mods
-                                .map(mod => {
-                                    return `
-                                    <div class="mod">
-                                        <div class="name">${mod.metadata.name}</div>
-                                        <div class="author">by ${mod.metadata.author}</div>
-                                    </div>
-                                `;
-                                })
-                                .join("")}
-                            </div>
-
-                            <div class="dlcHint">
-                                ${T.mainMenu.mods.warningPuzzleDLC}
-                            </div>
-
-
-                        </div>
-                        `
-                        : ""
-                }
-
             </div>
+        </div>
 
             ${
                 showWegameFooter
@@ -220,12 +156,6 @@ export class MainMenuState extends GameState {
                             : ""
                     }
                 </div>
-
-                ${
-                    showCrosspromo
-                        ? `<iframe id="crosspromo" src="https://crosspromo.tobspr.io?src=shapez_web"></iframe>`
-                        : ""
-                }
             `
             }
         `;
@@ -337,10 +267,10 @@ export class MainMenuState extends GameState {
             }
         });
 
+        // TODO implement play offline click functionality
         const clickHandling = {
             ".settingsButton": this.onSettingsButtonClicked,
             ".languageChoose": this.onLanguageChooseClicked,
-            ".redditLink": this.onRedditClicked,
             ".changelog": this.onChangelogClicked,
             ".translateLink": this.onTranslationHelpLinkClicked,
             ".exitAppButton": this.onExitAppButtonClicked,
@@ -356,8 +286,6 @@ export class MainMenuState extends GameState {
             ".producerLink": () => this.app.platformWrapper.openExternalLink("https://tobspr.io"),
             ".puzzleDlcPlayButton": this.onPuzzleModeButtonClicked,
             ".createAccountButton": this.onCreateAccountClicked,
-            ".puzzleDlcGetButton": this.onPuzzleWishlistButtonClicked,
-            ".wegameDisclaimer > .rating": this.onWegameRatingClicked,
             ".editMods": this.onModsClicked,
         };
 
@@ -404,12 +332,6 @@ export class MainMenuState extends GameState {
                 this.onPlayButtonClicked
             );
         }
-
-        // Mods
-        this.trackClicks(
-            makeButton(outerDiv, ["modsButton", "styledButton"], T.mods.title),
-            this.onModsClicked
-        );
 
         buttonContainer.appendChild(outerDiv);
     }
@@ -487,16 +409,12 @@ export class MainMenuState extends GameState {
             this.app.clientApi
                 .createUser(name, password)
                 .then(async user => {
-                    alert("Conta Criada!\nAgora, você pode logar!");
+                    alert(T.mainMenu.login.created);
                 })
                 .catch(async error => {
-                    alert(`Failed to create account: ${error}`);
+                    alert(`${T.mainMenu.login.createdFail}: ${error}`);
                 });
         });
-    }
-
-    onPuzzleWishlistButtonClicked() {
-        this.app.platformWrapper.openExternalLink(THIRDPARTY_URLS.puzzleDlcStorePage + "?utm_medium=mmsl2");
     }
 
     onBackButtonClicked() {
@@ -831,18 +749,6 @@ export class MainMenuState extends GameState {
             });
             this.app.analytics.trackUiClick("startgame_adcomplete");
         });
-    }
-
-    onWegameRatingClicked() {
-        this.dialogs.showInfo(
-            "提示说明：",
-            `
-            1）本游戏是一款休闲建造类单机游戏，画面简洁而乐趣充足。适用于年满8周岁及以上的用户，建议未成年人在家长监护下使用游戏产品。<br>
-            2）本游戏模拟简单的生产流水线，剧情简单且积极向上，没有基于真实历史和现实事件的改编内容。游戏玩法为摆放简单的部件，完成生产目标。游戏为单机作品，没有基于文字和语音的陌生人社交系统。<br>
-            3）本游戏中有用户实名认证系统，认证为未成年人的用户将接受以下管理：未满8周岁的用户不能付费；8周岁以上未满16周岁的未成年人用户，单次充值金额不得超过50元人民币，每月充值金额累计不得超过200元人民币；16周岁以上的未成年人用户，单次充值金额不得超过100元人民币，每月充值金额累计不得超过400元人民币。未成年玩家，仅可在周五、周六、周日和法定节假日每日20时至21时进行游戏。<br>
-            4）游戏功能说明：一款关于传送带自动化生产特定形状产品的工厂流水线模拟游戏，画面简洁而乐趣充足，可以让玩家在轻松愉快的氛围下获得各种游戏乐趣，体验完成目标的成就感。游戏没有失败功能，自动存档，不存在较强的挫折体验。
-        `
-        );
     }
 
     onModsClicked() {

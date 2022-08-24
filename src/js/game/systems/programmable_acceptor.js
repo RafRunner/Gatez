@@ -2,7 +2,7 @@ import { globalConfig } from "../../core/config";
 import { Loader } from "../../core/loader";
 import { GameSystemWithFilter } from "../game_system_with_filter";
 import { MapChunkView } from "../map_chunk_view";
-import { isTruthyItem } from "../items/boolean_item";
+import { BOOL_FALSE_SINGLETON, isTruthyItem } from "../items/boolean_item";
 import { ProgrammableAcceptorComponent } from "../components/programmable_acceptor";
 import { getCurrentSimulationStep, isSamplingFrame } from "../../core/logic_simulation_helper";
 
@@ -64,7 +64,10 @@ export class ProgrammableAcceptorSystem extends GameSystemWithFilter {
                     continue;
                 }
 
-                if (network.currentValue === expectedSignal) {
+                if (
+                    network.currentValue === expectedSignal ||
+                    (network.currentValue === null && expectedSignal === BOOL_FALSE_SINGLETON)
+                ) {
                     acceptorComp.simulationResults.push(true);
                 } else {
                     acceptorComp.simulationResults.push(false);
