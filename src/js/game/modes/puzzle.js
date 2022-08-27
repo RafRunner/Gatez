@@ -33,7 +33,6 @@ export class PuzzleGameMode extends GameMode {
             puzzleBackToMenu: HUDPuzzleBackToMenu,
             puzzleDlcLogo: HUDPuzzleDLCLogo,
             massSelector: HUDMassSelector,
-            // leverToggle: HUDLeverToggle,
             programmableSignalClick: HUDProgrammableSignalClick,
         };
 

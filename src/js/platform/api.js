@@ -95,14 +95,16 @@ export class ClientAPI {
                 password,
             },
         })
-            .then(({ token }) => {
+            .then(({ token, trophies }) => {
                 this.token = token;
                 localStorage.setItem("dev_api_auth_token", token);
+                localStorage.setItem("trophies", trophies.toString());
                 return true;
             })
             .catch(err => {
                 this.token = null;
                 localStorage.removeItem("dev_api_auth_token");
+                localStorage.removeItem("trophies");
                 logger.warn("Failed to login:", err);
                 return false;
             });
@@ -110,13 +112,14 @@ export class ClientAPI {
 
     async verifyToken() {
         try {
-            await this._request("/v1/login", {
+            const userData = await this._request("/v1/login", {
                 method: "GET",
             });
-            return true;
+            return userData;
         } catch {
             localStorage.removeItem("dev_api_auth_token");
-            return false;
+            localStorage.removeItem("trophies");
+            return null;
         }
     }
 

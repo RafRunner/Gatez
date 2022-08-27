@@ -75,7 +75,7 @@ export class MainMenuState extends GameState {
             </video>
 
             <div class="logo">
-                <img src="${cachebust("res/" + getLogoSprite())}" alt="shapez.io Logo">
+                <!-- Add new logo here -->
             </div>
 
             <div class="mainWrapper" data-columns="1">

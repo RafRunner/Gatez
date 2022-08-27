@@ -69,7 +69,11 @@ export class PreloadState extends GameState {
     startLoading() {
         this.setStatus("Booting")
             .then(async () => {
-                this.app.isLoggedIn = await this.app.clientApi.verifyToken();
+                const userInfo = await this.app.clientApi.verifyToken();
+                this.app.isLoggedIn = userInfo;
+                if (userInfo) {
+                    localStorage.setItem("trophies", userInfo.trophies.toString());
+                }
             })
             .then(() => this.setStatus("Creating platform wrapper"))
             .then(() => this.app.platformWrapper.initialize())
