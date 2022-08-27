@@ -229,8 +229,11 @@ dialogs:
             gerados aleatoriamente abaixo):"
         descDescription: >-
             Insira uma descrição sobre seu Desafio, para ajudar outros jogadores a entender o que deve ser feito (opcional):
+        descMaxComponents: >-
+            Escolha um número máximo de componentes a serem usados para concluir seu Desafio (opcional):
         placeholderName: Nome do desafio
         placeholderDescription: Descrição
+        placeHolderMaxComponents: Máximo de componentes
     puzzleResizeBadBuildings:
         title: Mudar o tamanho não é possível
         desc: Você não pode deixar a zona menor, porque algumas construções ficariam

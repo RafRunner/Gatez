@@ -1,6 +1,6 @@
 import { createLogger } from "../../../core/logging";
 import { DialogWithForm } from "../../../core/modal_dialog_elements";
-import { FormElementInput, FormElementItemChooser } from "../../../core/modal_dialog_forms";
+import { FormElementInput } from "../../../core/modal_dialog_forms";
 import { STOP_PROPAGATION } from "../../../core/signal";
 import { makeDiv } from "../../../core/utils";
 import {
@@ -95,8 +95,8 @@ export class HUDPuzzleEditorReview extends BaseHUDPart {
 
         const maxComponentsInput = new FormElementInput({
             id: "maxComponentsInput",
-            label: T.dialogs.submitPuzzle.descDescription,
-            placeholder: T.dialogs.submitPuzzle.placeholderDescription,
+            label: T.dialogs.submitPuzzle.descMaxComponents,
+            placeholder: T.dialogs.submitPuzzle.placeHolderMaxComponents,
             defaultValue: maxComponents,
             validator: val => val === "" || (/^[0-9]+$/.test(val) && new Number(val) >= componentsUsed),
             maxlength: 3,
