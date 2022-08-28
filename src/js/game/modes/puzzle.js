@@ -9,6 +9,7 @@ import { HUDPuzzleBackToMenu } from "../hud/parts/puzzle_back_to_menu";
 import { HUDPuzzleDLCLogo } from "../hud/parts/puzzle_dlc_logo";
 import { HUDMassSelector } from "../hud/parts/mass_selector";
 import { HUDProgrammableSignalClick } from "../hud/parts/programmable_signal_click";
+import { HUDWireInfo } from "../hud/parts/wire_info";
 
 export class PuzzleGameMode extends GameMode {
     static getType() {
@@ -34,6 +35,8 @@ export class PuzzleGameMode extends GameMode {
             puzzleDlcLogo: HUDPuzzleDLCLogo,
             massSelector: HUDMassSelector,
             programmableSignalClick: HUDProgrammableSignalClick,
+            // TODO check why this is now working
+            wireInfo: HUDWireInfo,
         };
 
         this.zoneWidth = data.zoneWidth || 8;

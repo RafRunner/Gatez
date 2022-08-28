@@ -9,7 +9,6 @@ import { MetaGoalAcceptorBuilding } from "../buildings/goal_acceptor";
 import { enumGameModeIds, enumGameModeTypes, GameMode } from "../game_mode";
 import { ShapeDefinition } from "../shape_definition";
 import { enumHubGoalRewards } from "../tutorial_goals";
-import { HUDWiresToolbar } from "../hud/parts/wires_toolbar";
 import { HUDUnlockNotification } from "../hud/parts/unlock_notification";
 import { HUDMassSelector } from "../hud/parts/mass_selector";
 import { HUDShop } from "../hud/parts/shop";
@@ -20,10 +19,8 @@ import { HUDLeverToggle } from "../hud/parts/lever_toggle";
 import { HUDPinnedShapes } from "../hud/parts/pinned_shapes";
 import { HUDNotifications } from "../hud/parts/notifications";
 import { HUDScreenshotExporter } from "../hud/parts/screenshot_exporter";
-import { HUDWiresOverlay } from "../hud/parts/wires_overlay";
 import { HUDShapeViewer } from "../hud/parts/shape_viewer";
 import { HUDTutorialVideoOffer } from "../hud/parts/tutorial_video_offer";
-import { HUDMinerHighlight } from "../hud/parts/miner_highlight";
 import { HUDGameMenu } from "../hud/parts/game_menu";
 import { HUDConstantSignalEdit } from "../hud/parts/constant_signal_edit";
 import { IS_MOBILE } from "../../core/config";
@@ -556,7 +553,7 @@ export class RegularGameMode extends GameMode {
         super(root);
 
         this.additionalHudParts = {
-            wiresToolbar: HUDWiresToolbar,
+            // wiresToolbar: HUDWiresToolbar,
             unlockNotification: HUDUnlockNotification,
             massSelector: HUDMassSelector,
             shop: HUDShop,
@@ -567,9 +564,9 @@ export class RegularGameMode extends GameMode {
             pinnedShapes: HUDPinnedShapes,
             notifications: HUDNotifications,
             screenshotExporter: HUDScreenshotExporter,
-            wiresOverlay: HUDWiresOverlay,
+            // wiresOverlay: HUDWiresOverlay,
             shapeViewer: HUDShapeViewer,
-            minerHighlight: HUDMinerHighlight,
+            // minerHighlight: HUDMinerHighlight,
             tutorialVideoOffer: HUDTutorialVideoOffer,
             gameMenu: HUDGameMenu,
             constantSignalEdit: HUDConstantSignalEdit,

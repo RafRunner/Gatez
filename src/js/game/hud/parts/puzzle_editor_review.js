@@ -69,7 +69,7 @@ export class HUDPuzzleEditorReview extends BaseHUDPart {
     }
 
     startSubmit(title = "", description = "", maxComponents = "") {
-        const regex = /^[a-zA-Z0-9_\- ]{4,30}$/;
+        const regex = /^.{4,30}$/;
         const nameInput = new FormElementInput({
             id: "nameInput",
             label: T.dialogs.submitPuzzle.descName,

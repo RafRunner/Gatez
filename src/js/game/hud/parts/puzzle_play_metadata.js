@@ -91,7 +91,7 @@ export class HUDPuzzlePlayMetadata extends BaseHUDPart {
         const numberOfLines = signalComps[0].signalList.length;
 
         for (let i = 0; i < numberOfLines && i < 16; i++) {
-            const innerHTML = buildInputToExpectedOutputString(signalComps, acceptorComps, i);
+            const innerHTML = buildInputToExpectedOutputString(signalComps, acceptorComps, i, numberOfLines);
 
             const line = document.createElement("span");
             line.innerHTML = innerHTML;

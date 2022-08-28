@@ -216,7 +216,7 @@ dialogs:
 
     editProgrammableAcceptor:
         title: Digite uma sequência de saída esperada
-        description: "A sequência de sinais deve conter somente binários ou X/null (significando que você nãos e importa com aquela saída) separados por vírugula. Ex: 1,0,X,0"
+        description: "A sequência de sinais deve conter somente binários ou X/null (significando que você não se importa com aquela saída) separados por vírugula. Ex: 1,0,X,0"
 
     puzzleLoadFailed:
         title: O carregamento dos desafios falhou
@@ -488,7 +488,7 @@ ingame:
         clearBuildings: Limpar Contruções
         resetPuzzle: Resetar Desafio
         testPuzzle: Testar Desafio
-        expectedOutputs: Saída esperadas
+        expectedOutputs: Saídas esperadas
         description: Descrição do Desafio
     puzzleEditorControls:
         title: Criador de Desafios
@@ -525,7 +525,7 @@ ingame:
         componentsComment: Você usou <component-count> componentes! O criador do Desafio o solucionou com <minimum-components> componentes!
         continueBtn: Continuar jogando
         menuBtn: Menu
-        nextPuzzle: Next Puzzle
+        nextPuzzle: Próximo Desafio
     puzzleMetadata:
         author: Autor
         shortKey: Código

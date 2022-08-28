@@ -114,12 +114,14 @@ export function validatePuzzle(root, T, callback) {
  * @param {ProgrammableSignalComponent[]} signalComps
  * @param {ProgrammableAcceptorComponent[]} acceptorComps
  * @param {Number} i
+ * @param {Number} numberOfLines
  * @returns {string}
  */
-export function buildInputToExpectedOutputString(signalComps, acceptorComps, i) {
+export function buildInputToExpectedOutputString(signalComps, acceptorComps, i, numberOfLines) {
+    const humanIndex = i + 1;
+    const indexString = numberOfLines >= 10 && i < 9 ? "0" + humanIndex : humanIndex.toString();
     return (
-        i +
-        1 +
+        indexString +
         ") " +
         signalComps.map(it => it.signalList[i].getAsCopyableKey()).join(",") +
         " -> " +
@@ -139,11 +141,12 @@ export function buildFailedTestsString(root) {
     const acceptorComps = getAllProgrammableAcceptorComponents(root);
 
     let failedTests = `<div style="font-family: DK Canoodle, sans-serif, monospace !important;"><br>`;
+    const lines = acceptorComps[0].expectedSignals.length;
 
-    for (let i = 0; i < acceptorComps[0].expectedSignals.length && i < 16; i++) {
+    for (let i = 0; i < lines && i < 16; i++) {
         // At least one output was worng
         if (acceptorComps.some(it => it.simulationResults[i] === false)) {
-            const expected = buildInputToExpectedOutputString(signalComps, acceptorComps, i);
+            const expected = buildInputToExpectedOutputString(signalComps, acceptorComps, i, lines);
 
             failedTests += expected + "<br>";
         }
