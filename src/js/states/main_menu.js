@@ -168,7 +168,6 @@ export class MainMenuState extends GameState {
             this.app.savegameMgr.getSavegamesMetaData().length > 0 &&
             !this.app.restrictionMgr.getHasUnlimitedSavegames()
         ) {
-            this.app.analytics.trackUiClick("importgame_slot_limit_show");
             this.showSavegameSlotLimit();
             return;
         }
@@ -178,7 +177,6 @@ export class MainMenuState extends GameState {
             if (file) {
                 const closeLoader = this.dialogs.showLoadingDialog();
                 waitNextFrame().then(() => {
-                    this.app.analytics.trackUiClick("import_savegame");
                     const reader = new FileReader();
                     reader.addEventListener("load", event => {
                         const contents = event.target.result;
@@ -275,11 +273,9 @@ export class MainMenuState extends GameState {
             ".exitAppButton": this.onExitAppButtonClicked,
             ".steamLink": this.onSteamLinkClicked,
             ".upstreamLink": () => {
-                this.app.analytics.trackUiClick("main_menu_link_upstream");
                 this.app.platformWrapper.openExternalLink(THIRDPARTY_URLS.upstream);
             },
             ".githubLink": () => {
-                this.app.analytics.trackUiClick("main_menu_link_github");
                 this.app.platformWrapper.openExternalLink(THIRDPARTY_URLS.github);
             },
             ".producerLink": () => this.app.platformWrapper.openExternalLink("https://tobspr.io"),
@@ -422,7 +418,6 @@ export class MainMenuState extends GameState {
     }
 
     onSteamLinkClicked() {
-        this.app.analytics.trackUiClick("main_menu_steam_link_" + A_B_TESTING_LINK_TYPE);
         const discount = globalConfig.currentDiscount.active
             ? "_discount" + globalConfig.currentDiscount.amount
             : "";
@@ -442,12 +437,10 @@ export class MainMenuState extends GameState {
     }
 
     onRedditClicked() {
-        this.app.analytics.trackUiClick("main_menu_reddit_link");
         this.app.platformWrapper.openExternalLink(THIRDPARTY_URLS.reddit);
     }
 
     onLanguageChooseClicked() {
-        this.app.analytics.trackUiClick("choose_language");
         const setting = /** @type {EnumSetting} */ (this.app.settings.getSettingHandleById("language"));
 
         const { optionSelected } = this.dialogs.showOptionChooser(T.settings.labels.language.title, {
@@ -583,27 +576,22 @@ export class MainMenuState extends GameState {
      * @param {SavegameMetadata} game
      */
     resumeGame(game) {
-        this.app.analytics.trackUiClick("resume_game");
-
-        this.app.adProvider.showVideoAd().then(() => {
-            this.app.analytics.trackUiClick("resume_game_adcomplete");
-            const savegame = this.app.savegameMgr.getSavegameById(game.internalId);
-            savegame
-                .readAsync()
-                .then(() => this.checkForModDifferences(savegame))
-                .then(() => {
-                    this.moveToState("InGameState", {
-                        savegame,
-                    });
-                })
-
-                .catch(err => {
-                    this.dialogs.showWarning(
-                        T.dialogs.gameLoadFailure.title,
-                        T.dialogs.gameLoadFailure.text + "<br><br>" + err
-                    );
+        const savegame = this.app.savegameMgr.getSavegameById(game.internalId);
+        savegame
+            .readAsync()
+            .then(() => this.checkForModDifferences(savegame))
+            .then(() => {
+                this.moveToState("InGameState", {
+                    savegame,
                 });
-        });
+            })
+
+            .catch(err => {
+                this.dialogs.showWarning(
+                    T.dialogs.gameLoadFailure.title,
+                    T.dialogs.gameLoadFailure.text + "<br><br>" + err
+                );
+            });
     }
 
     /**
@@ -661,8 +649,6 @@ export class MainMenuState extends GameState {
      * @param {SavegameMetadata} game
      */
     deleteGame(game) {
-        this.app.analytics.trackUiClick("delete_game");
-
         const signals = this.dialogs.showWarning(
             T.dialogs.confirmSavegameDelete.title,
             T.dialogs.confirmSavegameDelete.text
@@ -691,8 +677,6 @@ export class MainMenuState extends GameState {
      * @param {SavegameMetadata} game
      */
     downloadGame(game) {
-        this.app.analytics.trackUiClick("download_game");
-
         const savegame = this.app.savegameMgr.getSavegameById(game.internalId);
         savegame.readAsync().then(() => {
             const data = ReadWriteProxy.serializeObject(savegame.currentData);
@@ -711,7 +695,6 @@ export class MainMenuState extends GameState {
             ["cancel:bad", "getStandalone:good"]
         );
         getStandalone.add(() => {
-            this.app.analytics.trackUiClick("visit_steampage_from_slot_limit");
             this.app.platformWrapper.openExternalLink(
                 THIRDPARTY_URLS.stanaloneCampaignLink + "/shapez_slotlimit"
             );
@@ -723,7 +706,6 @@ export class MainMenuState extends GameState {
     }
 
     onTranslationHelpLinkClicked() {
-        this.app.analytics.trackUiClick("translation_help_link");
         this.app.platformWrapper.openExternalLink(
             "https://github.com/RafRunner/shapez.io/blob/master/translations"
         );
@@ -734,19 +716,14 @@ export class MainMenuState extends GameState {
             this.app.savegameMgr.getSavegamesMetaData().length > 0 &&
             !this.app.restrictionMgr.getHasUnlimitedSavegames()
         ) {
-            this.app.analytics.trackUiClick("startgame_slot_limit_show");
             this.showSavegameSlotLimit();
             return;
         }
 
-        this.app.analytics.trackUiClick("startgame");
-        this.app.adProvider.showVideoAd().then(() => {
-            const savegame = this.app.savegameMgr.createNewSavegame();
+        const savegame = this.app.savegameMgr.createNewSavegame();
 
-            this.moveToState("InGameState", {
-                savegame,
-            });
-            this.app.analytics.trackUiClick("startgame_adcomplete");
+        this.moveToState("InGameState", {
+            savegame,
         });
     }
 
@@ -769,7 +746,6 @@ export class MainMenuState extends GameState {
         const savegame = this.app.savegameMgr.getSavegameById(latestInternalId);
         savegame
             .readAsync()
-            .then(() => this.app.adProvider.showVideoAd())
             .then(() => this.checkForModDifferences(savegame))
             .then(() => {
                 this.moveToState("InGameState", {

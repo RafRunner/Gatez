@@ -10,11 +10,7 @@ import { StateManager } from "./core/state_manager";
 import { TrackedState } from "./core/tracked_state";
 import { getPlatformName, waitNextFrame } from "./core/utils";
 import { Vector } from "./core/vector";
-import { AdProviderInterface } from "./platform/ad_provider";
-import { NoAdProvider } from "./platform/ad_providers/no_ad_provider";
 import { NoAchievementProvider } from "./platform/browser/no_achievement_provider";
-import { AnalyticsInterface } from "./platform/analytics";
-import { GoogleAnalyticsImpl } from "./platform/browser/google_analytics";
 import { SoundImplBrowser } from "./platform/browser/sound";
 import { PlatformWrapperImplBrowser } from "./platform/browser/wrapper";
 import { PlatformWrapperImplElectron } from "./platform/electron/wrapper";
@@ -29,7 +25,6 @@ import { MainMenuState } from "./states/main_menu";
 import { MobileWarningState } from "./states/mobile_warning";
 import { PreloadState } from "./states/preload";
 import { SettingsState } from "./states/settings";
-import { ShapezGameAnalytics } from "./platform/browser/game_analytics";
 import { RestrictionManager } from "./core/restriction_manager";
 import { PuzzleMenuState } from "./states/puzzle_menu";
 import { ClientAPI } from "./platform/api";
@@ -41,7 +36,6 @@ import { ModsState } from "./states/mods";
 
 /**
  * @typedef {import("./platform/achievement_provider").AchievementProviderInterface} AchievementProviderInterface
- * @typedef {import("./platform/game_analytics").GameAnalyticsInterface} GameAnalyticsInterface
  * @typedef {import("./platform/sound").SoundInterface} SoundInterface
  * @typedef {import("./platform/storage").StorageInterface} StorageInterface
  */
@@ -114,15 +108,6 @@ export class Application {
         /** @type {AchievementProviderInterface} */
         this.achievementProvider = null;
 
-        /** @type {AdProviderInterface} */
-        this.adProvider = null;
-
-        /** @type {AnalyticsInterface} */
-        this.analytics = null;
-
-        /** @type {GameAnalyticsInterface} */
-        this.gameAnalytics = null;
-
         this.initPlatformDependentInstances();
 
         // Track if the window is focused (only relevant for browser)
@@ -186,11 +171,7 @@ export class Application {
             this.platformWrapper = new PlatformWrapperImplBrowser(this);
         }
 
-        // Start with empty ad provider
-        this.adProvider = new NoAdProvider(this);
         this.sound = new SoundImplBrowser(this);
-        this.analytics = new GoogleAnalyticsImpl(this);
-        this.gameAnalytics = new ShapezGameAnalytics(this);
         this.achievementProvider = new NoAchievementProvider(this);
     }
 

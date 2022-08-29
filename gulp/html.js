@@ -13,7 +13,7 @@ function gulptasksHTML($, gulp, buildFolder) {
     const commitHash = buildUtils.getRevision();
     async function buildHtml(
         apiUrl,
-        { analytics = false, standalone = false, app = false, integrity = true, enableCachebust = true }
+        { standalone = false, app = false, integrity = true, enableCachebust = true }
     ) {
         function cachebust(url) {
             if (enableCachebust) {
@@ -74,32 +74,6 @@ function gulptasksHTML($, gulp, buildFolder) {
                             cdv.src = "cordova.js";
                             cdv.type = "text/javascript";
                             document.head.appendChild(cdv);
-                        }
-
-                        // Google analytics
-                        if (analytics) {
-                            const tagManagerScript = document.createElement("script");
-                            tagManagerScript.src =
-                                "https://www.googletagmanager.com/gtag/js?id=UA-165342524-1";
-                            tagManagerScript.setAttribute("async", "");
-                            document.head.appendChild(tagManagerScript);
-
-                            const initScript = document.createElement("script");
-                            initScript.textContent = `
-                        window.dataLayer = window.dataLayer || [];
-                        function gtag(){dataLayer.push(arguments);}
-                        gtag('js', new Date());
-                        gtag('config', 'UA-165342524-1', { anonymize_ip: true });
-                        `;
-                            document.head.appendChild(initScript);
-
-                            const abTestingScript = document.createElement("script");
-                            abTestingScript.setAttribute(
-                                "src",
-                                "https://www.googleoptimize.com/optimize.js?id=OPT-M5NHCV7"
-                            );
-                            abTestingScript.setAttribute("async", "");
-                            document.head.appendChild(abTestingScript);
                         }
 
                         // Do not need to preload in app or standalone
@@ -250,29 +224,24 @@ function gulptasksHTML($, gulp, buildFolder) {
             .pipe(gulp.dest(buildFolder));
     }
 
+    // TODO update URLs
     gulp.task("html.dev", () => {
         return buildHtml("http://localhost:5005", {
-            analytics: false,
             integrity: false,
             enableCachebust: false,
         });
     });
 
     gulp.task("html.staging", () => {
-        return buildHtml("https://api-staging.shapez.io", {
-            analytics: true,
-        });
+        return buildHtml("https://api-staging.shapez.io");
     });
 
     gulp.task("html.prod", () => {
-        return buildHtml("https://analytics.shapez.io", {
-            analytics: true,
-        });
+        return buildHtml("https://analytics.shapez.io");
     });
 
     gulp.task("html.standalone-dev", () => {
         return buildHtml("https://localhost:5005", {
-            analytics: false,
             standalone: true,
             integrity: false,
             enableCachebust: false,
@@ -281,7 +250,6 @@ function gulptasksHTML($, gulp, buildFolder) {
 
     gulp.task("html.standalone-beta", () => {
         return buildHtml("https://api-staging.shapez.io", {
-            analytics: false,
             standalone: true,
             enableCachebust: false,
         });
@@ -289,7 +257,6 @@ function gulptasksHTML($, gulp, buildFolder) {
 
     gulp.task("html.standalone-prod", () => {
         return buildHtml("https://analytics.shapez.io", {
-            analytics: false,
             standalone: true,
             enableCachebust: false,
         });

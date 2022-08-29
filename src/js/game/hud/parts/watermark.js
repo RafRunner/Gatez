@@ -32,7 +32,6 @@ export class HUDWatermark extends BaseHUDPart {
                     : "")
         );
         this.trackClicks(this.linkElement, () => {
-            this.root.app.analytics.trackUiClick("watermark_click_2_direct");
             const discount = globalConfig.currentDiscount.active
                 ? "_discount" + globalConfig.currentDiscount.amount
                 : "";
@@ -59,7 +58,6 @@ export class HUDWatermark extends BaseHUDPart {
     }
 
     onWatermarkClick() {
-        this.root.app.analytics.trackUiClick("watermark_click_2_new");
         this.root.hud.parts.standaloneAdvantages.show();
     }
 

@@ -105,8 +105,6 @@ export class PreloadState extends GameState {
             })
 
             .then(() => this.setStatus("Initializing libraries"))
-            .then(() => this.app.analytics.initialize())
-            .then(() => this.app.gameAnalytics.initialize())
 
             .then(() => this.setStatus("Initializing settings"))
             .then(() => {
