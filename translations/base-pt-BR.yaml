@@ -212,11 +212,11 @@ dialogs:
 
     editProgrammableSignal:
         title: Digite uma sequência de entrada
-        description: "A sequência de sinais deve conter somente binários separados por vírugula. Ex: 1,0,1,0"
+        description: "A sequência de sinais deve conter somente binários separados por vírgula. Ex: 1,0,1,0"
 
     editProgrammableAcceptor:
         title: Digite uma sequência de saída esperada
-        description: "A sequência de sinais deve conter somente binários ou X/null (significando que você não se importa com aquela saída) separados por vírugula. Ex: 1,0,X,0"
+        description: "A sequência de sinais deve conter somente binários ou X/null (significando que você não se importa com aquela saída) separados por vírgula. Ex: 1,0,X,0"
 
     puzzleLoadFailed:
         title: O carregamento dos desafios falhou
@@ -811,12 +811,12 @@ buildings:
 
     programmable_signal:
         default:
-            name: Sinal Programavel
+            name: Sinal Programável
             description: Permite que você entre com uma lista de sinais separados por , que servem de entrada para o desafio.
 
     programmable_acceptor:
         default:
-            name: Receptor Programavel
+            name: Receptor Programável
             description: Permite que você entre com uma lista de sinais separados por , que servem de saída esperada para o desafio.
 
 storyRewards:
@@ -1365,7 +1365,7 @@ puzzleMenu:
         official: Oficial
         trending: Em destaque hoje
         trending-weekly: Em destaque na semana
-        categories: Categories
+        categories: Categorias
         difficulties: Por Dificuldade
         account: Meus Desafios
         search: Procurar
@@ -1398,15 +1398,15 @@ puzzleMenu:
         placeholder: Digite o nome do Desafio ou Autor
         includeCompleted: Include Completed
         difficulties:
-            any: Any Difficulty
-            easy: Easy
-            medium: Medium
-            hard: Hard
+            any: Qualquer dificuldade
+            easy: Fácil
+            medium: Médio
+            hard: Difícil
         durations:
-            any: Any Duration
-            short: Short (< 2 min)
+            any: Qualquer duração
+            short: Curtos (< 2 min)
             medium: Normal
-            long: Long (> 10 min)
+            long: Longos (> 10 min)
 backendErrors:
     ratelimit: Você está fazendo coisas muito rapidamente. Por favor espere um pouco.
     invalid-api-key: Falha ao comunicar com o backend, por favor tente

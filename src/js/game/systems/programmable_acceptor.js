@@ -116,7 +116,8 @@ export class ProgrammableAcceptorSystem extends GameSystemWithFilter {
     }
 
     /**
-     * Determines whether all programmable signals got the expected signal on all steps and dispatches the appropriate signal
+     * Determines whether all programmable signals got the expected
+     * signal on all steps and dispatches the appropriate signal
      */
     computeSimulationResults() {
         let wasSuccessful = true;
