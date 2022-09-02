@@ -3,19 +3,15 @@ import { GameRoot } from "../game/root";
 import { PuzzleGameMode } from "../game/modes/puzzle";
 /* typehints:end */
 import { StaticMapEntityComponent } from "../game/components/static_map_entity";
-import { ShapeItem } from "../game/items/shape_item";
 import { Vector } from "../core/vector";
-import { MetaConstantProducerBuilding } from "../game/buildings/constant_producer";
-import { defaultBuildingVariant, MetaBuilding } from "../game/meta_building";
+import { defaultBuildingVariant } from "../game/meta_building";
 import { gMetaBuildingRegistry } from "../core/global_registries";
-import { MetaGoalAcceptorBuilding } from "../game/buildings/goal_acceptor";
 import { createLogger } from "../core/logging";
 import { BaseItem } from "../game/base_item";
-import trim from "trim";
-import { enumColors } from "../game/colors";
-import { COLOR_ITEM_SINGLETONS } from "../game/items/color_item";
-import { ShapeDefinition } from "../game/shape_definition";
 import { MetaBlockBuilding } from "../game/buildings/block";
+import { MetaProgrammableSignalBuilding } from "../game/buildings/programmable_signal";
+import { MetaProgrammableAcceptorBuilding } from "../game/buildings/programmable_acceptor";
+import { BOOL_FALSE_SINGLETON, BOOL_TRUE_SINGLETON } from "../game/items/boolean_item";
 
 const logger = createLogger("puzzle-serializer");
 
@@ -34,13 +30,14 @@ export class PuzzleSerializer {
         let buildings = [];
         for (const entity of root.entityMgr.getAllWithComponent(StaticMapEntityComponent)) {
             const staticComp = entity.components.StaticMapEntity;
-            const signalComp = entity.components.ConstantSignal;
+            const progSignalComp = entity.components.ProgrammableSignal;
+            const acceptorComp = entity.components.ProgrammableAcceptor;
 
-            if (signalComp) {
-                assert(["shape", "color"].includes(signalComp.signal.getItemType()), "not a shape signal");
+            if (progSignalComp) {
+                assert(progSignalComp.signalList.length > 0, "signalList missing");
                 buildings.push({
-                    type: "emitter",
-                    item: signalComp.signal.getAsCopyableKey(),
+                    type: "programmableSignal",
+                    signalList: progSignalComp.signalList.map(it => it.getAsCopyableKey()).join(","),
                     pos: {
                         x: staticComp.origin.x,
                         y: staticComp.origin.y,
@@ -50,13 +47,11 @@ export class PuzzleSerializer {
                 continue;
             }
 
-            const goalComp = entity.components.GoalAcceptor;
-            if (goalComp) {
-                assert(goalComp.item, "goals is missing item");
-                assert(goalComp.item.getItemType() === "shape", "goal is not an item");
+            if (acceptorComp) {
+                assert(acceptorComp.expectedSignals.length > 0, "expectedSignals missing");
                 buildings.push({
-                    type: "goal",
-                    item: goalComp.item.getAsCopyableKey(),
+                    type: "programmableAcceptor",
+                    expectedSignals: acceptorComp.expectedSignals.map(it => it.getAsCopyableKey()).join(","),
                     pos: {
                         x: staticComp.origin.x,
                         y: staticComp.origin.y,
@@ -106,30 +101,22 @@ export class PuzzleSerializer {
     }
 
     /**
-     * Tries to parse a signal code
-     * @param {GameRoot} root
-     * @param {string} code
-     * @returns {BaseItem}
+     * Tries to parse a signal list
+     * @param {string} codes
+     * @returns {BaseItem[]}
      */
-    parseItemCode(root, code) {
-        if (!root || !root.shapeDefinitionMgr) {
-            // Stale reference
+    parseSignalList(codes) {
+        return codes.split(",").map(code => {
+            if (code === "1") {
+                return BOOL_TRUE_SINGLETON;
+            }
+            if (code === "0") {
+                return BOOL_FALSE_SINGLETON;
+            }
             return null;
-        }
-
-        code = trim(code);
-        const codeLower = code.toLowerCase();
-
-        if (enumColors[codeLower]) {
-            return COLOR_ITEM_SINGLETONS[codeLower];
-        }
-
-        if (ShapeDefinition.isValidShortKey(code)) {
-            return root.shapeDefinitionMgr.getShapeItemFromShortKey(code);
-        }
-
-        return null;
+        });
     }
+
     /**
      * @param {GameRoot} root
      * @param {import("./savegame_typedefs").PuzzleGameData} puzzle
@@ -141,15 +128,38 @@ export class PuzzleSerializer {
 
         for (const building of puzzle.buildings) {
             switch (building.type) {
-                case "emitter": {
-                    const item = this.parseItemCode(root, building.item);
-                    if (!item) {
-                        return "bad-item:" + building.item;
+                case "programmableSignal": {
+                    const signalList = this.parseSignalList(building.signalList);
+                    if (!signalList) {
+                        return "bad-signalList:" + building.signalList;
                     }
 
                     const entity = root.logic.tryPlaceBuilding({
                         origin: new Vector(building.pos.x, building.pos.y),
-                        building: gMetaBuildingRegistry.findByClass(MetaConstantProducerBuilding),
+                        building: gMetaBuildingRegistry.findByClass(MetaProgrammableSignalBuilding),
+                        originalRotation: building.pos.r,
+                        rotation: building.pos.r,
+                        rotationVariant: 0,
+                        variant: defaultBuildingVariant,
+                    });
+                    if (!entity) {
+                        logger.warn("Failed to place programmableSignal:", building);
+                        return "failed-to-place-programmableSignal";
+                    }
+
+                    entity.components.ProgrammableSignal.signalList = signalList;
+                    break;
+                }
+
+                case "programmableAcceptor": {
+                    const expectedSignals = this.parseSignalList(building.expectedSignals);
+                    if (!expectedSignals) {
+                        return "bad-expectedSignals:" + building.expectedSignals;
+                    }
+
+                    const entity = root.logic.tryPlaceBuilding({
+                        origin: new Vector(building.pos.x, building.pos.y),
+                        building: gMetaBuildingRegistry.findByClass(MetaProgrammableAcceptorBuilding),
                         originalRotation: building.pos.r,
                         rotation: building.pos.r,
                         rotationVariant: 0,
@@ -160,30 +170,10 @@ export class PuzzleSerializer {
                         return "failed-to-place-emitter";
                     }
 
-                    entity.components.ConstantSignal.signal = item;
+                    entity.components.ProgrammableAcceptor.expectedSignals = expectedSignals;
                     break;
                 }
-                case "goal": {
-                    const item = this.parseItemCode(root, building.item);
-                    if (!item) {
-                        return "bad-item:" + building.item;
-                    }
-                    const entity = root.logic.tryPlaceBuilding({
-                        origin: new Vector(building.pos.x, building.pos.y),
-                        building: gMetaBuildingRegistry.findByClass(MetaGoalAcceptorBuilding),
-                        originalRotation: building.pos.r,
-                        rotation: building.pos.r,
-                        rotationVariant: 0,
-                        variant: defaultBuildingVariant,
-                    });
-                    if (!entity) {
-                        logger.warn("Failed to place goal:", building);
-                        return "failed-to-place-goal";
-                    }
 
-                    entity.components.GoalAcceptor.item = item;
-                    break;
-                }
                 case "block": {
                     const entity = root.logic.tryPlaceBuilding({
                         origin: new Vector(building.pos.x, building.pos.y),

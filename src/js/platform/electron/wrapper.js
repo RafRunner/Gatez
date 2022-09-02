@@ -57,10 +57,6 @@ export class PlatformWrapperImplElectron extends PlatformWrapperImplBrowser {
         window.location.reload(true);
     }
 
-    initializeAdProvider() {
-        return Promise.resolve();
-    }
-
     initializeAchievementProvider() {
         return this.app.achievementProvider.initialize().catch(err => {
             logger.error("Failed to initialize achievement provider, disabling:", err);
@@ -80,17 +76,6 @@ export class PlatformWrapperImplElectron extends PlatformWrapperImplBrowser {
             res => {
                 logger.log("Got DLC ownership:", res);
                 this.dlcs.puzzle = Boolean(res);
-
-                if (this.dlcs.puzzle && !G_IS_DEV) {
-                    this.app.gameAnalytics.activateDlc("puzzle").then(
-                        () => {
-                            logger.log("Puzzle DLC successfully activated");
-                        },
-                        error => {
-                            logger.error("Failed to activate puzzle DLC:", error);
-                        }
-                    );
-                }
             },
             err => {
                 logger.error("Failed to get DLC ownership:", err);

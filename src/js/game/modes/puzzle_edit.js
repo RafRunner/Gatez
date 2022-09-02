@@ -11,19 +11,14 @@ import { MetaDisplayBuilding } from "../buildings/display";
 import { MetaLeverBuilding } from "../buildings/lever";
 import { MetaItemProducerBuilding } from "../buildings/item_producer";
 import { MetaMinerBuilding } from "../buildings/miner";
-import { MetaWireBuilding } from "../buildings/wire";
-import { MetaWireTunnelBuilding } from "../buildings/wire_tunnel";
 import { MetaConstantSignalBuilding } from "../buildings/constant_signal";
-import { MetaLogicGateBuilding } from "../buildings/logic_gate";
-import { MetaVirtualProcessorBuilding } from "../buildings/virtual_processor";
-import { MetaAnalyzerBuilding } from "../buildings/analyzer";
-import { MetaComparatorBuilding } from "../buildings/comparator";
-import { MetaTransistorBuilding } from "../buildings/transistor";
 import { HUDPuzzleEditorControls } from "../hud/parts/puzzle_editor_controls";
 import { HUDPuzzleEditorReview } from "../hud/parts/puzzle_editor_review";
 import { HUDPuzzleEditorSettings } from "../hud/parts/puzzle_editor_settings";
 import { HUDConstantSignalEdit } from "../hud/parts/constant_signal_edit";
-import { MetaFourInputLogicGateBuilding } from "../buildings/four_input_logic_gate";
+import { HUDProgrammableSignalEdit } from "../hud/parts/programmable_signal_edit";
+import { HUDProgrammableAcceptorEdit } from "../hud/parts/programmable_acceptor_edit";
+import { HUDNotifications } from "../hud/parts/notifications";
 
 export class PuzzleEditGameMode extends PuzzleGameMode {
     static getId() {
@@ -47,21 +42,16 @@ export class PuzzleEditGameMode extends PuzzleGameMode {
             MetaItemProducerBuilding,
             MetaMinerBuilding,
 
-            MetaWireBuilding,
-            MetaWireTunnelBuilding,
             MetaConstantSignalBuilding,
-            MetaLogicGateBuilding,
-            MetaFourInputLogicGateBuilding,
-            MetaVirtualProcessorBuilding,
-            MetaAnalyzerBuilding,
-            MetaComparatorBuilding,
-            MetaTransistorBuilding,
         ];
 
         this.additionalHudParts.puzzleEditorControls = HUDPuzzleEditorControls;
         this.additionalHudParts.puzzleEditorReview = HUDPuzzleEditorReview;
         this.additionalHudParts.puzzleEditorSettings = HUDPuzzleEditorSettings;
         this.additionalHudParts.constantSignalEdit = HUDConstantSignalEdit;
+        this.additionalHudParts.editProgrammableSignal = HUDProgrammableSignalEdit;
+        this.additionalHudParts.editProgrammableAcceptor = HUDProgrammableAcceptorEdit;
+        this.additionalHudParts.notification = HUDNotifications;
     }
 
     getIsEditor() {

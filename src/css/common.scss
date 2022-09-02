@@ -222,7 +222,8 @@ button {
 }
 
 input[type="text"],
-input[type="email"] {
+input[type="email"],
+input[type="password"] {
     @include S(padding, 11px, 12px);
     @include S(margin, 10px, 0);
     border: 0;

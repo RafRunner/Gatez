@@ -10,8 +10,8 @@ export const SUPPORT_TOUCH = false;
 const smoothCanvas = true;
 
 export const THIRDPARTY_URLS = {
-    discord: "https://discord.gg/HN7EVzV",
-    github: "https://github.com/tobspr/shapez.io",
+    github: "https://github.com/RafRunner/shapez.io",
+    upstream: "https://github.com/tobspr/shapez.io",
     reddit: "https://www.reddit.com/r/shapezio",
     shapeViewer: "https://viewer.shapez.io",
 

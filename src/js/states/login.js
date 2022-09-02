@@ -23,6 +23,8 @@ export class LoginState extends GameState {
      *
      * @param {object} payload
      * @param {string} payload.nextStateId
+     * @param {string} payload.name
+     * @param {string} payload.password
      */
     onEnter(payload) {
         this.payload = payload;
@@ -46,29 +48,35 @@ export class LoginState extends GameState {
         this.lastHintShown = -1000;
         this.nextHintDuration = 0;
 
-        this.tryLogin();
+        this.tryLogin(payload.name, payload.password);
     }
 
-    tryLogin() {
-        this.app.clientApi.tryLogin().then(success => {
+    tryLogin(name, password) {
+        this.app.clientApi.tryLogin(name, password).then(success => {
             console.log("Logged in:", success);
 
             if (!success) {
                 const signals = this.dialogs.showWarning(
                     T.dialogs.offlineMode.title,
                     T.dialogs.offlineMode.desc,
-                    ["retry", "playOffline:bad"]
+                    ["retry", "returnToMenu:bad"]
                 );
-                signals.retry.add(() => setTimeout(() => this.tryLogin(), 2000), this);
-                signals.playOffline.add(this.finishLoading, this);
+                signals.retry.add(() => setTimeout(() => this.tryLogin(name, password), 2000), this);
+                signals.returnToMenu.add(this.goToPreviousState, this);
+                this.app.isLoggedIn = false;
             } else {
                 this.finishLoading();
+                this.app.isLoggedIn = true;
             }
         });
     }
 
     finishLoading() {
         this.moveToState(this.payload.nextStateId);
+    }
+
+    goToPreviousState() {
+        this.moveToState(this.getDefaultPreviousState());
     }
 
     getDefaultPreviousState() {

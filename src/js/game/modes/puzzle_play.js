@@ -4,21 +4,8 @@ import { GameRoot } from "../root";
 
 import { enumGameModeIds } from "../game_mode";
 import { PuzzleGameMode } from "./puzzle";
-import { MetaStorageBuilding } from "../buildings/storage";
-import { MetaReaderBuilding } from "../buildings/reader";
-import { MetaFilterBuilding } from "../buildings/filter";
 import { MetaDisplayBuilding } from "../buildings/display";
 import { MetaLeverBuilding } from "../buildings/lever";
-import { MetaItemProducerBuilding } from "../buildings/item_producer";
-import { MetaMinerBuilding } from "../buildings/miner";
-import { MetaWireBuilding } from "../buildings/wire";
-import { MetaWireTunnelBuilding } from "../buildings/wire_tunnel";
-import { MetaConstantSignalBuilding } from "../buildings/constant_signal";
-import { MetaLogicGateBuilding } from "../buildings/logic_gate";
-import { MetaVirtualProcessorBuilding } from "../buildings/virtual_processor";
-import { MetaAnalyzerBuilding } from "../buildings/analyzer";
-import { MetaComparatorBuilding } from "../buildings/comparator";
-import { MetaTransistorBuilding } from "../buildings/transistor";
 import { MetaConstantProducerBuilding } from "../buildings/constant_producer";
 import { MetaGoalAcceptorBuilding } from "../buildings/goal_acceptor";
 import { PuzzleSerializer } from "../../savegame/puzzle_serializer";
@@ -31,7 +18,12 @@ import { MetaBlockBuilding } from "../buildings/block";
 import { MetaBuilding } from "../meta_building";
 import { gMetaBuildingRegistry } from "../../core/global_registries";
 import { HUDPuzzleNextPuzzle } from "../hud/parts/next_puzzle";
-import { MetaFourInputLogicGateBuilding } from "../buildings/four_input_logic_gate";
+import { MetaProgrammableSignalBuilding } from "../buildings/programmable_signal";
+import { MetaProgrammableAcceptorBuilding } from "../buildings/programmable_acceptor";
+import {
+    getAllProgrammableAcceptorComponents,
+    getAllProgrammableSignalComponents,
+} from "../../core/logic_simulation_helper";
 
 const logger = createLogger("puzzle-play");
 const copy = require("clipboard-copy");
@@ -53,28 +45,16 @@ export class PuzzlePlayGameMode extends PuzzleGameMode {
         /** @type {Array<typeof MetaBuilding>} */
         let excludedBuildings = [
             MetaConstantProducerBuilding,
+            MetaProgrammableSignalBuilding,
+            MetaProgrammableAcceptorBuilding,
             MetaGoalAcceptorBuilding,
             MetaBlockBuilding,
 
-            MetaStorageBuilding,
-            MetaReaderBuilding,
-            MetaFilterBuilding,
-            MetaDisplayBuilding,
             MetaLeverBuilding,
-            MetaItemProducerBuilding,
-            MetaMinerBuilding,
-
-            MetaWireBuilding,
-            MetaWireTunnelBuilding,
-            MetaConstantSignalBuilding,
-            MetaLogicGateBuilding,
-            MetaFourInputLogicGateBuilding,
-            MetaVirtualProcessorBuilding,
-            MetaAnalyzerBuilding,
-            MetaComparatorBuilding,
-            MetaTransistorBuilding,
+            MetaDisplayBuilding,
         ];
 
+        // List of variant ids of excluded buildings
         if (puzzle.game.excludedBuildings) {
             /**
              * @type {any}
@@ -129,12 +109,13 @@ export class PuzzlePlayGameMode extends PuzzleGameMode {
                     desc: T.dialogs.puzzleLoadError.desc + " " + errorText,
                 },
             });
-            // const signals = this.root.hud.parts.dialogs.showWarning(
-            //     T.dialogs.puzzleLoadError.title,
-            //     T.dialogs.puzzleLoadError.desc + " " + errorText
-            // );
-            // signals.ok.add(() => this.root.gameState.moveToState("PuzzleMenuState"));
+            return;
         }
+
+        this.root.signals.populateTruthTableSignal.dispatch(
+            getAllProgrammableSignalComponents(this.root),
+            getAllProgrammableAcceptorComponents(this.root)
+        );
     }
 
     /**
@@ -142,8 +123,9 @@ export class PuzzlePlayGameMode extends PuzzleGameMode {
      * @param {boolean} liked
      * @param {number} difficultyRating
      * @param {number} time
+     * @param {number} componentsUsed
      */
-    trackCompleted(liked, difficultyRating, time) {
+    trackCompleted(liked, difficultyRating, time, componentsUsed) {
         const closeLoading = this.root.hud.parts.dialogs.showLoadingDialog();
 
         return this.root.app.clientApi
@@ -151,21 +133,27 @@ export class PuzzlePlayGameMode extends PuzzleGameMode {
                 time,
                 liked,
                 difficultyRating,
+                componentsUsed,
             })
             .catch(err => {
                 logger.warn("Failed to complete puzzle:", err);
             })
-            .then(() => {
+            .then(data => {
+                // add data.trophies to local storage
+                if (data && data.trophies) {
+                    localStorage.setItem("trophies", data.trophies.toString());
+                }
                 closeLoading();
             });
     }
 
     sharePuzzle() {
-        copy(this.puzzle.meta.shortKey);
+        const puzzleId = this.puzzle.meta.id.toString();
+        copy(puzzleId);
 
         this.root.hud.parts.dialogs.showInfo(
             T.dialogs.puzzleShare.title,
-            T.dialogs.puzzleShare.desc.replace("<key>", this.puzzle.meta.shortKey)
+            T.dialogs.puzzleShare.desc.replace("<key>", puzzleId)
         );
     }
 

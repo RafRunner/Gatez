@@ -29,6 +29,9 @@ import { DynamicTickrate } from "./dynamic_tickrate";
 import { KeyActionMapper } from "./key_action_mapper";
 import { Vector } from "../core/vector";
 import { GameMode } from "./game_mode";
+import { ProgrammableSignalComponent } from "./components/programmable_signal";
+import { ProgrammableAcceptorComponent } from "./components/programmable_acceptor";
+import { ClientAPI } from "../platform/api";
 /* typehints:end */
 
 const logger = createLogger("game/root");
@@ -83,6 +86,18 @@ export class GameRoot {
          * Whether a immutable operation is running
          */
         this.immutableOperationRunning = false;
+
+        // Indicates whether we are in a logic puzzle simulation
+        /** @type {Boolean} */
+        this.inSimulation = false;
+
+        // Whether we are in a simulation to submit the puzzle
+        /** @type {Boolean} */
+        this.validatingSubmit = false;
+
+        // Indicates on which frame (update) of the simulation we're in
+        /** @type {Number} */
+        this.currentSimulationFrame = 0;
 
         //////// Other properties ///////
 
@@ -190,8 +205,14 @@ export class GameRoot {
             achievementCheck: /** @type {TypedSignal<[string, any]>} */ (new Signal()),
             bulkAchievementCheck: /** @type {TypedSignal<(string|any)[]>} */ (new Signal()),
 
+            populateTruthTableSignal: /** @type {TypedSignal<[Array<ProgrammableSignalComponent>, Array<ProgrammableAcceptorComponent>]>} */ (new Signal()),
+
             // Puzzle mode
-            puzzleComplete: /** @type {TypedSignal<[]>} */ (new Signal()),
+            puzzleComplete: /** @type {TypedSignal<[Boolean]>} */ (new Signal()),
+            puzzleCompleteEdit: /** @type {TypedSignal<[Boolean]>} */ (new Signal()),
+            puzzleCompleteSubmit: /** @type {TypedSignal<[Boolean]>} */ (new Signal()),
+
+            simulationComplete: /** @type {TypedSignal<[]>} */ (new Signal()),
         };
 
         // RNG's

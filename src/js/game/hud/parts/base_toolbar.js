@@ -5,6 +5,9 @@ import { makeDiv, safeModulo } from "../../../core/utils";
 import { MetaBlockBuilding } from "../../buildings/block";
 import { MetaConstantProducerBuilding } from "../../buildings/constant_producer";
 import { MetaGoalAcceptorBuilding } from "../../buildings/goal_acceptor";
+import { MetaLeverBuilding } from "../../buildings/lever";
+import { MetaProgrammableAcceptorBuilding } from "../../buildings/programmable_acceptor";
+import { MetaProgrammableSignalBuilding } from "../../buildings/programmable_signal";
 import { StaticMapEntityComponent } from "../../components/static_map_entity";
 import { KEYMAPPINGS } from "../../key_action_mapper";
 import { MetaBuilding } from "../../meta_building";
@@ -319,8 +322,11 @@ export class HUDBaseToolbar extends BaseHUDPart {
     inRequiredBuildings(metaBuilding) {
         const requiredBuildings = [
             gMetaBuildingRegistry.findByClass(MetaConstantProducerBuilding),
+            gMetaBuildingRegistry.findByClass(MetaProgrammableSignalBuilding),
+            gMetaBuildingRegistry.findByClass(MetaProgrammableAcceptorBuilding),
             gMetaBuildingRegistry.findByClass(MetaGoalAcceptorBuilding),
             gMetaBuildingRegistry.findByClass(MetaBlockBuilding),
+            gMetaBuildingRegistry.findByClass(MetaLeverBuilding),
         ];
         return requiredBuildings.includes(metaBuilding);
     }

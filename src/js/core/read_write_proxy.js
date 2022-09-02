@@ -29,16 +29,6 @@ export class ReadWriteProxy {
         /** @type {object} */
         this.currentData = null;
 
-        // TODO: EXTREMELY HACKY! To verify we need to do this a step later
-        if (G_IS_DEV && IS_DEBUG) {
-            setTimeout(() => {
-                assert(
-                    this.verify(this.getDefaultData()).result,
-                    "Verify() failed for default data: " + this.verify(this.getDefaultData()).reason
-                );
-            });
-        }
-
         /**
          * Store a debounced handler to prevent double writes
          */

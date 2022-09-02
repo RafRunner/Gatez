@@ -24,6 +24,8 @@ import { AdderComponent } from "./components/adder";
 import { MultiplexerComponent } from "./components/multiplexer";
 import { EdgeDetectorComponent } from "./components/edge_detector";
 import { MemoryComponent } from "./components/memory";
+import { ProgrammableSignalComponent } from "./components/programmable_signal";
+import { ProgrammableAcceptorComponent } from "./components/programmable_acceptor";
 /* typehints:end */
 
 /**
@@ -108,6 +110,12 @@ export class EntityComponentStorage {
 
         /** @type {MemoryComponent} */
         this.Memory;
+
+        /** @type {ProgrammableSignalComponent} */
+        this.ProgrammableSignal;
+
+        /** @type {ProgrammableAcceptorComponent} */
+        this.ProgrammableAcceptor;
 
         /* typehints:end */
     }

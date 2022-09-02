@@ -12,6 +12,23 @@
             background-color: $colorGreenBright;
             @include S(margin-left, 5px);
         }
+
+        .actions {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            .trophies {
+                margin-right: 16px;
+                svg {
+                    margin-right: 4px;
+                }
+
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                width: fit-content;
+            }
+        }
     }
 
     > .container {
@@ -194,6 +211,20 @@
                     > .title {
                         grid-column: 2 / 3;
                         grid-row: 1 / 2;
+                        @include PlainText;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+                        overflow: hidden;
+                        align-self: center;
+                        justify-self: start;
+                        width: 100%;
+                        box-sizing: border-box;
+                        @include S(padding, 2px, 5px);
+                        @include S(height, 17px);
+                    }
+
+                    > .id {
+                        font-size: 14px;
                         @include PlainText;
                         white-space: nowrap;
                         text-overflow: ellipsis;

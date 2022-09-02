@@ -107,6 +107,8 @@ export class MapChunkView extends MapChunk {
         systems.display.drawChunk(parameters, this);
         systems.storage.drawChunk(parameters, this);
         systems.constantProducer.drawChunk(parameters, this);
+        systems.programmableSignal.drawChunk(parameters, this);
+        systems.programmableAcceptor.drawChunk(parameters, this);
         systems.goalAcceptor.drawChunk(parameters, this);
         systems.itemProcessorOverlays.drawChunk(parameters, this);
 

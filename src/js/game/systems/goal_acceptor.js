@@ -14,37 +14,31 @@ export class GoalAcceptorSystem extends GameSystemWithFilter {
     }
 
     update() {
-        const now = this.root.time.now();
-
-        let allAccepted = true;
-
-        for (let i = 0; i < this.allEntities.length; ++i) {
-            const entity = this.allEntities[i];
-            const goalComp = entity.components.GoalAcceptor;
-
-            if (!goalComp.lastDelivery) {
-                allAccepted = false;
-                continue;
-            }
-
-            if (now - goalComp.lastDelivery.time > goalComp.getRequiredSecondsPerItem()) {
-                goalComp.clearItems();
-            }
-
-            if (goalComp.currentDeliveredItems < globalConfig.goalAcceptorItemsRequired) {
-                allAccepted = false;
-            }
-        }
-
-        if (
-            !this.puzzleCompleted &&
-            this.root.gameInitialized &&
-            allAccepted &&
-            !this.root.gameMode.getIsEditor()
-        ) {
-            this.root.signals.puzzleComplete.dispatch();
-            this.puzzleCompleted = true;
-        }
+        // const now = this.root.time.now();
+        // let allAccepted = true;
+        // for (let i = 0; i < this.allEntities.length; ++i) {
+        //     const entity = this.allEntities[i];
+        //     const goalComp = entity.components.GoalAcceptor;
+        //     if (!goalComp.lastDelivery) {
+        //         allAccepted = false;
+        //         continue;
+        //     }
+        //     if (now - goalComp.lastDelivery.time > goalComp.getRequiredSecondsPerItem()) {
+        //         goalComp.clearItems();
+        //     }
+        //     if (goalComp.currentDeliveredItems < globalConfig.goalAcceptorItemsRequired) {
+        //         allAccepted = false;
+        //     }
+        // }
+        // if (
+        //     !this.puzzleCompleted &&
+        //     this.root.gameInitialized &&
+        //     allAccepted &&
+        //     !this.root.gameMode.getIsEditor()
+        // ) {
+        //     this.root.signals.puzzleComplete.dispatch();
+        //     this.puzzleCompleted = true;
+        // }
     }
 
     /**

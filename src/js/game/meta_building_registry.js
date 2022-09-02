@@ -24,6 +24,8 @@ import { MetaMinerBuilding } from "./buildings/miner";
 import { MetaMixerBuilding } from "./buildings/mixer";
 import { MetaMultiplexerBuilding } from "./buildings/multiplexer";
 import { MetaPainterBuilding } from "./buildings/painter";
+import { MetaProgrammableAcceptorBuilding } from "./buildings/programmable_acceptor";
+import { MetaProgrammableSignalBuilding } from "./buildings/programmable_signal";
 import { MetaReaderBuilding } from "./buildings/reader";
 import { MetaRotaterBuilding } from "./buildings/rotater";
 import { MetaStackerBuilding } from "./buildings/stacker";
@@ -92,6 +94,8 @@ export function initMetaBuildingRegistry() {
         MetaMultiplexerBuilding,
         MetaEdgeDetectorBuilding,
         MetaMemoryBuilding,
+        MetaProgrammableSignalBuilding,
+        MetaProgrammableAcceptorBuilding,
     ];
 
     buildings.forEach(registerBuildingVariants);

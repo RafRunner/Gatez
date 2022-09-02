@@ -6,6 +6,7 @@ import { GameState } from "../core/game_state";
 import { createLogger } from "../core/logging";
 import { getRandomHint } from "../game/hints";
 import { HUDModalDialogs } from "../game/hud/parts/modal_dialogs";
+import { ClientAPI } from "../platform/api";
 import { PlatformWrapperImplBrowser } from "../platform/browser/wrapper";
 import { autoDetectLanguageId, T, updateApplicationLanguage } from "../translations";
 
@@ -67,7 +68,13 @@ export class PreloadState extends GameState {
 
     startLoading() {
         this.setStatus("Booting")
-
+            .then(async () => {
+                const userInfo = await this.app.clientApi.verifyToken();
+                this.app.isLoggedIn = userInfo;
+                if (userInfo) {
+                    localStorage.setItem("trophies", userInfo.trophies.toString());
+                }
+            })
             .then(() => this.setStatus("Creating platform wrapper"))
             .then(() => this.app.platformWrapper.initialize())
 
@@ -98,8 +105,6 @@ export class PreloadState extends GameState {
             })
 
             .then(() => this.setStatus("Initializing libraries"))
-            .then(() => this.app.analytics.initialize())
-            .then(() => this.app.gameAnalytics.initialize())
 
             .then(() => this.setStatus("Initializing settings"))
             .then(() => {
@@ -220,8 +225,8 @@ export class PreloadState extends GameState {
 
             .then(() => this.setStatus("Launching"))
             .then(
-                () => {
-                    this.moveToState("MainMenuState");
+                loggedIn => {
+                    this.moveToState("MainMenuState", { isLoggedIn: loggedIn });
                 },
                 err => {
                     this.showFailMessage(err);

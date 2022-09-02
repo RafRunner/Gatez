@@ -53,8 +53,13 @@ export class PuzzleMenuState extends TextualGameState {
         let headerHtml = `
             <div class="headerBar">
                 <h1><button class="backButton"></button> ${this.getStateHeaderTitle()}</h1>
-
                 <div class="actions">
+                    <div class="trophies">
+                        <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+                            <path fill="#202020" d="M18 2C17.1 2 16 3 16 4H8C8 3 6.9 2 6 2H2V11C2 12 3 13 4 13H6.2C6.6 15 7.9 16.7 11 17V19.08C8 19.54 8 22 8 22H16C16 22 16 19.54 13 19.08V17C16.1 16.7 17.4 15 17.8 13H20C21 13 22 12 22 11V2H18M6 11H4V4H6V11M20 11H18V4H20V11Z" />
+                        </svg>
+                        <span style="color: #202020">${localStorage.getItem("trophies") || 0}</span>
+                    </div>
                     <button class="styledButton loadPuzzle">${T.puzzleMenu.loadPuzzle}</button>
                     <button class="styledButton createPuzzle">+ ${T.puzzleMenu.createPuzzle}</button>
                 </div>
@@ -346,6 +351,13 @@ export class PuzzleMenuState extends TextualGameState {
                 elem.appendChild(title);
             }
 
+            if (puzzle.id) {
+                const id = document.createElement("div");
+                id.classList.add("id");
+                id.innerText = `#${puzzle.id}`;
+                elem.appendChild(id);
+            }
+
             if (puzzle.author && !["official", "mine"].includes(this.activeCategory)) {
                 const author = document.createElement("div");
                 author.classList.add("author");
@@ -551,27 +563,26 @@ export class PuzzleMenuState extends TextualGameState {
         this.trackClicks(this.htmlElement.querySelector("button.loadPuzzle"), () => this.loadPuzzle());
     }
 
-    // TODO remove. Keeping for now to use as reference
     loadPuzzle() {
-        const shortKeyInput = new FormElementInput({
-            id: "shortKey",
+        const idInput = new FormElementInput({
+            id: "id",
             label: null,
             placeholder: "",
             defaultValue: "",
-            validator: val => ShapeDefinition.isValidShortKey(val) || val.startsWith("/"),
+            validator: val => /^[0-9]+$/.test(val),
         });
 
         const dialog = new DialogWithForm({
             app: this.app,
             title: T.dialogs.puzzleLoadShortKey.title,
             desc: T.dialogs.puzzleLoadShortKey.desc,
-            formElements: [shortKeyInput],
+            formElements: [idInput],
             buttons: ["ok:good:enter"],
         });
         this.dialogs.internalShowDialog(dialog);
 
         dialog.buttonSignals.ok.add(() => {
-            const searchTerm = shortKeyInput.getValue();
+            const searchTerm = idInput.getValue();
 
             if (searchTerm === "/apikey") {
                 alert("Your api key is: " + this.app.clientApi.token);
@@ -580,7 +591,7 @@ export class PuzzleMenuState extends TextualGameState {
 
             const closeLoading = this.dialogs.showLoadingDialog();
 
-            this.app.clientApi.apiDownloadPuzzleByKey(searchTerm).then(
+            this.app.clientApi.apiDownloadPuzzleById(searchTerm).then(
                 puzzle => {
                     closeLoading();
                     this.startLoadedPuzzle(puzzle);

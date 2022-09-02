@@ -245,7 +245,6 @@ export class InGameState extends GameState {
             if (this.savegame.hasGameDump()) {
                 this.stage4bResumeGame();
             } else {
-                this.app.gameAnalytics.handleGameStarted();
                 this.stage4aInitEmptyGame();
             }
         }
@@ -270,7 +269,6 @@ export class InGameState extends GameState {
                 this.onInitializationFailure("Savegame is corrupt and can not be restored.");
                 return;
             }
-            this.app.gameAnalytics.handleGameResumed();
             this.stage5FirstUpdate();
         }
     }

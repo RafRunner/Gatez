@@ -5,8 +5,9 @@ import { PuzzlePlayGameMode } from "../../modes/puzzle_play";
 import { formatBigNumberFull, formatSeconds, makeDiv } from "../../../core/utils";
 import { T } from "../../../translations";
 import { BaseHUDPart } from "../base_hud_part";
-
-const copy = require("clipboard-copy");
+import { buildInputToExpectedOutputString } from "../../../core/logic_simulation_helper";
+import { ProgrammableSignalComponent } from "../../components/programmable_signal";
+import { ProgrammableAcceptorComponent } from "../../components/programmable_acceptor";
 
 export class HUDPuzzlePlayMetadata extends BaseHUDPart {
     createElements(parent) {
@@ -29,9 +30,6 @@ export class HUDPuzzlePlayMetadata extends BaseHUDPart {
 
 
             <div class="info author"><label>${T.ingame.puzzleMetadata.author}</label><span></span></div>
-            <div class="info key">
-                <label>${T.ingame.puzzleMetadata.shortKey}</label><span>${puzzle.meta.shortKey}</span>
-            </div>
             <div class="info rating">
                 <label>${T.ingame.puzzleMetadata.averageDuration}</label>
                 <span>${puzzle.meta.averageTime ? formatSeconds(puzzle.meta.averageTime) : "-"}</span>
@@ -44,7 +42,19 @@ export class HUDPuzzlePlayMetadata extends BaseHUDPart {
                         : "-"
                 }</span>
             </div>
-
+            <div class="info truth-table">
+                <label>${T.ingame.puzzleEditorSettings.expectedOutputs}</label>
+                <div id="truth-table-list">
+                </div>
+            </div>
+            ${
+                puzzle.meta.description.trim().length === 0
+                    ? ""
+                    : `<div class="info level-description">
+                <label>${T.ingame.puzzleEditorSettings.description}</label>
+                <span>${puzzle.meta.description}</span>
+            </div>`
+            }
             <div class="buttons">
                 <button class="styledButton share">${T.ingame.puzzleEditorSettings.share}</button>
                 <button class="styledButton report">${T.ingame.puzzleEditorSettings.report}</button>
@@ -56,6 +66,8 @@ export class HUDPuzzlePlayMetadata extends BaseHUDPart {
 
         /** @type {HTMLElement} */ (this.element.querySelector(".author span")).innerText =
             puzzle.meta.authorName;
+
+        this.root.signals.populateTruthTableSignal.add(this.populateTruthTable, this);
     }
 
     initialize() {}
@@ -68,5 +80,22 @@ export class HUDPuzzlePlayMetadata extends BaseHUDPart {
     report() {
         const mode = /** @type {PuzzlePlayGameMode} */ (this.root.gameMode);
         mode.reportPuzzle();
+    }
+
+    /**
+     * @param {Array<ProgrammableSignalComponent>} signalComps
+     * @param {Array<ProgrammableAcceptorComponent>} acceptorComps
+     */
+    populateTruthTable(signalComps, acceptorComps) {
+        const truthTable = document.getElementById("truth-table-list");
+        const numberOfLines = signalComps[0].signalList.length;
+
+        for (let i = 0; i < numberOfLines && i < 16; i++) {
+            const innerHTML = buildInputToExpectedOutputString(signalComps, acceptorComps, i, numberOfLines);
+
+            const line = document.createElement("span");
+            line.innerHTML = innerHTML;
+            truthTable.appendChild(line);
+        }
     }
 }

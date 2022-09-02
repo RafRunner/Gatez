@@ -57,14 +57,25 @@ demoBanners:
     title: Versão Demo
     intro: Compre a versão completa para desbloquear todos os recursos!
 mainMenu:
+    puzzleModeTitle: Modo Desafio
+    sandboxModeTitle: Modo Sandbox
     play: Jogar
+    signin: Entrar
+    createAccount: Crie uma Conta
+    login:
+        nameLabel: Nome
+        passwordLabel: Senha
+        created: Conta Criada!
+        createdFail: Agora, você pode logar!
+    playOffline: Jogar Offline
+    crateAccount: Criar Conta
     continue: Continuar
     newGame: Novo jogo
     changelog: Changelog
     subreddit: Reddit
     importSavegame: Importar save
     openSourceHint: Esse jogo tem código aberto!
-    discordLink: Discord oficial
+    upstreamLink: Esse jogo é baseado no Shapez!
     helpTranslate: Ajude a traduzir!
     madeBy: Feito por <author-link>
     browserWarning: O jogo pode ficar lento em seu navegador! Compre a versão
@@ -72,7 +83,7 @@ mainMenu:
     savegameLevel: Nível <x>
     savegameLevelUnknown: Nível desconhecido
     savegameUnnamed: Sem nome
-    puzzleMode: Modo Puzzle
+    puzzleMode: Modo Desafio
     back: Voltar
     puzzleDlcText: Você gosta de compactar e otimizar fábricas? Adquira a Puzzle DLC
         já disponível na Steam para se divertir ainda mais!
@@ -98,6 +109,7 @@ dialogs:
         retry: Tentar novamente
         continue: Continue
         playOffline: Jogar Offline
+        returnToMenu: Voltar ao Menu
     importSavegameError:
         title: Erro de importação
         text: "Houve uma falha ao importar seu jogo salvo:"
@@ -197,6 +209,15 @@ dialogs:
             Inglês. Gostaria de assistí-lo?
     editConstantProducer:
         title: Selecionar Item
+
+    editProgrammableSignal:
+        title: Digite uma sequência de entrada
+        description: "A sequência de sinais deve conter somente binários separados por vírgula. Ex: 1,0,1,0"
+
+    editProgrammableAcceptor:
+        title: Digite uma sequência de saída esperada
+        description: "A sequência de sinais deve conter somente binários ou X/null (significando que você não se importa com aquela saída) separados por vírgula. Ex: 1,0,X,0"
+
     puzzleLoadFailed:
         title: O carregamento dos desafios falhou
         desc: "Infelizmente os desafios não puderam ser carregados:"
@@ -206,7 +227,13 @@ dialogs:
         descIcon: "Por favor crie um código exclusivo, o qual será o ícone do seu
             Desafio (Você pode gera-los <link>aqui</link>, ou escolha um dos
             gerados aleatoriamente abaixo):"
+        descDescription: >-
+            Insira uma descrição sobre seu Desafio, para ajudar outros jogadores a entender o que deve ser feito (opcional):
+        descMaxComponents: >-
+            Escolha um número máximo de componentes a serem usados para concluir seu Desafio (opcional):
         placeholderName: Nome do desafio
+        placeholderDescription: Descrição
+        placeHolderMaxComponents: Máximo de componentes
     puzzleResizeBadBuildings:
         title: Mudar o tamanho não é possível
         desc: Você não pode deixar a zona menor, porque algumas construções ficariam
@@ -215,10 +242,8 @@ dialogs:
         title: Desafio Ruim
         desc: "O desafio não pôde ser carregado:"
     offlineMode:
-        title: Modo Offline
-        desc: Não conseguimos nos conectar aos servidores, então o jogo terá que ser
-            jogado no Modo Offline. Por favor garanta que você tenha uma conexão
-            ativa com a internet.
+        title: Erro de autentificação
+        desc: As informações informadas são estão vinculadas à nenhuma conta válida ou tivemos problemas ao conectar com o servidor. Tente novamente ou volte ao menu inicial.
     puzzleDownloadError:
         title: Erro no download
         desc: "Falha ao baixar o desafio:"
@@ -240,9 +265,9 @@ dialogs:
             mecânicas que ainda não foram introduzidas. Você ainda deseja
             continuar?
     puzzleShare:
-        title: Código copiado
-        desc: O código do desafio (<key>) foi copiado para sua área de transferência!
-            Ele pode ser inserido no menu de desafios para acessar o desafio.
+        title: ID copiado
+        desc: O ID do desafio (<key>) foi copiado para sua área de transferência!
+            Ele pode ser inserido no menu de desafios (botão carregar) para acessar o desafio.
     puzzleReport:
         title: Denunciar Desafio
         options:
@@ -256,11 +281,11 @@ dialogs:
         title: Falha ao denunciar
         desc: "Sua denúncia não pôde ser processada:"
     puzzleLoadShortKey:
-        title: Insira código
-        desc: Insira o código do desafio para carrega-lo.
+        title: Insira id
+        desc: Insira o id do Desafio para carrega-lo.
     puzzleDelete:
-        title: Delete Puzzle?
-        desc: Are you sure you want to delete '<title>'? This can not be undone!
+        title: Deletar Desafio?
+        desc: Tem certeza que quer deletar '<title>'? Isso não pode ser desfeito!
     modsDifference:
         title: Mod Warning
         desc: The currently installed mods differ from the mods the savegame was created
@@ -268,6 +293,17 @@ dialogs:
             you sure you want to continue?
         missingMods: Missing Mods
         newMods: Newly installed Mods
+
+    puzzleCompleteEdit:
+        titleSuccess: Sucesso
+        descSuccess: Desafio concluído! Você pode agora publicá-lo.
+        titleFail: Falha
+        descFail: Um ou mais dos testes não passou! Esses testes falharam:<br><failed-tests><br>Todos os testes precisam passar antes que você publique seu Desafio.
+
+    puzzleCompletePlay:
+        descFail: Essa não é uma solução correta para o Desafio! Esses testes falharam:<br><failed-tests><br>Tente novamente.
+        descFailMaxComps: Essa é uma solução correta mas você precisa usar no máximo <components-count> componentes!
+
 ingame:
     keybindingsOverlay:
         moveMap: Mover
@@ -449,35 +485,47 @@ ingame:
         clearItems: Limpar Items
         share: Compartilhar
         report: Denunciar
-        clearBuildings: Clear Buildings
-        resetPuzzle: Reset Puzzle
+        clearBuildings: Limpar Contruções
+        resetPuzzle: Resetar Desafio
+        testPuzzle: Testar Desafio
+        expectedOutputs: Saídas esperadas
+        description: Descrição do Desafio
     puzzleEditorControls:
         title: Criador de Desafios
         instructions:
-            - 1. Coloque <strong>Produtores Constantes</strong> para gerar itens
-              e cores ao jogador
-            - 2. Monte uma ou mais itens que você quer que o jogador produza e
-              entregue em um ou mais <strong>Receptores de Objetivo</strong>
-            - 3. Uma vez que um Receptor de Objetivo recebe uma item por uma
-              certa quantidade de tempo, ele <strong>a salva como seu
-              objetivo</strong> , o qual o jogador terá que produzir depois
-              (Indicato pela <strong>insígnia verde</strong>).
-            - 4. Clique no <strong>botao de travar</strong> de uma construção
+            - 1. Coloque <string>Sinais Programáveis</strong> e programe uma sequência
+              de sinais em cada um deles. Ex:1,0,1,0. O que isso significa? Significa que
+              para essa entrada, seu primeiro valor (o primeiro teste) será 1, o segundo 0
+              e assim por diante.
+            - 2. Coloque <string>Receptores Programáveis</strong> e programe uma sequência de
+              sinais em cada um deles. Ex:1,0,0,0. Isso significa que para o primeiro teste,
+              o jogador deve gerar um sinal 1 para esse receptor, e para os demais testes deve
+              gerar 0, caso contrário, o Desafio não será concluído.
+            - 3. Agora você deve solucionar o seu próprio Desafio! Monte um circuito que, para
+              cada entrada em cada teste dos Sinais Programáveis, o sinal esperado é enviado a
+              cada Receptor Programável. Você pode usar o botão do meio do mouse para ligar/desligar
+              os Sinais Programáveis para te ajudar a testar o Desafio.
+            - 4. Quando achar que chegou à solução, pressione o botão "Testar Desafio" para
+              ver se está tudo de acordo e possivelmente corrigir erros.
+            - 5. Clique no <strong>botão de travar</strong> de uma construção
               para desabilita-la.
-            - 5. Uma vez que você clicou em revisar, seu desafio será validado e
+            - 6. Você pode também alterar o tamanho disponível para construção e adicionar blocos
+              para limitar o espaço disponível para construir a solução,
+            - 7. Uma vez que você clicou em revisar, seu Desafio será validado e
               você poderá publica-lo.
-            - 6. Quando seu desafio for publicado, <strong>todas as construções
-              serão removidas</strong> exceto os Produtores Constantes e
-              Receptores de Objetivo - Essa é a parte que o jogador terá que
-              descobrir sozinho, por isso se chama desafio :)
+            - 8. Quando seu Desafio for publicado, <strong>todas as construções
+              serão removidas</strong> exceto os Sinais Programáveis,
+              Receptores Programáveis e blocos - Essa é a parte que o jogador terá que
+              descobrir sozinho, por isso se chama Desafio :)
     puzzleCompletion:
         title: Desafio Completo!
         titleLike: "Clique no coração se você gostou do desafio:"
-        titleRating: O qual difícil foi esse desafio?
+        titleRating: O quão difícil foi esse desafio?
         titleRatingDesc: Sua avaliação me ajuda a te fazer sugestões melhores no futuro!
+        componentsComment: Você usou <component-count> componentes! O criador do Desafio o solucionou com <minimum-components> componentes!
         continueBtn: Continuar jogando
         menuBtn: Menu
-        nextPuzzle: Next Puzzle
+        nextPuzzle: Próximo Desafio
     puzzleMetadata:
         author: Autor
         shortKey: Código
@@ -760,6 +808,16 @@ buildings:
         t:
             name: Flip-Flop T
             description: Comuta a saída quando a entrada é ativada.
+
+    programmable_signal:
+        default:
+            name: Sinal Programável
+            description: Permite que você entre com uma lista de sinais separados por , que servem de entrada para o desafio.
+
+    programmable_acceptor:
+        default:
+            name: Receptor Programável
+            description: Permite que você entre com uma lista de sinais separados por , que servem de saída esperada para o desafio.
 
 storyRewards:
     reward_cutter_and_trash:
@@ -1288,7 +1346,7 @@ tips:
 puzzleMenu:
     play: Jogar
     edit: Editar
-    title: Modo Puzzle
+    title: Modo Desafio
     createPuzzle: Criar Desafio
     loadPuzzle: Carregar
     reviewPuzzle: Revisar e Publicar
@@ -1303,18 +1361,19 @@ puzzleMenu:
         easy: Fácil
         hard: Difícil
         completed: Completados
-        medium: Medium
-        official: Official
-        trending: Trending today
-        trending-weekly: Trending weekly
-        categories: Categories
-        difficulties: By Difficulty
-        account: My Puzzles
-        search: Search
+        medium: Médio
+        official: Oficial
+        trending: Em destaque hoje
+        trending-weekly: Em destaque na semana
+        categories: Categorias
+        difficulties: Por Dificuldade
+        account: Meus Desafios
+        search: Procurar
+
     validation:
         title: Desafio inválido
-        noProducers: Por favor coloque um Produtor Constante!
-        noGoalAcceptors: Por favor coloque um Receptor de Objetivo!
+        noProducers: Por favor coloque um Sinal Programável!
+        noGoalAcceptors: Por favor coloque um Receptor Programável!
         goalAcceptorNoItem: Um ou mais Receptores de Objetivo ainda não tiveram um item
             determinado. Entregue um item a ele para definir seu objetivo.
         goalAcceptorRateNotMet: Um ou mais Receptores de Objetivo não estão recebendo
@@ -1325,27 +1384,29 @@ puzzleMenu:
         autoComplete: Seu desafio se completa sozinho! Por favor garanta que seus
             Produtores Constantes não estão entregando diretamente aos seus
             Receptores de Objetivo.
+        signalsMustHaveSameLength: Todos os sinais programáveis devem ter o mesmo comprimento! Verifique e tente novamente.
+
     difficulties:
-        easy: Easy
-        medium: Medium
-        hard: Hard
-        unknown: Unrated
+        easy: Fácil
+        medium: Médio
+        hard: Difícil
+        unknown: Não avaliado
     dlcHint: Purchased the DLC already? Make sure it is activated by right clicking
         shapez.io in your library, selecting Properties > DLCs.
     search:
-        action: Search
-        placeholder: Enter a puzzle or author name
+        action: Procurar
+        placeholder: Digite o nome do Desafio ou Autor
         includeCompleted: Include Completed
         difficulties:
-            any: Any Difficulty
-            easy: Easy
-            medium: Medium
-            hard: Hard
+            any: Qualquer dificuldade
+            easy: Fácil
+            medium: Médio
+            hard: Difícil
         durations:
-            any: Any Duration
-            short: Short (< 2 min)
+            any: Qualquer duração
+            short: Curtos (< 2 min)
             medium: Normal
-            long: Long (> 10 min)
+            long: Longos (> 10 min)
 backendErrors:
     ratelimit: Você está fazendo coisas muito rapidamente. Por favor espere um pouco.
     invalid-api-key: Falha ao comunicar com o backend, por favor tente
@@ -1369,15 +1430,15 @@ backendErrors:
     bad-payload: O pedido contém dados inválidos.
     bad-building-placement: Seu desafio contém construções colocadas de forma inválida.
     timeout: Acabou o tempo do pedido.
-    too-many-likes-already: The puzzle alreay got too many likes. If you still want
-        to remove it, please contact support@shapez.io!
-    no-permission: You do not have the permission to perform this action.
+    too-many-likes-already: O desafio já tem muitos likes! Se ainda quiser removê-lo,
+        entre em contato com o suporte.
+    no-permission: Você não tem permissão para fazer isso.
 mods:
     title: Mods
-    author: Author
-    version: Version
+    author: Autor
+    version: Versão
     modWebsite: Website
-    openFolder: Open Mods Folder
+    openFolder: Abrir pasta de mods
     folderOnlyStandalone: Opening the mod folder is only possible when running the standalone.
     browseMods: Browse Mods
     modsInfo: To install and manage mods, copy them to the mods folder within the

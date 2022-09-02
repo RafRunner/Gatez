@@ -8,6 +8,7 @@ import { SOUNDS } from "../../../platform/sound";
 import { T } from "../../../translations";
 import { BaseHUDPart } from "../base_hud_part";
 import { DynamicDomAttach } from "../dynamic_dom_attach";
+import { buildFailedTestsString, countComponentsUsed } from "../../../core/logic_simulation_helper";
 
 export class HUDPuzzleCompleteNotification extends BaseHUDPart {
     initialize() {
@@ -48,7 +49,15 @@ export class HUDPuzzleCompleteNotification extends BaseHUDPart {
             this.updateState();
         });
 
-        const stepRating = makeDiv(this.elemContents, null, ["step", "stepLike"]);
+        const stepComponentsUsed = makeDiv(this.elemContents, null, ["step"]);
+        this.componentsUsedComment = makeDiv(
+            stepComponentsUsed,
+            null,
+            ["title"],
+            T.ingame.puzzleCompletion.componentsComment
+        );
+
+        const stepRating = makeDiv(this.elemContents, null, ["step"]);
         makeDiv(stepRating, null, ["title"], T.ingame.puzzleCompletion.titleRating);
 
         const difficultyButtonBar = document.createElement("div");
@@ -120,13 +129,49 @@ export class HUDPuzzleCompleteNotification extends BaseHUDPart {
         this.buttonLikeYes.classList.toggle("active", this.userDidLikePuzzle === true);
     }
 
-    show() {
-        //if hte person has already liked the puzzle, it be showed
+    /**
+     * @param {boolean} wasSuccessful
+     */
+    show(wasSuccessful) {
+        if (!wasSuccessful) {
+            let failedTests = buildFailedTestsString(this.root);
+
+            this.root.hud.parts.dialogs.showInfo(
+                T.dialogs.puzzleCompleteEdit.titleFail,
+                T.dialogs.puzzleCompletePlay.descFail.replace("<failed-tests>", failedTests)
+            );
+            return;
+        }
+
         this.metaPuzzle = /** @type {PuzzlePlayGameMode} */ (this.root.gameMode).puzzle.meta;
+
+        if (this.metaPuzzle.maximumComponents) {
+            const componentsUsed = countComponentsUsed(this.root);
+
+            if (componentsUsed > this.metaPuzzle.maximumComponents) {
+                this.root.hud.parts.dialogs.showInfo(
+                    T.dialogs.puzzleCompleteEdit.titleFail,
+                    T.dialogs.puzzleCompletePlay.descFailMaxComps.replace(
+                        "<components-count>",
+                        this.metaPuzzle.maximumComponents
+                    )
+                );
+                return;
+            }
+        }
+
+        // If the person has already liked the puzzle, it's shown
+        const componentsUsed = countComponentsUsed(this.root);
         this.userDidLikePuzzle = this.metaPuzzle.liked;
         this.updateState();
 
-        // if the person has already rated the puzzle, it be showed
+        this.componentsUsed = countComponentsUsed(this.root);
+
+        this.componentsUsedComment.innerHTML = this.componentsUsedComment.innerHTML
+            .replace("<component-count>", this.componentsUsed.toString())
+            .replace("<minimum-components>", this.metaPuzzle.minimumComponents.toString());
+
+        // If the person has already rated the puzzle, it's shown
         if (this.metaPuzzle.difficultyRating) {
             if (this.metaPuzzle.difficultyRating === "easy") {
                 this.userRatedDifficulty = 0;
@@ -173,7 +218,8 @@ export class HUDPuzzleCompleteNotification extends BaseHUDPart {
             .trackCompleted(
                 this.userDidLikePuzzle,
                 this.userRatedDifficulty,
-                Math.round(this.timeOfCompletion)
+                Math.round(this.timeOfCompletion),
+                this.componentsUsed
             )
             .then(() => {
                 this.root.gameState.moveToState("PuzzleMenuState", {
@@ -187,7 +233,8 @@ export class HUDPuzzleCompleteNotification extends BaseHUDPart {
             .trackCompleted(
                 this.userDidLikePuzzle,
                 this.userRatedDifficulty,
-                Math.round(this.timeOfCompletion)
+                Math.round(this.timeOfCompletion),
+                this.componentsUsed
             )
             .then(() => {
                 if (toMenu) {

@@ -130,12 +130,10 @@ export class ModsState extends TextualGameState {
     }
 
     openBrowseMods() {
-        this.app.analytics.trackUiClick("mods_sbrowse_link");
         this.app.platformWrapper.openExternalLink(THIRDPARTY_URLS.modBrowser);
     }
 
     onSteamLinkClicked() {
-        this.app.analytics.trackUiClick("mods_steam_link");
         this.app.platformWrapper.openExternalLink(
             THIRDPARTY_URLS.stanaloneCampaignLink + "/shapez_modsettings"
         );

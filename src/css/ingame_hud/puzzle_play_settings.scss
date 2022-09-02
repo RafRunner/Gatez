@@ -3,7 +3,7 @@
     background: $ingameHudBg;
     @include S(padding, 10px);
     @include S(bottom, 60px);
-    @include S(left, 10px);
+    @include S(right, 10px);
 
     @include SuperSmallText;
     color: #eee;

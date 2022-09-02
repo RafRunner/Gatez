@@ -19,15 +19,12 @@ export class ClientAPI {
          * The current users session token
          * @type {string|null}
          */
-        this.token = null;
+        this.token = localStorage.getItem("dev_api_auth_token");
     }
 
     getEndpoint() {
         if (G_IS_DEV) {
             return "http://localhost:15001";
-        }
-        if (window.location.host === "beta.shapez.io") {
-            return "https://api-staging.shapez.io";
         }
         return "https://api.shapez.io";
     }
@@ -83,50 +80,54 @@ export class ClientAPI {
             });
     }
 
-    tryLogin() {
-        return this.apiTryLogin()
-            .then(({ token }) => {
+    /**
+     * @param {string} name
+     * @param {string} password
+     */
+    tryLogin(name, password) {
+        return this._request("/v1/login", {
+            method: "POST",
+            body: {
+                name,
+                password,
+            },
+        })
+            .then(({ token, trophies }) => {
                 this.token = token;
+                localStorage.setItem("dev_api_auth_token", token);
+                localStorage.setItem("trophies", trophies.toString());
                 return true;
             })
             .catch(err => {
+                this.token = null;
+                localStorage.removeItem("dev_api_auth_token");
+                localStorage.removeItem("trophies");
                 logger.warn("Failed to login:", err);
                 return false;
             });
     }
 
-    /**
-     * @returns {Promise<{token: string}>}
-     */
-    apiTryLogin() {
-        if (!G_IS_STANDALONE) {
-            let token = window.localStorage.getItem("dev_api_auth_token");
-            if (!token) {
-                token = window.prompt(
-                    "Please enter the auth token for the puzzle DLC (If you have none, you can't login):"
-                );
-            }
-            if (token) {
-                window.localStorage.setItem("dev_api_auth_token", token);
-            }
-            return Promise.resolve({ token });
+    async verifyToken() {
+        try {
+            const userData = await this._request("/v1/login", {
+                method: "GET",
+            });
+            return userData;
+        } catch {
+            localStorage.removeItem("dev_api_auth_token");
+            localStorage.removeItem("trophies");
+            return null;
         }
+    }
 
-        return ipcRenderer.invoke("steam:get-ticket").then(
-            ticket => {
-                logger.log("Got auth ticket:", ticket);
-                return this._request("/v1/public/login", {
-                    method: "POST",
-                    body: {
-                        token: ticket,
-                    },
-                });
+    createUser(name, password) {
+        return this._request("/v1/user", {
+            method: "POST",
+            body: {
+                name,
+                password,
             },
-            err => {
-                logger.error("Failed to get auth ticket from steam: ", err);
-                throw err;
-            }
-        );
+        });
     }
 
     /**
@@ -180,16 +181,15 @@ export class ClientAPI {
         });
     }
 
-    // TODO remove
     /**
-     * @param {string} shortKey
+     * @param {string} id
      * @returns {Promise<import("../savegame/savegame_typedefs").PuzzleFullData>}
      */
-    async apiDownloadPuzzleByKey(shortKey) {
+    async apiDownloadPuzzleById(id) {
         if (!this.isLoggedIn()) {
             return Promise.reject("not-logged-in");
         }
-        const puzzle = await this._request("/v1/puzzles/download/" + shortKey, {});
+        const puzzle = await this._request("/v1/puzzles/download/" + id, {});
         return { game: JSON.parse(decompressX64(puzzle.game)), meta: puzzle.meta };
     }
 
@@ -213,7 +213,8 @@ export class ClientAPI {
      * @param {number} payload.time
      * @param {boolean} payload.liked
      * @param {number} payload.difficultyRating
-     * @returns {Promise<{ success: true }>}
+     * @param {number} payload.componentsUsed
+     * @returns {Promise<{ trophies: number, completeData: any }>}
      */
     apiCompletePuzzle(puzzleId, payload) {
         if (!this.isLoggedIn()) {
@@ -229,6 +230,9 @@ export class ClientAPI {
      * @param {object} payload
      * @param {string} payload.title
      * @param {string} payload.shortKey
+     * @param {string} payload.description
+     * @param {number} payload.minimumComponents
+     * @param {number|undefined} payload.maximumComponents
      * @param {import("../savegame/savegame_typedefs").PuzzleGameData} payload.data
      * @returns {Promise<{ success: true }>}
      */

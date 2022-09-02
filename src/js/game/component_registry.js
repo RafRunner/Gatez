@@ -24,6 +24,8 @@ import { AdderComponent } from "./components/adder";
 import { MultiplexerComponent } from "./components/multiplexer";
 import { EdgeDetectorComponent } from "./components/edge_detector";
 import { MemoryComponent } from "./components/memory";
+import { ProgrammableSignalComponent } from "./components/programmable_signal";
+import { ProgrammableAcceptorComponent } from "./components/programmable_acceptor";
 
 export function initComponentRegistry() {
     const components = [
@@ -52,6 +54,8 @@ export function initComponentRegistry() {
         MultiplexerComponent,
         EdgeDetectorComponent,
         MemoryComponent,
+        ProgrammableSignalComponent,
+        ProgrammableAcceptorComponent,
     ];
     components.forEach(component => gComponentRegistry.register(component));
 

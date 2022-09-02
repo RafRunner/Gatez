@@ -47,7 +47,15 @@ export class FormElement {
 }
 
 export class FormElementInput extends FormElement {
-    constructor({ id, label = null, placeholder, defaultValue = "", inputType = "text", validator = null }) {
+    constructor({
+        id,
+        label = null,
+        placeholder,
+        defaultValue = "",
+        inputType = "text",
+        validator = null,
+        maxlength = 256,
+    }) {
         super(id, label);
         this.placeholder = placeholder;
         this.defaultValue = defaultValue;
@@ -55,12 +63,13 @@ export class FormElementInput extends FormElement {
         this.validator = validator;
 
         this.element = null;
+        this.maxlength = maxlength;
     }
 
     getHtml() {
         let classes = [];
         let inputType = "text";
-        let maxlength = 256;
+        let maxlength = this.maxlength;
         switch (this.inputType) {
             case "text": {
                 classes.push("input-text");
@@ -77,6 +86,12 @@ export class FormElementInput extends FormElement {
                 classes.push("input-token");
                 inputType = "text";
                 maxlength = 4;
+                break;
+            }
+
+            case "password": {
+                classes.push("input-text");
+                inputType = "password";
                 break;
             }
         }

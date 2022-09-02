@@ -50,14 +50,12 @@ export class HUDStandaloneAdvantages extends BaseHUDPart {
                 ? "_discount" + globalConfig.currentDiscount.amount
                 : "";
 
-            this.root.app.analytics.trackUiClick("standalone_advantage_visit_steam");
             this.root.app.platformWrapper.openExternalLink(
                 THIRDPARTY_URLS.stanaloneCampaignLink + "/shapez_std_advg" + discount
             );
             this.close();
         });
         this.trackClicks(this.contentDiv.querySelector("button.otherCloseButton"), () => {
-            this.root.app.analytics.trackUiClick("standalone_advantage_no_thanks");
             this.close();
         });
     }

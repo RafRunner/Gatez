@@ -208,7 +208,6 @@ class LoaderImpl {
         context.font = "25px Arial";
         context.fillText("???", dims / 2, dims / 2);
 
-        // TODO: Not sure why this is set here
         // @ts-ignore
         canvas.src = "not-found";
 

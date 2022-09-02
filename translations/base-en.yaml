@@ -99,14 +99,25 @@ demoBanners:
         Get the full game to unlock all features and content!
 
 mainMenu:
+    puzzleModeTitle: Puzzle Mode
+    sandboxModeTitle: Sandbox Mode
     play: Play
+    signin: Sign in
+    createAccount: Create an Account
+    login:
+        nameLabel: Name
+        passwordLabel: Password
+        created: Account Created!
+        createdFail: Now you can log in.
+    playOffline: Play Offline
+    crateAccount: Create Account
     continue: Continue
     newGame: New Game
     changelog: Changelog
     subreddit: Reddit
     importSavegame: Import
     openSourceHint: This game is open source!
-    discordLink: Official Discord Server
+    upstreamLink: This game is based on Shapez!
     helpTranslate: Help translate!
     madeBy: Made by <author-link>
 
@@ -185,8 +196,8 @@ puzzleMenu:
 
     validation:
         title: Invalid Puzzle
-        noProducers: Please place a Constant Producer!
-        noGoalAcceptors: Please place a Goal Acceptor!
+        noProducers: Please place a Programmable Signal!
+        noGoalAcceptors: Please place a Programmable Acceptor!
         goalAcceptorNoItem: >-
             One or more Goal Acceptors have not yet assigned an item. Deliver a shape to them to set a goal.
         goalAcceptorRateNotMet: >-
@@ -195,6 +206,8 @@ puzzleMenu:
             One or more buildings are outside of the buildable area. Either increase the area or remove them.
         autoComplete: >-
             Your puzzle autocompletes itself! Please make sure your constant producers are not directly delivering to your goal acceptors.
+        signalsMustHaveSameLength: >-
+            All programmable signals must have the same length! Please verify them and try again.
 
 dialogs:
     buttons:
@@ -211,7 +224,7 @@ dialogs:
         showKeybindings: Show Keybindings
         retry: Retry
         continue: Continue
-        playOffline: Play Offline
+        returnToMenu: Return to Menu
 
     importSavegameError:
         title: Import Error
@@ -319,6 +332,14 @@ dialogs:
     editConstantProducer:
         title: Set Item
 
+    editProgrammableSignal:
+        title: Type a input sequence
+        description: "The signal sequence must contain only binaries separated by commas. Ex: 1,0,1,0"
+
+    editProgrammableAcceptor:
+        title: Type a expected output sequence
+        description: "The signal sequence must contain only binaries or X/null (meaning you don't care about that output) separated by commas. Ex: 1,0,X,0"
+
     markerDemoLimit:
         desc: You can only create two custom markers in the demo. Get the standalone for unlimited markers!
 
@@ -349,8 +370,13 @@ dialogs:
             Give your puzzle a name:
         descIcon: >-
             Please enter a unique short key, which will be shown as the icon of your puzzle (You can generate them <link>here</link>, or choose one of the randomly suggested shapes below):
-
+        descDescription: >-
+            Write a description for your Puzzle if you wish to better explain to other players what they should do (optional):
+        descMaxComponents: >-
+            Set a number of maximum components allowed to solve your puzzle (optional):
         placeholderName: Puzzle Title
+        placeholderDescription: Description
+        placeHolderMaxComponents: Maximum Components
 
     puzzleResizeBadBuildings:
         title: Resize not possible
@@ -362,9 +388,9 @@ dialogs:
             The puzzle failed to load:
 
     offlineMode:
-        title: Offline Mode
+        title: Authentication Error
         desc: >-
-            We couldn't reach the servers, so the game has to run in offline mode. Please make sure you have an active internet connection.
+            The details provided don't match a valid account or we couldn't connect to the server. Try again or go back to the main menu.
 
     puzzleDownloadError:
         title: Download Error
@@ -392,9 +418,9 @@ dialogs:
             I <strong>strongly</strong> recommend playing the normal game to level 12 before attempting the puzzle DLC, otherwise you may encounter mechanics not yet introduced. Do you still want to continue?
 
     puzzleShare:
-        title: Short Key Copied
+        title: ID Copied
         desc: >-
-            The short key of the puzzle (<key>) has been copied to your clipboard! It can be entered in the puzzle menu to access the puzzle.
+            The ID of the puzzle (<key>) has been copied to your clipboard! It can be entered in the puzzle (Load button) menu to access the puzzle.
 
     puzzleReport:
         title: Report Puzzle
@@ -414,9 +440,8 @@ dialogs:
             Your report could not get processed:
 
     puzzleLoadShortKey:
-        title: Enter short key
-        desc: >-
-            Enter the short key of the puzzle to load it.
+        title: Enter Puzzle id
+        desc: Enter the id of the puzzle to load it.
 
     puzzleDelete:
         title: Delete Puzzle?
@@ -430,6 +455,16 @@ dialogs:
             This might cause the savegame to break or not load at all. Are you sure you want to continue?
         missingMods: Missing Mods
         newMods: Newly installed Mods
+
+    puzzleCompleteEdit:
+        titleSuccess: Sucess
+        descSuccess: Puzzle completed! You can now publish it.
+        titleFail: Failed
+        descFail: One or more tests did not pass! These tests failed:<br><failed-tests><br>All tests need to pass before you can publish your Puzzle.
+
+    puzzleCompletePlay:
+        descFail: That is not a correct solution to the puzzle! These tests failed:<br><failed-tests><br>Try again.
+        descFailMaxComps: This is a valid solution but you need to solve this Puzzle using <components-count> maximum components!
 
 ingame:
     # This is shown in the top left corner and displays useful keybindings in
@@ -665,18 +700,39 @@ ingame:
         clearItems: Clear Items
         clearBuildings: Clear Buildings
         resetPuzzle: Reset Puzzle
+        testPuzzle: Test Puzzle
+        expectedOutputs: Expected Outputs
+        description: Puzzle Description
         share: Share
         report: Report
 
     puzzleEditorControls:
         title: Puzzle Creator
         instructions:
-            - 1. Place <strong>Constant Producers</strong> to provide shapes and colors to the player
-            - 2. Build one or more shapes you want the player to build later and deliver it to one or more <strong>Goal Acceptors</strong>
-            - 3. Once a Goal Acceptor receives a shape for a certain amount of time, it <strong>saves it as a goal</strong> that the player must produce later (Indicated by the <strong>green badge</strong>).
-            - 4. Click the <strong>lock button</strong> on a building to disable it.
-            - 5. Once you click review, your puzzle will be validated and you can publish it.
-            - 6. Upon release, <strong>all buildings will be removed</strong> except for the Producers and Goal Acceptors - That's the part that the player is supposed to figure out for themselves, after all :)
+            - 1. Place <string>Programmable Signals</strong> and program a sequence
+              of signals in each of them. Ex:1,0,1,0. What does that mean? It means that
+              for that input, its first value (the first test) will be 1, the second 0
+              and so on.
+            - 2. Place <string>Programmable Acceptors</strong> and program a sequence of
+              signals in each of them. Ex:1,0,0,0. This means that for the first test,
+              the player must generate a 1 signal for this acceptor, and for the other tests
+              it must generate 0, otherwise, the Puzzle will not be completed.
+            - 3. Now you must solve your own Puzzle! Build a circuit that, for
+              each input in each test of the Programmable Signals, the expected signal is sent to
+              each Programmable Receiver. You can use the middle mouse button to turn on/off
+              Programmable Signals to help you test the Puzzle.
+            - 4. When you think you've reached the solution, press the "Test Puzzle" button to
+              see if everything is ok and possibly correct errors.
+            - 5. Click on the <strong>lock button</strong> of a building
+              to disable it.
+            - 6. You can also change the size available for building and add blocks
+              to limit the space available to build the solution,
+            - 7. Once you click review, your Puzzle will be validated and
+              you can publish it.
+            - 8. When your Puzzle is published, <strong>all buildings
+              will be removed</strong> except for Programmable Signals,
+              Programmable Acceptors and Blocks - That's the part that the player is
+              supposed to figure out for themselves, after all :)
 
     puzzleCompletion:
         title: Puzzle Completed!
@@ -685,6 +741,8 @@ ingame:
             Click the heart if you liked the puzzle:
         titleRating: How difficult did you find the puzzle?
         titleRatingDesc: Your rating will help me to make you better suggestions in the future
+
+        componentsComment: You used <component-count> components! The creator of the Puzzle solved it using <minimum-components> components!
 
         continueBtn: Keep Playing
         menuBtn: Menu
@@ -990,6 +1048,16 @@ buildings:
         t:
             name: T Flip-Flop
             description: Toggles the output when the input is triggered.
+
+    programmable_signal:
+        default:
+            name: Programmable Signal
+            description: Lets you input a list os signals separated by , that will serve as the input of the puzzle.
+
+    programmable_acceptor:
+        default:
+            name: Programmable Acceptor
+            description: Lets you input a list os signals separated by , that will serve as the expected output of the puzzle.
 
 storyRewards:
     # Those are the rewards gained from completing the store
@@ -1451,6 +1519,8 @@ keybindings:
         multiplexer: Multiplexer
         edge_detector: Edge Detector
         memory: Memory
+        programmable_signal: Programmable Signal
+        programmable_acceptor: Programmable Acceptor
         # ---
 
         pipette: Pipette
