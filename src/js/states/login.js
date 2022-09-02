@@ -61,7 +61,7 @@ export class LoginState extends GameState {
                     T.dialogs.offlineMode.desc,
                     ["retry", "returnToMenu:bad"]
                 );
-                signals.retry.add(() => setTimeout(() => this.tryLogin(), 2000), this);
+                signals.retry.add(() => setTimeout(() => this.tryLogin(name, password), 2000), this);
                 signals.returnToMenu.add(this.goToPreviousState, this);
                 this.app.isLoggedIn = false;
             } else {

@@ -37,10 +37,13 @@ export function isSamplingFrame(root) {
  * @returns {Number}
  */
 function sortByPosition(a, b) {
-    return (
-        a.components.StaticMapEntity.getTileSpaceBounds().x -
-        b.components.StaticMapEntity.getTileSpaceBounds().x
-    );
+    const positionA = a.components.StaticMapEntity.getTileSpaceBounds();
+    const positionB = b.components.StaticMapEntity.getTileSpaceBounds();
+
+    if (positionA.y === positionB.y) {
+        return positionA.x - positionB.x;
+    }
+    return positionA.y - positionB.y;
 }
 
 /**
@@ -95,10 +98,9 @@ export function validatePuzzle(root, T, callback) {
     const expectedLength = signalComps[0].signalList.length;
 
     if (
-        signalComps.some(sc => sc.signalList.length != expectedLength || sc.signalList.length === 0) ||
-        acceptorComps.some(
-            ac => ac.expectedSignals.length != expectedLength || ac.expectedSignals.length === 0
-        )
+        expectedLength === 0 ||
+        signalComps.some(sc => sc.signalList.length != expectedLength) ||
+        acceptorComps.some(ac => ac.expectedSignals.length != expectedLength)
     ) {
         return root.hud.signals.notification.dispatch(
             T.puzzleMenu.validation.signalsMustHaveSameLength,
@@ -132,7 +134,7 @@ export function buildInputToExpectedOutputString(signalComps, acceptorComps, i, 
 }
 
 /**
- * Builds a string that represents a series of expected outputs for a set of inputs. It's a line of a truth table
+ * Builds a string that is a div with all failed tests in a puzzle
  * @param {GameRoot} root
  * @returns {string}
  */
