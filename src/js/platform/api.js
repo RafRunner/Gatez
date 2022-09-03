@@ -26,7 +26,8 @@ export class ClientAPI {
         if (G_IS_DEV) {
             return "http://localhost:15001";
         }
-        return "https://api.shapez.io";
+        // TODO update to the correct URL
+        return "http://localhost:15001";
     }
 
     isLoggedIn() {

@@ -1,8 +1,33 @@
-# shapez.io
+# Gatez
 
-## DISCLAIMER
+## Basic information
 
-This is not the official shapez.io repository. This is a fork that will be heavily modified in the future. We are currently only starting and will change all trademarkable names in the near future to not infringe on the creator's rights and not cause any confusion. The official repository is: https://github.com/tobspr/shapez.io
+This is a fork from shapez (https://github.com/tobspr/shapez.io), mainly focusing in adapting the puzzle DLC gameplay but using logic gates, where the objective becomes building a circuit that meets a list of conditions, similar to a truth table. Players have a series of premade puzzles at their disposal where they'll learn the basics of logic circuits and digital design, with progressively difficult levels building more and more complex components and circuits.
+
+This project also has a back-end (https://github.com/armandosneto/shapez.io-gates-backend) that allows players to create an account so that they can track their progress, play and rate other player's puzzles and create their own puzzles. Right now we're not hosting the server anywhere, so you'll have to run your own instance in your local network.
+
+Right now, the game is playable, but some very important improvements are needed. Feel free to create a pull request with new features/improvements!
+
+### Future features/improvements in probable order of implementation:
+
+-   Allowing players to lock building variant's on puzzle creation, not only the whole building;
+-   Polishing the sandbox mode (removing all unused mechanics and adding some new, most notably a clock component);
+-   Moving all difficulty labeling to the back-end, avoiding code duplication;
+-   Implement multi lingual puzzle titles and descriptions, that can be translated by users or automaticaly;
+-   A more in topic way of choosing a puzzle's icon, correctly it's just set to a random shape from shapez;
+-   Improving the puzzle description input using a multi line textbox;
+-   Improving Programmable Signal/Acceptor's signal input;
+-   Revising the settings menu;
+-   Translating to other languages (right now only English and Brazilian Portuguese are complete);
+-   Making permanent assets for all components;
+-   Updating the main menu background animation and all loading tooltips;
+-   Creating more components (registers, an ALU, a RAM and ROM) and adding more levels until building a simple 4 bit CPU and RAM;
+-   Changing the game's visual identity and creating new logos;
+-   Releasing the game, probably as installers for each operating system, and the back-end in server.
+
+A lot of unused code/assets from the base game are still present, and almost all the code regarding building the game/hosting it in a production environment was not changed, so feel free to help with these as well!
+
+## Original README
 
 <img src="https://i.imgur.com/Y5Z2iqQ.png" alt="shapez.io Logo">
 
@@ -69,7 +94,6 @@ The game is based on a custom engine which itself is based on the YORG.io 3 game
 The code within the engine is relatively clean with some code for the actual game on top being hacky.
 
 This project is based on ES5 (If I would develop it again, I would definitely use TypeScript). Some ES2015 features are used but most of them are too slow, especially when polyfilled. For example, `Array.prototype.forEach` is only used within non-critical loops since its slower than a plain for loop.
-
 
 #### Adding a new component
 
