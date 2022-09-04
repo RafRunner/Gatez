@@ -3,8 +3,6 @@ import { Vector } from "../../core/vector";
 import { WireTunnelComponent } from "../components/wire_tunnel";
 import { Entity } from "../entity";
 import { defaultBuildingVariant, MetaBuilding } from "../meta_building";
-import { GameRoot } from "../root";
-import { enumHubGoalRewards } from "../tutorial_goals";
 
 const wireTunnelOverlayMatrix = generateMatrixRotations([0, 1, 0, 1, 1, 1, 0, 1, 0]);
 
@@ -24,13 +22,6 @@ export class MetaWireTunnelBuilding extends MetaBuilding {
 
     getSilhouetteColor() {
         return "#777a86";
-    }
-
-    /**
-     * @param {GameRoot} root
-     */
-    getIsUnlocked(root) {
-        return root.hubGoals.isRewardUnlocked(enumHubGoalRewards.reward_wires_painter_and_levers);
     }
 
     /**

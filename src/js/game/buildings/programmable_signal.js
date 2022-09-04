@@ -2,8 +2,6 @@ import { enumDirection, Vector } from "../../core/vector";
 import { enumPinSlotType, WiredPinsComponent } from "../components/wired_pins";
 import { Entity } from "../entity";
 import { defaultBuildingVariant, MetaBuilding } from "../meta_building";
-import { GameRoot } from "../root";
-import { enumHubGoalRewards } from "../tutorial_goals";
 import { ProgrammableSignalComponent } from "../components/programmable_signal";
 
 export class MetaProgrammableSignalBuilding extends MetaBuilding {
@@ -22,13 +20,6 @@ export class MetaProgrammableSignalBuilding extends MetaBuilding {
 
     getSilhouetteColor() {
         return "#2b84fd";
-    }
-
-    /**
-     * @param {GameRoot} root
-     */
-    getIsUnlocked(root) {
-        return root.hubGoals.isRewardUnlocked(enumHubGoalRewards.reward_constant_signal);
     }
 
     getDimensions() {

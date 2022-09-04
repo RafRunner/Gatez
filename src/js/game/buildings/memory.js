@@ -8,8 +8,6 @@ import { enumDirection, Vector } from "../../core/vector";
 import { enumMemoryType, MemoryComponent } from "../components/memory";
 import { enumPinSlotType, WiredPinsComponent } from "../components/wired_pins";
 import { defaultBuildingVariant, MetaBuilding } from "../meta_building";
-import { enumHubGoalRewards } from "../tutorial_goals";
-
 
 const overlayMatrices = {
     [enumMemoryType.t]: generateMatrixRotations([0, 1, 0, 1, 0, 1, 1, 1, 1]),
@@ -46,26 +44,17 @@ export class MetaMemoryBuilding extends MetaBuilding {
     }
 
     getAvailableVariants(root) {
-        return [
-            defaultBuildingVariant,
-            enumMemoryType.d,
-            enumMemoryType.jk,
-            enumMemoryType.t,
-        ];
+        return [defaultBuildingVariant, enumMemoryType.d, enumMemoryType.jk, enumMemoryType.t];
     }
 
     getSpecialOverlayRenderMatrix(rotation, rotationVariant, variant) {
         return overlayMatrices[variant] ? overlayMatrices[variant][rotation] : null;
     }
 
-    getIsUnlocked(root) {
-        return root.hubGoals.isRewardUnlocked(enumHubGoalRewards.reward_logic_gates);
-    }
-
     getDimensions(variant) {
         switch (variant) {
             case defaultBuildingVariant:
-                case enumMemoryType.d:
+            case enumMemoryType.d:
             case enumMemoryType.jk:
                 return new Vector(2, 1);
             case enumMemoryType.t:

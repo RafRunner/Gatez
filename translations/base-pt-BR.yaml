@@ -445,38 +445,6 @@ ingame:
         one_miner: 1 Extrator
         n_miners: <amount> Extratores
         limited_items: Limite de <max_throughput>
-    watermark:
-        title: Versão Demo
-        desc: Clique aqui para ver as vantagens da versão completa!
-        get_on_steam: Adquira na Steam
-    standaloneAdvantages:
-        title: Adquira a versão completa!
-        no_thanks: Não, obrigado!
-        points:
-            levels:
-                title: 12 Novos Níveis
-                desc: Para um total de 26 novos níveis!
-            buildings:
-                title: 18 Novas Construções
-                desc: Automatize sua fábrica inteira!
-            upgrades:
-                title: ∞ Níveis de Melhorias
-                desc: Essa demo tem apenas 5!
-            markers:
-                title: Marcadores ∞
-                desc: Nunca se perca na sua fábrica!
-            wires:
-                title: Fiação
-                desc: Uma dimensão completamente nova!
-            darkmode:
-                title: Modo Escuro
-                desc: Não machuque mais seus olhos!
-            support:
-                title: Me ajuda
-                desc: Eu desenvolvo o jogo no meu tempo livre!
-            achievements:
-                title: Conquistas
-                desc: Consiga todas elas!
     puzzleEditorSettings:
         zoneTitle: Zona
         zoneWidth: Largura

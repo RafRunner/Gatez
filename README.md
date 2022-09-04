@@ -17,6 +17,7 @@ Right now, the game is playable, but some very important improvements are needed
 -   A more in topic way of choosing a puzzle's icon, correctly it's just set to a random shape from shapez;
 -   Improving the puzzle description input using a multi line textbox;
 -   Improving Programmable Signal/Acceptor's signal input;
+-   Show a truth table while creating the puzzle;
 -   Revising the settings menu;
 -   Translating to other languages (right now only English and Brazilian Portuguese are complete);
 -   Making permanent assets for all components;

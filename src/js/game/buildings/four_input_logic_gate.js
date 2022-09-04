@@ -2,9 +2,7 @@ import { enumDirection, Vector } from "../../core/vector";
 import { enumPinSlotType, WiredPinsComponent } from "../components/wired_pins";
 import { Entity } from "../entity";
 import { MetaBuilding, defaultBuildingVariant } from "../meta_building";
-import { GameRoot } from "../root";
 import { enumLogicGateType, LogicGateComponent } from "../components/logic_gate";
-import { enumHubGoalRewards } from "../tutorial_goals";
 
 /** @enum {string} */
 export const enumFourInputLogicGateVariants = {
@@ -44,22 +42,12 @@ export class MetaFourInputLogicGateBuilding extends MetaBuilding {
         return colors[variant];
     }
 
-    /**
-     * @param {GameRoot} root
-     */
-    getIsUnlocked(root) {
-        return root.hubGoals.isRewardUnlocked(enumHubGoalRewards.reward_logic_gates);
-    }
-
     getDimensions() {
         return new Vector(4, 1);
     }
 
     getAvailableVariants() {
-        return [
-            defaultBuildingVariant,
-            enumFourInputLogicGateVariants.or,
-        ];
+        return [defaultBuildingVariant, enumFourInputLogicGateVariants.or];
     }
 
     getRenderPins() {

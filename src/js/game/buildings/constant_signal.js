@@ -2,10 +2,8 @@ import { enumDirection, Vector } from "../../core/vector";
 import { enumPinSlotType, WiredPinsComponent } from "../components/wired_pins";
 import { Entity } from "../entity";
 import { defaultBuildingVariant, MetaBuilding } from "../meta_building";
-import { GameRoot } from "../root";
 import { ConstantSignalComponent } from "../components/constant_signal";
 import { generateMatrixRotations } from "../../core/utils";
-import { enumHubGoalRewards } from "../tutorial_goals";
 
 const overlayMatrix = generateMatrixRotations([0, 1, 0, 1, 1, 1, 1, 1, 1]);
 
@@ -25,13 +23,6 @@ export class MetaConstantSignalBuilding extends MetaBuilding {
 
     getSilhouetteColor() {
         return "#2b84fd";
-    }
-
-    /**
-     * @param {GameRoot} root
-     */
-    getIsUnlocked(root) {
-        return root.hubGoals.isRewardUnlocked(enumHubGoalRewards.reward_constant_signal);
     }
 
     getDimensions() {

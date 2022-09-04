@@ -7,8 +7,6 @@ import { enumDirection, Vector } from "../../core/vector";
 import { enumPinSlotType, WiredPinsComponent } from "../components/wired_pins";
 import { Entity } from "../entity";
 import { MetaBuilding, defaultBuildingVariant } from "../meta_building";
-import { GameRoot } from "../root";
-import { enumHubGoalRewards } from "../tutorial_goals";
 import { AdderComponent, enumAdderType } from "../components/adder";
 
 /** @enum {string} */
@@ -24,7 +22,6 @@ const enumVariantToAdder = {
 };
 
 export class MetaAdderBuilding extends MetaBuilding {
-
     constructor() {
         super("adder");
     }
@@ -43,21 +40,11 @@ export class MetaAdderBuilding extends MetaBuilding {
     }
 
     getAvailableVariants() {
-        return [
-            defaultBuildingVariant,
-            enumAdderVariants.full,
-        ];
+        return [defaultBuildingVariant, enumAdderVariants.full];
     }
 
     getSilhouetteColor() {
         return "#A251FF";
-    }
-
-    /**
-     * @param {GameRoot} root
-     */
-    getIsUnlocked(root) {
-        return root.hubGoals.isRewardUnlocked(enumHubGoalRewards.reward_logic_gates);
     }
 
     getDimensions() {
@@ -72,7 +59,7 @@ export class MetaAdderBuilding extends MetaBuilding {
      * @param {Entity} entity
      * @param {number} rotationVariant
      */
-     updateVariants(entity, rotationVariant, variant) {
+    updateVariants(entity, rotationVariant, variant) {
         const adderType = enumVariantToAdder[variant];
         entity.components.Adder.type = adderType;
 

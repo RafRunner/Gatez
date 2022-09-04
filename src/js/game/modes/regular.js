@@ -25,8 +25,6 @@ import { HUDGameMenu } from "../hud/parts/game_menu";
 import { HUDConstantSignalEdit } from "../hud/parts/constant_signal_edit";
 import { IS_MOBILE } from "../../core/config";
 import { HUDKeybindingOverlay } from "../hud/parts/keybinding_overlay";
-import { HUDWatermark } from "../hud/parts/watermark";
-import { HUDStandaloneAdvantages } from "../hud/parts/standalone_advantages";
 import { HUDCatMemes } from "../hud/parts/cat_memes";
 import { HUDPartTutorialHints } from "../hud/parts/tutorial_hints";
 import { HUDInteractiveTutorial } from "../hud/parts/interactive_tutorial";
@@ -576,17 +574,12 @@ export class RegularGameMode extends GameMode {
             this.additionalHudParts.keybindingOverlay = HUDKeybindingOverlay;
         }
 
-        if (this.root.app.restrictionMgr.getIsStandaloneMarketingActive()) {
-            this.additionalHudParts.watermark = HUDWatermark;
-            this.additionalHudParts.standaloneAdvantages = HUDStandaloneAdvantages;
-            this.additionalHudParts.catMemes = HUDCatMemes;
-        }
-
         if (this.root.app.settings.getAllSettings().offerHints) {
+            // TODO update video tutorials and maybe add them in puzzle mode
             if (!G_WEGAME_VERSION) {
-                this.additionalHudParts.tutorialHints = HUDPartTutorialHints;
+                // this.additionalHudParts.tutorialHints = HUDPartTutorialHints;
             }
-            this.additionalHudParts.interactiveTutorial = HUDInteractiveTutorial;
+            // this.additionalHudParts.interactiveTutorial = HUDInteractiveTutorial;
         }
 
         /** @type {(typeof MetaBuilding)[]} */

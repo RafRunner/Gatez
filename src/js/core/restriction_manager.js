@@ -73,21 +73,7 @@ export class RestrictionManager extends ReadWriteProxy {
      * @returns {boolean}
      */
     isLimitedVersion() {
-        if (G_IS_STANDALONE) {
-            // Standalone is never limited
-            return false;
-        }
-
-        if (queryParamOptions.embedProvider === "gamedistribution") {
-            // also full version on gamedistribution
-            return false;
-        }
-
-        if (G_IS_DEV) {
-            return typeof window !== "undefined" && window.location.search.indexOf("demo") >= 0;
-        }
-
-        return true;
+        return false;
     }
 
     /**

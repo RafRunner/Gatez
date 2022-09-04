@@ -6,13 +6,10 @@
 import { enumDirection, Vector } from "../../core/vector";
 import { enumPinSlotType, WiredPinsComponent } from "../components/wired_pins";
 import { MetaBuilding, defaultBuildingVariant } from "../meta_building";
-import { GameRoot } from "../root";
-import { enumHubGoalRewards } from "../tutorial_goals";
 import { enumMultiplexerType, MultiplexerComponent } from "../components/multiplexer";
 import { Entity } from "../entity";
 
 export class MetaMultiplexerBuilding extends MetaBuilding {
-
     constructor() {
         super("multiplexer");
     }
@@ -36,13 +33,6 @@ export class MetaMultiplexerBuilding extends MetaBuilding {
 
     getAvailableVariants() {
         return [defaultBuildingVariant, enumMultiplexerType.demuxer];
-    }
-
-    /**
-     * @param {GameRoot} root
-     */
-    getIsUnlocked(root) {
-        return root.hubGoals.isRewardUnlocked(enumHubGoalRewards.reward_logic_gates);
     }
 
     getDimensions() {

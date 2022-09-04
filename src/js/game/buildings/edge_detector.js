@@ -9,12 +9,11 @@ import { EdgeDetectorComponent, enumEdgeDetectorType } from "../components/edge_
 import { enumPinSlotType, WiredPinsComponent } from "../components/wired_pins";
 import { Entity } from "../entity";
 import { defaultBuildingVariant, MetaBuilding } from "../meta_building";
-import { enumHubGoalRewards } from "../tutorial_goals";
 
 const overlayMatrices = {
     [defaultBuildingVariant]: generateMatrixRotations([1, 1, 0, 1, 1, 0, 0, 1, 0]),
     [enumEdgeDetectorType.falling]: generateMatrixRotations([0, 1, 0, 0, 1, 1, 0, 0, 1]),
-    [enumEdgeDetectorType.change]: generateMatrixRotations([1, 1, 0, 1, 0, 0, 1, 1, 0])
+    [enumEdgeDetectorType.change]: generateMatrixRotations([1, 1, 0, 1, 0, 0, 1, 1, 0]),
 };
 
 export class MetaEdgeDetectorBuilding extends MetaBuilding {
@@ -49,10 +48,6 @@ export class MetaEdgeDetectorBuilding extends MetaBuilding {
 
     getSpecialOverlayRenderMatrix(rotation, rotationVariant, variant) {
         return overlayMatrices[variant][rotation];
-    }
-
-    getIsUnlocked(root) {
-        return root.hubGoals.isRewardUnlocked(enumHubGoalRewards.reward_logic_gates);
     }
 
     getDimensions() {

@@ -104,12 +104,12 @@ export class GameMode extends BasicSerializableObject {
 
     /** @returns {boolean} */
     hasHub() {
-        return true;
+        return false;
     }
 
     /** @returns {boolean} */
     hasResources() {
-        return true;
+        return false;
     }
 
     /** @returns {boolean} */
@@ -168,7 +168,7 @@ export class GameMode extends BasicSerializableObject {
 
     /** @returns {boolean} */
     getHasFreeCopyPaste() {
-        return false;
+        return true;
     }
 
     /** @returns {boolean} */
