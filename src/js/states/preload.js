@@ -1,7 +1,7 @@
 import { CHANGELOG } from "../changelog";
 import { getLogoSprite } from "../core/background_resources_loader";
 import { cachebust } from "../core/cachebust";
-import { globalConfig } from "../core/config";
+import { globalConfig, THIRDPARTY_URLS } from "../core/config";
 import { GameState } from "../core/game_state";
 import { createLogger } from "../core/logging";
 import { getRandomHint } from "../game/hints";
@@ -279,8 +279,6 @@ export class PreloadState extends GameState {
     showFailMessage(text) {
         logger.error("App init failed:", text);
 
-        const email = "bugs@shapez.io";
-
         const subElement = document.createElement("div");
         subElement.classList.add("failureBox");
 
@@ -298,8 +296,8 @@ export class PreloadState extends GameState {
                     </div>
 
                     <div class="supportHelp">
-                    Please send me an email with steps to reproduce and what you did before this happened:
-                        <br /><a class="email" href="mailto:${email}?subject=App%20does%20not%20launch">${email}</a>
+                    Please report this on the GitHub with steps to reproduce and what you did before this happened:
+                        <br /><a href="${THIRDPARTY_URLS.github}">${THIRDPARTY_URLS.github}</a>
                     </div>
 
                     <div class="lower">

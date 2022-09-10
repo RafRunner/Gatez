@@ -10,7 +10,7 @@ export const SUPPORT_TOUCH = false;
 const smoothCanvas = true;
 
 export const THIRDPARTY_URLS = {
-    github: "https://github.com/RafRunner/shapez.io",
+    github: "https://github.com/RafRunner/Gatez",
     upstream: "https://github.com/tobspr/shapez.io",
     reddit: "https://www.reddit.com/r/shapezio",
     shapeViewer: "https://viewer.shapez.io",

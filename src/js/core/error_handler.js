@@ -1,3 +1,4 @@
+import { THIRDPARTY_URLS } from "./config";
 import { logSection } from "./logging";
 import { stringifyObjectContainingErrors } from "./logging";
 import { removeAllChildren } from "./utils";
@@ -91,9 +92,8 @@ function catchErrors(message, source, lineno, colno, error) {
     desc.classList.add("desc");
     desc.innerHTML = `
         It seems the application crashed - I am sorry for that!<br /><br />
-        An anonymized crash report has been sent, and I will have a look as soon as possible.<br /><br />
-        If you have additional information how I can reproduce this error, please E-Mail me:&nbsp;
-        <a href="mailto:bugs@shapez.io?title=Application+Crash">bugs@shapez.io</a>`;
+        If you have additional information how I can reproduce this error, please open an issue at:
+        <a href="${THIRDPARTY_URLS.github}">${THIRDPARTY_URLS.github}</a>`;
     element.appendChild(desc);
 
     const details = document.createElement("pre");
