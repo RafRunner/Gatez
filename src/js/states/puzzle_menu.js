@@ -479,11 +479,7 @@ export class PuzzleMenuState extends TextualGameState {
      * @returns {Promise<import("../savegame/savegame_typedefs").PuzzleMetadata[]>}
      */
     getPuzzlesForCategory(category) {
-        const result = this.app.clientApi.apiListPuzzles(category);
-        return result.catch(err => {
-            logger.error("Failed to get", category, ":", err);
-            throw err;
-        });
+        return this.app.clientApi.apiListPuzzles(category);
     }
 
     /**

@@ -65,8 +65,8 @@ mainMenu:
     login:
         nameLabel: Nome
         passwordLabel: Senha
-        created: Conta Criada!
-        createdFail: Agora, você pode logar!
+        created: Conta Criada! Agora você pode logar.
+        createdFail: Erro ao criar a conta. Provavelmente já exite outro usuário com esse nome. Tente novamente.
     playOffline: Jogar Offline
     crateAccount: Criar Conta
     continue: Continuar
@@ -1364,7 +1364,7 @@ puzzleMenu:
     search:
         action: Procurar
         placeholder: Digite o nome do Desafio ou Autor
-        includeCompleted: Include Completed
+        includeCompleted: Incluir completados
         difficulties:
             any: Qualquer dificuldade
             easy: Fácil

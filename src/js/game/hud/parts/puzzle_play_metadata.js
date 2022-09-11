@@ -22,7 +22,6 @@ export class HUDPuzzlePlayMetadata extends BaseHUDPart {
 
         this.element = makeDiv(parent, "ingame_HUD_PuzzlePlayMetadata");
         this.element.innerHTML = `
-
             <div class="plays">
                 <span class="downloads">${formatBigNumberFull(puzzle.meta.downloads)}</span>
                 <span class="likes">${formatBigNumberFull(puzzle.meta.likes)}</span>

@@ -107,8 +107,8 @@ mainMenu:
     login:
         nameLabel: Name
         passwordLabel: Password
-        created: Account Created!
-        createdFail: Now you can log in.
+        created: Account Created! Now you can log in.
+        createdFail: Error creating account. There's probably another user with this username. Try again
     playOffline: Play Offline
     crateAccount: Create Account
     continue: Continue

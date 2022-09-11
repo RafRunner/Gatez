@@ -60,13 +60,13 @@
  * downloads: number;
  * completions: number;
  * difficulty: number | null;
- * difficultyRating: string | null;
+ * difficultyRating?: string | null;
  * averageTime: number | null;
- * averageDifficulty: number | null;
+ * averageDifficultyRating: number | null;
  * title: string;
  * author: string;
  * authorName: string;
- * description: string;
+ * description?: string;
  * afterCompletingMessage: string;
  * minimumComponents: number;
  * maximumComponents: number | null;

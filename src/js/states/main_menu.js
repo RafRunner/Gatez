@@ -89,7 +89,7 @@ export class MainMenuState extends GameState {
                             !this.app.isLoggedIn
                                 ? `
                                 <div class="outer">
-                                    <button class="styledButton commonButton">${T.mainMenu.playOffline}</button>
+                                    <button class="styledButton playOfflineButton">${T.mainMenu.playOffline}</button>
                                     <button class="styledButton createAccountButton createButton">${T.mainMenu.crateAccount}</button>
                                 </div>`
                                 : ""
@@ -280,6 +280,7 @@ export class MainMenuState extends GameState {
             },
             ".producerLink": () => this.app.platformWrapper.openExternalLink("https://tobspr.io"),
             ".puzzleDlcPlayButton": this.onPuzzleModeButtonClicked,
+            ".playOfflineButton": this.onPlayOfflineButtonClicked,
             ".createAccountButton": this.onCreateAccountClicked,
             ".editMods": this.onModsClicked,
         };
@@ -331,35 +332,47 @@ export class MainMenuState extends GameState {
         buttonContainer.appendChild(outerDiv);
     }
 
+    onPlayOfflineButtonClicked() {
+        this.moveToState("PuzzleMenuState");
+    }
+
+    createUserPasswordDialog(title, okButtonCallback) {
+        const nameInput = new FormElementInput({
+            id: "nameInput",
+            label: T.mainMenu.login.nameLabel,
+            placeholder: T.mainMenu.login.nameLabel,
+            validator: val => val.length >= 4 && val.length <= 20 && /^[\S]+$/.test(val),
+        });
+
+        const passwordInput = new FormElementInput({
+            id: "passwordInput",
+            label: T.mainMenu.login.passwordLabel,
+            placeholder: T.mainMenu.login.passwordLabel,
+            inputType: "password",
+            validator: val => val.length >= 6 && val.length <= 24 && /[\S]+/.test(val),
+        });
+
+        const dialog = new DialogWithForm({
+            app: this.app,
+            title,
+            desc: "",
+            formElements: [nameInput, passwordInput],
+            buttons: ["ok:good:enter"],
+        });
+
+        this.dialogs.internalShowDialog(dialog);
+
+        dialog.buttonSignals.ok.add(() => {
+            const name = trim(nameInput.getValue());
+            const password = trim(passwordInput.getValue());
+
+            okButtonCallback(name, password);
+        });
+    }
+
     onPuzzleModeButtonClicked() {
         if (!this.app.isLoggedIn) {
-            const nameInput = new FormElementInput({
-                id: "nameInput",
-                label: T.mainMenu.login.nameLabel,
-                placeholder: T.mainMenu.login.nameLabel,
-            });
-
-            const passwordInput = new FormElementInput({
-                id: "passwordInput",
-                label: T.mainMenu.login.passwordLabel,
-                placeholder: T.mainMenu.login.passwordLabel,
-                inputType: "password",
-            });
-
-            const dialog = new DialogWithForm({
-                app: this.app,
-                title: T.mainMenu.signin,
-                desc: "",
-                formElements: [nameInput, passwordInput],
-                buttons: ["ok:good:enter"],
-            });
-
-            this.dialogs.internalShowDialog(dialog);
-
-            dialog.buttonSignals.ok.add(async () => {
-                const name = trim(nameInput.getValue());
-                const password = trim(passwordInput.getValue());
-
+            this.createUserPasswordDialog(T.mainMenu.signin, async (name, password) => {
                 this.moveToState("LoginState", {
                     nextStateId: "PuzzleMenuState",
                     name,
@@ -373,41 +386,26 @@ export class MainMenuState extends GameState {
         }
     }
 
+    // TODO improve error messages
     onCreateAccountClicked() {
-        const nameInput = new FormElementInput({
-            id: "nameInput",
-            label: T.mainMenu.login.nameLabel,
-            placeholder: T.mainMenu.login.nameLabel,
-        });
-
-        const passwordInput = new FormElementInput({
-            id: "passwordInput",
-            label: T.mainMenu.login.passwordLabel,
-            placeholder: T.mainMenu.login.passwordLabel,
-            inputType: "password",
-        });
-
-        const dialog = new DialogWithForm({
-            app: this.app,
-            title: T.mainMenu.signin,
-            desc: "",
-            formElements: [nameInput, passwordInput],
-            buttons: ["ok:good:enter"],
-        });
-
-        this.dialogs.internalShowDialog(dialog);
-
-        dialog.buttonSignals.ok.add(async () => {
-            const name = trim(nameInput.getValue());
-            const password = trim(passwordInput.getValue());
-
+        this.createUserPasswordDialog(T.mainMenu.createAccount, async (name, password) => {
             this.app.clientApi
                 .createUser(name, password)
                 .then(async user => {
                     alert(T.mainMenu.login.created);
+
+                    // TODO without this the promise resolves before the user is created
+                    setTimeout(() => {
+                        this.moveToState("LoginState", {
+                            nextStateId: "PuzzleMenuState",
+                            name,
+                            password,
+                        });
+                    }, 500);
                 })
                 .catch(async error => {
-                    alert(`${T.mainMenu.login.createdFail}: ${error}`);
+                    alert(T.mainMenu.login.createdFail);
+                    console.log(`Error creating account: ${error}`);
                 });
         });
     }
@@ -706,9 +704,7 @@ export class MainMenuState extends GameState {
     }
 
     onTranslationHelpLinkClicked() {
-        this.app.platformWrapper.openExternalLink(
-            "https://github.com/RafRunner/shapez.io/blob/master/translations"
-        );
+        this.app.platformWrapper.openExternalLink(THIRDPARTY_URLS.github + "/blob/master/translations");
     }
 
     onPlayButtonClicked() {

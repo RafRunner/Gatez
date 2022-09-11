@@ -10,6 +10,7 @@ Right now, the game is playable, but some very important improvements are needed
 
 ### Future features/improvements in probable order of implementation:
 
+-   Add a logoff button to the main menu;
 -   Allowing players to lock building variant's on puzzle creation, not only the whole building;
 -   Polishing the sandbox mode (removing all unused mechanics and adding some new, most notably a clock component);
 -   Moving all difficulty labeling to the back-end, avoiding code duplication;
@@ -24,6 +25,10 @@ Right now, the game is playable, but some very important improvements are needed
 -   Updating the main menu background animation and all loading tooltips;
 -   Creating more components (registers, an ALU, a RAM and ROM) and adding more levels until building a simple 4 bit CPU and RAM;
 -   Changing the game's visual identity and creating new logos;
+-   Updating this README;
+-   Remove all (or most) unused code;
+-   Remove all references to upstream analytics, crash reports, platforms, emails, links, etc (except when pointing to it as the upstream, like on the main menu);
+-   Update the build scripts for web and standalone, allowing the release;
 -   Releasing the game, probably as installers for each operating system, and the back-end in server.
 
 A lot of unused code/assets from the base game are still present, and almost all the code regarding building the game/hosting it in a production environment was not changed, so feel free to help with these as well!

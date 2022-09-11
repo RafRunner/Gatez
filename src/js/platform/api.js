@@ -4,6 +4,8 @@ import { Application } from "../application";
 import { createLogger } from "../core/logging";
 import { compressX64, decompressX64 } from "../core/lzstring";
 import { T } from "../translations";
+import officialLevels from "./offlineFallback/officialLevels.json";
+import officialLevelsDownload from "./offlineFallback/officialLevelsDownload.json";
 
 const logger = createLogger("puzzle-api");
 
@@ -117,6 +119,7 @@ export class ClientAPI {
         } catch {
             localStorage.removeItem("dev_api_auth_token");
             localStorage.removeItem("trophies");
+            this.token = null;
             return null;
         }
     }
@@ -132,13 +135,18 @@ export class ClientAPI {
     }
 
     /**
-     * @param {"new"|"top-rated"|"mine"} category
+     * @param {"official"|"new"|"top-rated"|"mine"|"search"} category
      * @returns {Promise<import("../savegame/savegame_typedefs").PuzzleMetadata[]>}
      */
     apiListPuzzles(category) {
+        const official = category === "official";
         if (!this.isLoggedIn()) {
+            if (official) {
+                return Promise.resolve(officialLevels);
+            }
             return Promise.reject("not-logged-in");
         }
+
         return this._request("/v1/puzzles/list/" + category, {});
     }
 
@@ -161,10 +169,16 @@ export class ClientAPI {
      * @returns {Promise<import("../savegame/savegame_typedefs").PuzzleFullData>}
      */
     async apiDownloadPuzzle(puzzleId) {
+        let puzzle = null;
         if (!this.isLoggedIn()) {
-            return Promise.reject("not-logged-in");
+            if (Object.keys(officialLevelsDownload).includes(puzzleId.toString())) {
+                puzzle = officialLevelsDownload[puzzleId.toString()];
+            } else {
+                return Promise.reject("not-logged-in");
+            }
+        } else {
+            puzzle = await this._request("/v1/puzzles/download/" + puzzleId, {});
         }
-        const puzzle = await this._request("/v1/puzzles/download/" + puzzleId, {});
         return { game: JSON.parse(decompressX64(puzzle.game)), meta: puzzle.meta };
     }
 
