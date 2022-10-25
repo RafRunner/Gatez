@@ -42,7 +42,7 @@
  *   version: number,
  *   internalId: string,
  *   level: number
- *   name: string|null
+ *   name?: string
  * }} SavegameMetadata
  *
  * @typedef {{
@@ -59,17 +59,17 @@
  * likes: number;
  * downloads: number;
  * completions: number;
- * difficulty: number | null;
- * difficultyRating?: string | null;
- * averageTime: number | null;
- * averageDifficultyRating: number | null;
+ * difficulty?: number;
+ * difficultyRating?: string;
+ * averageTime?: number;
+ * averageDifficultyRating?: number;
  * title: string;
  * author: string;
  * authorName: string;
- * description?: string;
+ * description: string;
  * afterCompletingMessage: string;
  * minimumComponents: number;
- * maximumComponents: number | null;
+ * maximumComponents?: number;
  * minimumNands: number;
  * createdAt: string;
  * completed: boolean;
