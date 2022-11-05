@@ -66,7 +66,6 @@
  * title: string;
  * author: string;
  * authorName: string;
- * description: string;
  * afterCompletingMessage: string;
  * minimumComponents: number;
  * maximumComponents?: number;
@@ -127,7 +126,10 @@
 
 /**
  * @typedef {{
- *   meta: PuzzleMetadata,
+ *   meta: PuzzleMetadata & {
+ *     description?: string,
+ *     difficultyRating?: string,
+ * },
  *   game: PuzzleGameData
  * }} PuzzleFullData
  */
