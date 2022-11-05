@@ -393,6 +393,14 @@
                             }
                         }
                     }
+
+                    &.cant-pay {
+                        background: #bb5252;
+
+                        @include DarkThemeOverride {
+                            background: rgb(92, 5, 5);
+                        }
+                    }
                 }
 
                 > .loader,

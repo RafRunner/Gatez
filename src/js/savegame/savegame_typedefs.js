@@ -73,6 +73,7 @@
  * createdAt: string;
  * completed: boolean;
  * liked: boolean;
+ * canPlay: boolean;
  * }} PuzzleMetadata
  */
 
@@ -127,10 +128,10 @@
 /**
  * @typedef {{
  *   meta: PuzzleMetadata & {
- *     description?: string,
- *     difficultyRating?: string,
- * },
- *   game: PuzzleGameData
+ *     description?: string;
+ *     difficultyRating?: string;
+ *   };
+ *   game: PuzzleGameData;
  * }} PuzzleFullData
  */
 

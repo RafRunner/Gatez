@@ -20,6 +20,7 @@
             "minimumNands": 1,
             "createdAt": "2022-08-27T22:04:42.227Z",
             "liked": false,
+            "canPlay": true,
             "difficultyRating": null
         }
     },
@@ -44,6 +45,7 @@
             "minimumNands": 1,
             "createdAt": "2022-08-27T21:31:12.034Z",
             "liked": false,
+            "canPlay": true,
             "difficultyRating": null
         }
     },
@@ -68,6 +70,7 @@
             "minimumNands": 1,
             "createdAt": "2022-08-27T21:02:23.796Z",
             "liked": false,
+            "canPlay": true,
             "difficultyRating": null
         }
     },
@@ -92,6 +95,7 @@
             "minimumNands": 1,
             "createdAt": "2022-08-27T21:03:55.154Z",
             "liked": false,
+            "canPlay": true,
             "difficultyRating": null
         }
     },
@@ -116,6 +120,7 @@
             "minimumNands": 1,
             "createdAt": "2022-08-27T21:08:35.768Z",
             "liked": false,
+            "canPlay": true,
             "difficultyRating": null
         }
     },
@@ -140,6 +145,7 @@
             "minimumNands": 1,
             "createdAt": "2022-08-27T21:37:19.954Z",
             "liked": false,
+            "canPlay": true,
             "difficultyRating": null
         }
     },
@@ -164,6 +170,7 @@
             "minimumNands": 1,
             "createdAt": "2022-08-27T22:01:47.026Z",
             "liked": false,
+            "canPlay": true,
             "difficultyRating": null
         }
     },
@@ -188,6 +195,7 @@
             "minimumNands": 1,
             "createdAt": "2022-08-27T22:11:40.708Z",
             "liked": false,
+            "canPlay": true,
             "difficultyRating": null
         }
     },
@@ -212,6 +220,7 @@
             "minimumNands": 1,
             "createdAt": "2022-08-27T22:14:27.671Z",
             "liked": false,
+            "canPlay": true,
             "difficultyRating": null
         }
     },
@@ -236,6 +245,7 @@
             "minimumNands": 1,
             "createdAt": "2022-08-27T22:28:23.014Z",
             "liked": false,
+            "canPlay": true,
             "difficultyRating": null
         }
     },
@@ -260,6 +270,7 @@
             "minimumNands": 1,
             "createdAt": "2022-08-27T22:41:16.453Z",
             "liked": false,
+            "canPlay": true,
             "difficultyRating": null
         }
     },
@@ -284,6 +295,7 @@
             "minimumNands": 1,
             "createdAt": "2022-08-27T22:59:10.798Z",
             "liked": false,
+            "canPlay": true,
             "difficultyRating": null
         }
     },
@@ -308,6 +320,7 @@
             "minimumNands": 1,
             "createdAt": "2022-08-27T23:40:10.598Z",
             "liked": false,
+            "canPlay": true,
             "difficultyRating": null
         }
     },
@@ -332,6 +345,7 @@
             "minimumNands": 1,
             "createdAt": "2022-08-28T00:19:48.693Z",
             "liked": false,
+            "canPlay": true,
             "difficultyRating": null
         }
     },
@@ -356,6 +370,7 @@
             "minimumNands": 1,
             "createdAt": "2022-08-28T00:31:57.402Z",
             "liked": false,
+            "canPlay": true,
             "difficultyRating": null
         }
     },
@@ -380,6 +395,7 @@
             "minimumNands": 1,
             "createdAt": "2022-08-27T23:18:44.362Z",
             "liked": false,
+            "canPlay": true,
             "difficultyRating": null
         }
     },
@@ -404,6 +420,7 @@
             "minimumNands": 1,
             "createdAt": "2022-08-28T17:48:17.664Z",
             "liked": false,
+            "canPlay": true,
             "difficultyRating": null
         }
     },
@@ -428,6 +445,7 @@
             "minimumNands": 1,
             "createdAt": "2022-08-29T01:36:33.454Z",
             "liked": false,
+            "canPlay": true,
             "difficultyRating": null
         }
     },
@@ -452,6 +470,7 @@
             "minimumNands": 1,
             "createdAt": "2022-08-28T18:04:35.804Z",
             "liked": false,
+            "canPlay": true,
             "difficultyRating": null
         }
     },
@@ -476,6 +495,7 @@
             "minimumNands": 1,
             "createdAt": "2022-08-28T18:38:58.560Z",
             "liked": false,
+            "canPlay": true,
             "difficultyRating": null
         }
     },
@@ -500,6 +520,7 @@
             "minimumNands": 1,
             "createdAt": "2022-09-04T00:12:09.542Z",
             "liked": false,
+            "canPlay": true,
             "difficultyRating": null
         }
     },
@@ -524,6 +545,7 @@
             "minimumNands": 1,
             "createdAt": "2022-09-04T00:50:30.362Z",
             "liked": false,
+            "canPlay": true,
             "difficultyRating": null
         }
     }

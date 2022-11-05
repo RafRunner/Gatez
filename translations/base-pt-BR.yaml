@@ -247,6 +247,8 @@ dialogs:
     puzzleDownloadError:
         title: Erro no download
         desc: "Falha ao baixar o desafio:"
+        descCantPlay: Você ainda não pode jogar esse Desafio! Resolva os Desafios que vêm antes dele.
+        descNotFound: Não encontrado! Esse Desafio não existe!
     puzzleSubmitError:
         title: Erro no envio
         desc: "Erro ao enviar seu desafio:"

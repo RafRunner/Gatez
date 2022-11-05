@@ -340,23 +340,21 @@ export class PuzzleMenuState extends TextualGameState {
             elem.classList.add("puzzle");
             elem.setAttribute("data-puzzle-id", String(puzzle.id));
 
-            if (this.activeCategory !== "mine") {
-                elem.classList.toggle("completed", puzzle.completed);
+            if (!puzzle.canPlay) {
+                elem.classList.add("cant-pay");
+            } else if (this.activeCategory !== "mine" && puzzle.completed) {
+                elem.classList.add("completed");
             }
 
-            if (puzzle.title) {
-                const title = document.createElement("div");
-                title.classList.add("title");
-                title.innerText = puzzle.title;
-                elem.appendChild(title);
-            }
+            const title = document.createElement("div");
+            title.classList.add("title");
+            title.innerText = puzzle.title;
+            elem.appendChild(title);
 
-            if (puzzle.id) {
-                const id = document.createElement("div");
-                id.classList.add("id");
-                id.innerText = `#${puzzle.id}`;
-                elem.appendChild(id);
-            }
+            const id = document.createElement("div");
+            id.classList.add("id");
+            id.innerText = `#${puzzle.id}`;
+            elem.appendChild(id);
 
             if (puzzle.author && !["official", "mine"].includes(this.activeCategory)) {
                 const author = document.createElement("div");
@@ -373,11 +371,6 @@ export class PuzzleMenuState extends TextualGameState {
                 const difficulty = document.createElement("div");
                 difficulty.classList.add("difficulty");
 
-                const completionPercentage = Math.max(
-                    0,
-                    Math.min(100, Math.round((puzzle.completions / puzzle.downloads) * 100.0))
-                );
-                difficulty.innerText = completionPercentage + "%";
                 stats.appendChild(difficulty);
 
                 if (puzzle.difficulty === null) {
@@ -435,7 +428,11 @@ export class PuzzleMenuState extends TextualGameState {
 
             container.appendChild(elem);
 
-            this.trackClicks(elem, () => this.playPuzzle(puzzle.id));
+            this.trackClicks(elem, () => {
+                if (puzzle.canPlay) {
+                    this.playPuzzle(puzzle.id);
+                }
+            });
         }
 
         if (puzzles.length === 0) {
@@ -490,7 +487,7 @@ export class PuzzleMenuState extends TextualGameState {
     playPuzzle(puzzleId, nextPuzzles) {
         const closeLoading = this.dialogs.showLoadingDialog();
 
-        this.asyncChannel.watch(this.app.clientApi.apiDownloadPuzzle(puzzleId)).then(
+        this.asyncChannel.watch(this.app.clientApi.apiDownloadPuzzle(puzzleId.toString())).then(
             puzzleData => {
                 closeLoading();
 
@@ -565,7 +562,7 @@ export class PuzzleMenuState extends TextualGameState {
             label: null,
             placeholder: "",
             defaultValue: "",
-            validator: val => /^[0-9]+$/.test(val),
+            validator: val => /^[0-9]+$/.test(val) || val === "/apikey",
         });
 
         const dialog = new DialogWithForm({
@@ -587,13 +584,27 @@ export class PuzzleMenuState extends TextualGameState {
 
             const closeLoading = this.dialogs.showLoadingDialog();
 
-            this.app.clientApi.apiDownloadPuzzleById(searchTerm).then(
+            this.app.clientApi.apiDownloadPuzzle(searchTerm).then(
                 puzzle => {
                     closeLoading();
+                    if (!puzzle.meta.canPlay) {
+                        this.dialogs.showWarning(
+                            T.dialogs.puzzleDownloadError.title,
+                            T.dialogs.puzzleDownloadError.descCantPlay
+                        );
+                        return;
+                    }
                     this.startLoadedPuzzle(puzzle);
                 },
                 err => {
                     closeLoading();
+                    if (err === "bad-status: 404 / Not Found") {
+                        this.dialogs.showWarning(
+                            T.dialogs.puzzleDownloadError.title,
+                            T.dialogs.puzzleDownloadError.descNotFound
+                        );
+                        return;
+                    }
                     this.dialogs.showWarning(
                         T.dialogs.puzzleDownloadError.title,
                         T.dialogs.puzzleDownloadError.desc + " " + err

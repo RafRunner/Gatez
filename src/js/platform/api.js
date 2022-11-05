@@ -165,14 +165,14 @@ export class ClientAPI {
     }
 
     /**
-     * @param {number} puzzleId
+     * @param {string} puzzleId
      * @returns {Promise<import("../savegame/savegame_typedefs").PuzzleFullData>}
      */
     async apiDownloadPuzzle(puzzleId) {
         let puzzle = null;
         if (!this.isLoggedIn()) {
-            if (puzzleId.toString() in Object.keys(officialLevelsDownload)) {
-                puzzle = officialLevelsDownload[puzzleId.toString()];
+            if (puzzleId in Object.keys(officialLevelsDownload)) {
+                puzzle = officialLevelsDownload[puzzleId];
             } else {
                 return Promise.reject("not-logged-in");
             }
@@ -194,18 +194,6 @@ export class ClientAPI {
             method: "DELETE",
             body: {},
         });
-    }
-
-    /**
-     * @param {string} id
-     * @returns {Promise<import("../savegame/savegame_typedefs").PuzzleFullData>}
-     */
-    async apiDownloadPuzzleById(id) {
-        if (!this.isLoggedIn()) {
-            return Promise.reject("not-logged-in");
-        }
-        const puzzle = await this._request("/v1/puzzles/download/" + id, {});
-        return { game: JSON.parse(decompressX64(puzzle.game)), meta: puzzle.meta };
     }
 
     /**

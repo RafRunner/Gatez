@@ -396,6 +396,8 @@ dialogs:
         title: Download Error
         desc: >-
             Failed to download the puzzle:
+        descCantPlay: You can't play this puzzle yet! Solve the other puzzles before it.
+        descNotFound: Not found! This puzzle doesn't exist.
 
     puzzleSubmitError:
         title: Submission Error
