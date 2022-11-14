@@ -81,20 +81,22 @@ export class MainMenuState extends GameState {
 
             <div class="puzzleContainer">
                 <h3>${T.mainMenu.puzzleModeTitle}</h3>
-                    <div class="buttons">
-                        <button class="styledButton puzzleDlcPlayButton playButton" style="background-color: #66bb6a">${
-                            this.app.isLoggedIn ? T.mainMenu.play : T.mainMenu.signin
-                        }</button>
+                <div class="buttons">
+                    <button class="styledButton puzzleDlcPlayButton playButton" style="background-color: #66bb6a">
+                        ${this.app.isLoggedIn ? T.mainMenu.play : T.mainMenu.signin}
+                    </button>
+                    <div class="outer">
                         ${
-                            !this.app.isLoggedIn
+                            this.app.isLoggedIn
                                 ? `
-                                <div class="outer">
-                                    <button class="styledButton playOfflineButton">${T.mainMenu.playOffline}</button>
-                                    <button class="styledButton createAccountButton createButton">${T.mainMenu.crateAccount}</button>
-                                </div>`
-                                : ""
+                            <button class="styledButton logoffButton createButton">${T.mainMenu.logoff}</button>`
+                                : `
+                            <button class="styledButton playOfflineButton">${T.mainMenu.playOffline}</button>
+                            <button class="styledButton createAccountButton createButton">${T.mainMenu.crateAccount}</button>
+                            `
                         }
                     </div>
+                </div>
             </div>
 
             <div class="sandboxContainer">
@@ -264,7 +266,6 @@ export class MainMenuState extends GameState {
             }
         });
 
-        // TODO implement play offline click functionality
         const clickHandling = {
             ".settingsButton": this.onSettingsButtonClicked,
             ".languageChoose": this.onLanguageChooseClicked,
@@ -282,6 +283,7 @@ export class MainMenuState extends GameState {
             ".puzzleDlcPlayButton": this.onPuzzleModeButtonClicked,
             ".playOfflineButton": this.onPlayOfflineButtonClicked,
             ".createAccountButton": this.onCreateAccountClicked,
+            ".logoffButton": this.onlogoffClicked,
             ".editMods": this.onModsClicked,
         };
 
@@ -408,6 +410,11 @@ export class MainMenuState extends GameState {
                     console.log(`Error creating account: ${error}`);
                 });
         });
+    }
+
+    onlogoffClicked() {
+        localStorage.removeItem("dev_api_auth_token");
+        window.location.reload();
     }
 
     onBackButtonClicked() {

@@ -104,6 +104,7 @@ mainMenu:
     play: Play
     signin: Sign in
     createAccount: Create an Account
+    logoff: Logoff
     login:
         nameLabel: Name
         passwordLabel: Password

@@ -153,7 +153,7 @@ export class HUDPuzzleCompleteNotification extends BaseHUDPart {
                     T.dialogs.puzzleCompleteEdit.titleFail,
                     T.dialogs.puzzleCompletePlay.descFailMaxComps.replace(
                         "<components-count>",
-                        this.metaPuzzle.maximumComponents
+                        this.metaPuzzle.maximumComponents.toString()
                     )
                 );
                 return;
@@ -161,7 +161,6 @@ export class HUDPuzzleCompleteNotification extends BaseHUDPart {
         }
 
         // If the person has already liked the puzzle, it's shown
-        const componentsUsed = countComponentsUsed(this.root);
         this.userDidLikePuzzle = this.metaPuzzle.liked;
         this.updateState();
 

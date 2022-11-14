@@ -68,13 +68,6 @@ export class PreloadState extends GameState {
 
     startLoading() {
         this.setStatus("Booting")
-            .then(async () => {
-                const userInfo = await this.app.clientApi.verifyToken();
-                this.app.isLoggedIn = userInfo;
-                if (userInfo) {
-                    localStorage.setItem("trophies", userInfo.trophies.toString());
-                }
-            })
             .then(() => this.setStatus("Creating platform wrapper"))
             .then(() => this.app.platformWrapper.initialize())
 
@@ -102,6 +95,14 @@ export class PreloadState extends GameState {
             .then(() => this.setStatus("Creating storage"))
             .then(() => {
                 return this.app.storage.initialize();
+            })
+
+            .then(async () => {
+                const userInfo = await this.app.clientApi.verifyToken();
+                this.app.isLoggedIn = userInfo;
+                if (userInfo) {
+                    localStorage.setItem("trophies", userInfo.trophies.toString());
+                }
             })
 
             .then(() => this.setStatus("Initializing libraries"))

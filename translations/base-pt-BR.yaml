@@ -62,6 +62,7 @@ mainMenu:
     play: Jogar
     signin: Entrar
     createAccount: Crie uma Conta
+    logoff: Sair
     login:
         nameLabel: Nome
         passwordLabel: Senha
