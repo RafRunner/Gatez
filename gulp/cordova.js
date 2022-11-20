@@ -93,7 +93,7 @@ function gulptasksCordova($, gulp, buildFolder) {
         const version = buildUtils.getVersion();
         configContent = configContent.replace("%VERSION%", version);
         configContent = configContent.replace(' id="io.shapez.app" ', ' id="io.shapez.app_beta" ');
-        configContent = configContent.replace("<name>Shapez.io</name>", "<name>Shapez.io BETA</name>");
+        configContent = configContent.replace("<name>Gatez</name>", "<name>Gatez BETA</name>");
         fs.writeFileSync(configUrl, configContent);
         cb();
     });
@@ -102,7 +102,7 @@ function gulptasksCordova($, gulp, buildFolder) {
         const configUrl = path.join("..", "..", "config.xml");
         let configContent = fs.readFileSync(configUrl).toString();
         configContent = configContent.replace(' id="io.shapez.app_beta" ', ' id="io.shapez.app" ');
-        configContent = configContent.replace("<name>Shapez.io BETA</name>", "<name>Shapez.io</name>");
+        configContent = configContent.replace("<name>Gatez BETA</name>", "<name>Gatez</name>");
         fs.writeFileSync(configUrl, configContent);
         cb();
     });

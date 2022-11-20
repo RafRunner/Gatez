@@ -11,19 +11,13 @@ export class MobileWarningState extends GameState {
     getInnerHTML() {
         return `
 
-            <img class="logo" src="${cachebust("res/" + getLogoSprite())}" alt="shapez.io Logo">
+            <img class="logo" src="${cachebust("res/" + getLogoSprite())}" alt="Gatez Logo">
 
             <p>
-                I'm sorry, but shapez.io is not available on mobile devices yet!
+                I'm sorry, but Gatez is not available on mobile devices yet!
                 There is also no estimate when this will change, but feel to make a contribution! It's
-                &nbsp;<a href="https://github.com/tobspr/shapez.io" target="_blank">open source</a>!</p>
-
-            <p>If you want to play on your computer, you can also get the standalone on Steam:</p>
-
-
-            <a href="${
-                THIRDPARTY_URLS.stanaloneCampaignLink + "/shapez_mobile"
-            }" class="standaloneLink" target="_blank">Get the shapez.io standalone!</a>
+                &nbsp;<a href="${THIRDPARTY_URLS.github}" target="_blank">open source</a>!
+            </p>
         `;
     }
 

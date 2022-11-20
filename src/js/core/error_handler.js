@@ -39,7 +39,7 @@ function catchErrors(message, source, lineno, colno, error) {
         return;
     }
 
-    if (!G_IS_DEV && G_IS_BROWSER && ("" + source).indexOf("shapez.io") < 0) {
+    if (!G_IS_DEV && G_IS_BROWSER && ("" + source).indexOf("Gatez") < 0) {
         console.warn("Thirdparty error:", message);
         return;
     }

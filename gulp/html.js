@@ -224,7 +224,7 @@ function gulptasksHTML($, gulp, buildFolder) {
             .pipe(gulp.dest(buildFolder));
     }
 
-    // TODO update URLs
+    // TODO update URLs and possibly remove analytics links
     gulp.task("html.dev", () => {
         return buildHtml("http://localhost:5005", {
             integrity: false,
@@ -233,11 +233,11 @@ function gulptasksHTML($, gulp, buildFolder) {
     });
 
     gulp.task("html.staging", () => {
-        return buildHtml("https://api-staging.shapez.io");
+        // return buildHtml("https://api-staging.shapez.io");
     });
 
     gulp.task("html.prod", () => {
-        return buildHtml("https://analytics.shapez.io");
+        // return buildHtml("https://analytics.shapez.io");
     });
 
     gulp.task("html.standalone-dev", () => {
@@ -249,17 +249,17 @@ function gulptasksHTML($, gulp, buildFolder) {
     });
 
     gulp.task("html.standalone-beta", () => {
-        return buildHtml("https://api-staging.shapez.io", {
-            standalone: true,
-            enableCachebust: false,
-        });
+        // return buildHtml("https://api-staging.shapez.io", {
+        //     standalone: true,
+        //     enableCachebust: false,
+        // });
     });
 
     gulp.task("html.standalone-prod", () => {
-        return buildHtml("https://analytics.shapez.io", {
-            standalone: true,
-            enableCachebust: false,
-        });
+        // return buildHtml("https://analytics.shapez.io", {
+        //     standalone: true,
+        //     enableCachebust: false,
+        // });
     });
 }
 

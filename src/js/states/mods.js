@@ -44,12 +44,7 @@ export class ModsState extends TextualGameState {
         if (!G_IS_STANDALONE && !G_IS_DEV) {
             return `
                 <div class="noModSupport">
-
                     <p>${T.mods.noModSupport}</p>
-
-                    <a href="#" class="steamLink steam_2_npr" target="_blank">Get the shapez.io standalone!</a>
-
-
                 </div>
             `;
         }

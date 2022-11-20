@@ -10,6 +10,7 @@ const execSync = require("child_process").execSync;
 const electronNotarize = require("electron-notarize");
 const { signAsync } = require("tobspr-osx-sign");
 
+// TODO update or remove
 function gulptasksStandalone($, gulp) {
     const targets = [
         {

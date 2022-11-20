@@ -285,7 +285,7 @@ export class PreloadState extends GameState {
 
         subElement.innerHTML = `
                 <div class="logo">
-                    <img src="${cachebust("res/" + getLogoSprite())}" alt="Shapez.io Logo">
+                    <img src="${cachebust("res/" + getLogoSprite())}" alt="Gatez Logo">
                 </div>
                 <div class="failureInner">
                     <div class="errorHeader">
