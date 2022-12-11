@@ -215,7 +215,7 @@ export class ClientAPI {
      * @param {object} payload
      * @param {number} payload.time
      * @param {boolean} payload.liked
-     * @param {number} payload.difficultyRating
+     * @param {string} payload.difficultyRating
      * @param {number} payload.componentsUsed
      * @returns {Promise<{ trophies: number, completeData: any }>}
      */

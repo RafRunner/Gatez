@@ -70,7 +70,7 @@ export class HUDPuzzleCompleteNotification extends BaseHUDPart {
         this.easyBtn.innerText = T.puzzleMenu.difficulties.easy;
         difficultyButtonBar.appendChild(this.easyBtn);
         this.trackClicks(this.easyBtn, () => {
-            this.userRatedDifficulty = 0;
+            this.userRatedDifficulty = "easy";
             this.updateRadioButton("easy");
         });
 
@@ -79,7 +79,7 @@ export class HUDPuzzleCompleteNotification extends BaseHUDPart {
         this.mediumBtn.innerText = T.puzzleMenu.difficulties.medium;
         difficultyButtonBar.appendChild(this.mediumBtn);
         this.trackClicks(this.mediumBtn, () => {
-            this.userRatedDifficulty = 1;
+            this.userRatedDifficulty = "medium";
             this.updateRadioButton("medium");
         });
 
@@ -88,7 +88,7 @@ export class HUDPuzzleCompleteNotification extends BaseHUDPart {
         this.hardBtn.innerText = T.puzzleMenu.difficulties.hard;
         difficultyButtonBar.appendChild(this.hardBtn);
         this.trackClicks(this.hardBtn, () => {
-            this.userRatedDifficulty = 2;
+            this.userRatedDifficulty = "hard";
             this.updateRadioButton("hard");
         });
 
@@ -172,17 +172,9 @@ export class HUDPuzzleCompleteNotification extends BaseHUDPart {
 
         // If the person has already rated the puzzle, it's shown
         if (this.metaPuzzle.difficultyRating) {
-            if (this.metaPuzzle.difficultyRating === "easy") {
-                this.userRatedDifficulty = 0;
-            } else if (this.metaPuzzle.difficultyRating === "medium") {
-                this.userRatedDifficulty = 1;
-            } else {
-                this.userRatedDifficulty = 2;
-            }
+            this.userRatedDifficulty = this.metaPuzzle.difficultyRating;
             this.updateRadioButton(this.metaPuzzle.difficultyRating);
         }
-
-        console.log("elemContents", this.elemContents);
 
         this.root.soundProxy.playUi(SOUNDS.levelComplete);
         this.root.app.inputMgr.makeSureAttachedAndOnTop(this.inputReciever);

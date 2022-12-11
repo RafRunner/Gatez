@@ -121,11 +121,11 @@ export class PuzzlePlayGameMode extends PuzzleGameMode {
     /**
      *
      * @param {boolean} liked
-     * @param {number} difficultyRating
+     * @param {string} difficultyRating
      * @param {number} time
      * @param {number} componentsUsed
      */
-    trackCompleted(liked, difficultyRating, time, componentsUsed) {
+    async trackCompleted(liked, difficultyRating, time, componentsUsed) {
         const closeLoading = this.root.hud.parts.dialogs.showLoadingDialog();
 
         return this.root.app.clientApi

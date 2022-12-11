@@ -12,7 +12,6 @@ Right now, the game is playable, but some very important improvements are needed
 
 -   Allowing players to lock building variant's on puzzle creation, not only the whole building;
 -   Polishing the sandbox mode (removing all unused mechanics and adding some new, most notably a clock component);
--   Moving all difficulty labeling to the back-end, avoiding code duplication;
 -   Implement multi lingual puzzle titles and descriptions, that can be translated by users or automaticaly;
 -   A more in topic way of choosing a puzzle's icon, correctly it's just set to a random shape from shapez;
 -   Improving the puzzle description input using a multi line textbox;
