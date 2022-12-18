@@ -59,7 +59,7 @@
  * likes: number;
  * downloads: number;
  * completions: number;
- * difficulty?: number;
+ * difficulty?: string;
  * difficultyRating?: string;
  * averageTime?: number;
  * averageDifficultyRating?: number;

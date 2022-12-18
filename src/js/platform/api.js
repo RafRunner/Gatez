@@ -171,7 +171,7 @@ export class ClientAPI {
     async apiDownloadPuzzle(puzzleId) {
         let puzzle = null;
         if (!this.isLoggedIn()) {
-            if (puzzleId in Object.keys(officialLevelsDownload)) {
+            if (Object.keys(officialLevelsDownload).indexOf(puzzleId.toString()) !== -1) {
                 puzzle = officialLevelsDownload[puzzleId];
             } else {
                 return Promise.reject("not-logged-in");

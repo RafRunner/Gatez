@@ -376,15 +376,9 @@ export class PuzzleMenuState extends TextualGameState {
                 if (puzzle.difficulty === null) {
                     difficulty.classList.add("stage--unknown");
                     difficulty.innerText = T.puzzleMenu.difficulties.unknown;
-                } else if (puzzle.difficulty < 0.3) {
-                    difficulty.classList.add("stage--easy");
-                    difficulty.innerText = T.puzzleMenu.difficulties.easy;
-                } else if (puzzle.difficulty >= 0.7) {
-                    difficulty.classList.add("stage--hard");
-                    difficulty.innerText = T.puzzleMenu.difficulties.hard;
                 } else {
-                    difficulty.classList.add("stage--medium");
-                    difficulty.innerText = T.puzzleMenu.difficulties.medium;
+                    difficulty.classList.add(`stage--${puzzle.difficulty}`);
+                    difficulty.innerText = T.puzzleMenu.difficulties[puzzle.difficulty];
                 }
             }
 
