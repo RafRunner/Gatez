@@ -179,7 +179,8 @@ export class ClientAPI {
         } else {
             puzzle = await this._request("/v1/puzzles/download/" + puzzleId, {});
         }
-        return { game: JSON.parse(decompressX64(puzzle.game)), meta: puzzle.meta };
+        const game = JSON.parse(decompressX64(puzzle.game));
+        return { game, meta: puzzle.meta };
     }
 
     /**

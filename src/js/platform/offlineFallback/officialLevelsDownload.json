@@ -1,6 +1,6 @@
 {
     "1": {
-        "game": "N4IgbgpgTgzglgewHYgFwEYA0IBGBXOAGwBM4kBzGNAbVABcBPABwjRCagXKgEMBbPjxyEIAZTjkkPQiGzxJ0gDJwYdNlgAMs9giqpQADzQBaLCAZoATNihoNAX3uZ6zVqnadu-QcIgBBAGMAiCY6BFtsCAMWALoIYnEFQj0QTW0mXTRDEzMLVGMAZhs7RwBdbBwEPCRiPVAAdytsAAs0ADYnECiAwjxieIAhAhIyShpS+yA",
+        "game": "N4IgbgpgTgzglgewHYgFwEYA0IBGBXOAGwBM4kBzGNAbVABcBPABwjRCagXKgEMBbPjxyEIAZTjkkPQiGzxJ0gDJwYdNlgAMs9giqpQADzQBaLCAZoATNihoNAX3uZ6zVqnadu-QcIgBBAGMAiCY6BFtsCAMWALoIYnEFQj0QTW0mXTRDEzMLVGMAZhs7RwBdbBwEPCRiPVAAdytsAAs0ADYnECiAwjxieIAhAhIyShoQQi44AIB9ch447QAzKqgZsiY8OhnJ8mm5hdZsergoCBm6aqQIGWweYn6IkD48Qjo4JhEDaG148nP+nFYuFtHwIHxwhZSvYgA",
         "meta": {
             "id": 1,
             "shortKey": "RyRyRrRr:CyCyCpCp",
@@ -20,8 +20,9 @@
             "minimumNands": 1,
             "createdAt": "2022-08-27T22:04:42.227Z",
             "liked": false,
-            "canPlay": true,
-            "difficultyRating": null
+            "completed": false,
+            "difficultyRating": null,
+            "canPlay": true
         }
     },
     "2": {
@@ -45,12 +46,13 @@
             "minimumNands": 1,
             "createdAt": "2022-08-27T21:31:12.034Z",
             "liked": false,
-            "canPlay": true,
-            "difficultyRating": null
+            "completed": false,
+            "difficultyRating": null,
+            "canPlay": true
         }
     },
     "3": {
-        "game": "N4IgbgpgTgzglgewHYgFwEYA0IBGBXOAGwBM4kBzGNAbVABcBPABwjRCagXKgEMBbPjxyEIAZTjkkPQiGzxJ0gDJwYdNlgAMmTbPYIqqUAA80AWgAs2BmgBM2KGg0BfJ5nrNWqdp279BwsQkpGTkgpRU1LyxNTA1dJn00Y1srFJAHVGdXdxY2Di5eASERAEEAYzKIJjoEB2wIIxYyughicQVCAxAYrTjsBINk1FMsEGthgGZ7RxcAXWwcBDwkYkGQAHc0AHZsAAs0ADZXEAaywjxiVoAhAhIyShpZpyA",
+        "game": "N4IgbgpgTgzglgewHYgFwEYA0IBGBXOAGwBM4kBzGNAbVABcBPABwjRCagXKgEMBbPjxyEIAZTjkkPQiGzxJ0gDJwYdNlgAMmTbPYIqqUAA80AWgAs2BmgBM2KGg0BfJ5nrNWqdp279BwsQkpGTkgpRU1LyxNTA1dJn00Y1srFJAHVGdXdxY2Di5eASERAEEAYzKIJjoEB2wIIxYyughicQVCAxAYrTjsBINk1FMsEGthgGZ7RxcAXWwcBDwkYkGQAHc0AHZsAAs0ADZXEAaywjxiVoAhAhIyShoQADMlqAB9MiY8OjfCLjgym9yDwWrp1nAoBA3nRlkgICEQDxiJc6iA+HhCHQ4EwREZoLpWuQoZcWs1aro+BA+LVrLMnEA",
         "meta": {
             "id": 3,
             "shortKey": "CrWuCrWu:WpSp--Sp",
@@ -70,12 +72,13 @@
             "minimumNands": 1,
             "createdAt": "2022-08-27T21:02:23.796Z",
             "liked": false,
-            "canPlay": true,
-            "difficultyRating": null
+            "completed": false,
+            "difficultyRating": null,
+            "canPlay": true
         }
     },
     "4": {
-        "game": "N4IgbgpgTgzglgewHYgFwEYA0IBGBXOAGwBM4kBzGNAbVABcBPABwjRCagXKgEMBbPjxyEIAZTjkkPQiGzxJ0gDJwYdNlgAMmTbPYIqqUAA80AWgAs2BmgBM2KGg0BfJ5nrNWqdp279BwsQkpGTkgpRU1LyxNTA1dJn00Y1srFJAHVGdXdxY2Di5eASERAEEAYzKIJjoEB2wIIxYyughicQVCAxBo7Vj4xMMQE1RTLBBrEYBme0cXAF1sHAQ8JGIDUAB3NAB2bAALNAA2VxAGssI8YlaAIQISMkoaOacgA",
+        "game": "N4IgbgpgTgzglgewHYgFwEYA0IBGBXOAGwBM4kBzGNAbVABcBPABwjRCagXKgEMBbPjxyEIAZTjkkPQiGzxJ0gDJwYdNlgAMmTbPYIqqUAA80AWgAs2BmgBM2KGg0BfJ5nrNWqdp279BwsQkpGTkgpRU1LyxNTA1dJn00Y1srFJAHVGdXdxY2Di5eASERAEEAYzKIJjoEB2wIIxYyughicQVCAxBo7Vj4xMMQE1RTLBBrEYBme0cXAF1sHAQ8JGIDUAB3NAB2bAALNAA2VxAGssI8YlaAIQISMkoaEAAzZagAfTImPDp3wi44GV3uQeC1dBs4FAIO86CskBAQiAeMQrnUQHw8IQ6HAmCIjNBdK1yNCri1mrVdHwIHxatY5k4gA",
         "meta": {
             "id": 4,
             "shortKey": "RwSwSwRw:RrRwRwRr",
@@ -95,12 +98,13 @@
             "minimumNands": 1,
             "createdAt": "2022-08-27T21:03:55.154Z",
             "liked": false,
-            "canPlay": true,
-            "difficultyRating": null
+            "completed": false,
+            "difficultyRating": null,
+            "canPlay": true
         }
     },
     "5": {
-        "game": "N4IgbgpgTgzglgewHYgFwEYA0IBGBXOAGwBM4kBzGNAbVABcBPABwjRCagXKgEMBbPjxyEIAZTjkkPQiGzxJ0gDJwYdNlgAMmTbPYIqqUAA80AWgAs2BmgBM2KGg0BfJ5nrNWqdp279BwsQkpGTkgpRU1LyxNTA1dJn00Y1srFJAHVGdXdxY2Di5eASERAEEAYzKIJjoEB2wIIxYyughicQVCAxAtaO14xMMQE1RTLBBrEYBme0cXAF1sHAQ8JGIDUAB3NAB2bAALNAA2VxAGssI8YlaAIQISMkoaOacgA",
+        "game": "N4IgbgpgTgzglgewHYgFwEYA0IBGBXOAGwBM4kBzGNAbVABcBPABwjRCagXKgEMBbPjxyEIAZTjkkPQiGzxJ0gDJwYdNlgAMmTbPYIqqUAA80AWgAs2BmgBM2KGg0BfJ5nrNWqdp279BwsQkpGTkgpRU1LyxNTA1dJn00Y1srFJAHVGdXdxY2Di5eASERAEEAYzKIJjoEB2wIIxYyughicQVCAxAtaO14xMMQE1RTLBBrEYBme0cXAF1sHAQ8JGIDUAB3NAB2bAALNAA2VxAGssI8YlaAIQISMkoaEAAzZagAfTImPDp3wi44GV3uQeC1dBs4FAIO86CskBAQiAeMQrnUQHw8IQ6HAmCIjNBdK1yNCri1mrVdHwIHxatY5k4gA\n",
         "meta": {
             "id": 5,
             "shortKey": "WpSbWpSb:WbCpWbCp",
@@ -120,12 +124,13 @@
             "minimumNands": 1,
             "createdAt": "2022-08-27T21:08:35.768Z",
             "liked": false,
-            "canPlay": true,
-            "difficultyRating": null
+            "completed": false,
+            "difficultyRating": null,
+            "canPlay": true
         }
     },
     "6": {
-        "game": "N4IgbgpgTgzglgewHYgFwEYA0IBGBXOAGwBM4kBzGNAbVABcBPABwjRCagXKgEMBbPjxyEIAZTjkkPQiGzxJ0gDJwYdNlgAMmTbPYIqqUAA80AWgAs2BmgBM2KGg0BfJ5nrNWqdp279BwsQkpGTkgpRU1LyxNTA1dJn00Y1srFJAHVGdXdxY2Di5eASERAEEAYzKIJjoEB2wIIxYyughicQVCAxAtHu14xMMQE1RTLBBrEYBme0cXAF1sHAQ8JGIDUAB3NAB2bAALNAA2VxAGssI8YlaAIQISMkoaOacgA",
+        "game": "N4IgbgpgTgzglgewHYgFwEYA0IBGBXOAGwBM4kBzGNAbVABcBPABwjRCagXKgEMBbPjxyEIAZTjkkPQiGzxJ0gDJwYdNlgAMmTbPYIqqUAA80AWgAs2BmgBM2KGg0BfJ5nrNWqdp279BwsQkpGTkgpRU1LyxNTA1dJn00Y1srFJAHVGdXdxY2Di5eASERAEEAYzKIJjoEB2wIIxYyughicQVCAxAtHu14xMMQE1RTLBBrEYBme0cXAF1sHAQ8JGIDUAB3NAB2bAALNAA2VxAGssI8YlaAIQISMkoaEAAzZagAfTImPDp3wi44GV3uQeC1dBs4FAIO86CskBAQiAeMQrnUQHw8IQ6HAmCIjNBdK1yNCri1mrVdHwIHxatY5k4gA",
         "meta": {
             "id": 6,
             "shortKey": "WgCgWgCg:RbWcRbWc",
@@ -145,8 +150,9 @@
             "minimumNands": 1,
             "createdAt": "2022-08-27T21:37:19.954Z",
             "liked": false,
-            "canPlay": true,
-            "difficultyRating": null
+            "completed": false,
+            "difficultyRating": null,
+            "canPlay": true
         }
     },
     "7": {
@@ -170,8 +176,9 @@
             "minimumNands": 1,
             "createdAt": "2022-08-27T22:01:47.026Z",
             "liked": false,
-            "canPlay": true,
-            "difficultyRating": null
+            "completed": false,
+            "difficultyRating": null,
+            "canPlay": true
         }
     },
     "8": {
@@ -195,8 +202,9 @@
             "minimumNands": 1,
             "createdAt": "2022-08-27T22:11:40.708Z",
             "liked": false,
-            "canPlay": true,
-            "difficultyRating": null
+            "completed": false,
+            "difficultyRating": null,
+            "canPlay": true
         }
     },
     "9": {
@@ -220,8 +228,9 @@
             "minimumNands": 1,
             "createdAt": "2022-08-27T22:14:27.671Z",
             "liked": false,
-            "canPlay": true,
-            "difficultyRating": null
+            "completed": false,
+            "difficultyRating": null,
+            "canPlay": true
         }
     },
     "10": {
@@ -245,8 +254,9 @@
             "minimumNands": 1,
             "createdAt": "2022-08-27T22:28:23.014Z",
             "liked": false,
-            "canPlay": true,
-            "difficultyRating": null
+            "completed": false,
+            "difficultyRating": null,
+            "canPlay": true
         }
     },
     "11": {
@@ -270,8 +280,9 @@
             "minimumNands": 1,
             "createdAt": "2022-08-27T22:41:16.453Z",
             "liked": false,
-            "canPlay": true,
-            "difficultyRating": null
+            "completed": false,
+            "difficultyRating": null,
+            "canPlay": true
         }
     },
     "12": {
@@ -295,12 +306,13 @@
             "minimumNands": 1,
             "createdAt": "2022-08-27T22:59:10.798Z",
             "liked": false,
-            "canPlay": true,
-            "difficultyRating": null
+            "completed": false,
+            "difficultyRating": null,
+            "canPlay": true
         }
     },
     "13": {
-        "game": "N4IgbgpgTgzglgewHYgFwEYA0IBGBXOAGwBM4kBzGNAbVABcBPABwjRCagXKgEMBbPjxyEIAZTjkkPQiGzxJ0gDJwYdNlgAMmDbPYIqqUAA80AWgAs2BmgCs2KGg0BfJ5nrNWqdp279BwsQkpGTkgpRU1Ly1NXSZ9NGMzLBBrVDsQB1RnV3cWNg4uXgEhEXEFEJB5YOVVNi1o2PjDEBNUACYrW3tHFzcQRjyvAt9igIBBAGMJiCY6BAdsCCMWCboIYjLggxB6zHRGg0TUUwBmTuOANm6s3tzPb0K-EohJ6dn53SWVtY2wwm3otoDgkWmhkqlTFcMj0nABdbA4BB4JDEQ4gADuYLOIAAFmC2q4QEsJoQ8MR1gAhAgkMiUGggABmSKgAH0yEw8HQWYQuHAJizyDw1roeMRyQsQHw8IQ6HAmCIjNBPsRyBAWeS1qsPtg+BA+PNrLCnEA",
+        "game": "N4IgbgpgTgzglgewHYgFwEYA0IBGBXOAGwBM4kBzGNAbVABcBPABwjRCagXKgEMBbPjxyEIAZTjkkPQiGzxJ0gDJwYdNgAZMmzVh2Zd+w3uP7Z7BFVSgAHmgC06TSAZoAnNihp1AX2+Z6zKyo7Jzc-ILCYhJSMnLRSipqwdpGWqlYBhlpeuhmTBZoNvYALNguqO4gnqg+fgEsbBxcvAJCIuIKsSDyMcqqGqkpOYNpWRl5BVYgtqgAzGVuHl6+-iCMDcFNYa2RAIIAxvsQTHQIntgQ1iz7dBDEHTGWIClZQ9nvb9oTlkWodqXOeyOJY1Fb1IIhZrhNoQA5HE5nMyXa63e7xQhPEwGT4fXHqb6FaZoeaAv7AqrLOprQKNUItCLtdFmHoJfrBbF495jQxjAlTGaVcqVaq1AC62BwCDwSGIPxAAHc0AAmJwAC2VPgu1n2hDwxDuACECCQyJQaCAAGZSqAAfTITDwdBthC4cH2NvIPFuZh4xH15xAfDwhDocCYIms0CRxHIEBt+tuN0R2D4ED4Zxcou8QA",
         "meta": {
             "id": 13,
             "shortKey": "RgRwRgRw:RySwRySw",
@@ -320,8 +332,9 @@
             "minimumNands": 1,
             "createdAt": "2022-08-27T23:40:10.598Z",
             "liked": false,
-            "canPlay": true,
-            "difficultyRating": null
+            "completed": false,
+            "difficultyRating": null,
+            "canPlay": true
         }
     },
     "14": {
@@ -345,8 +358,9 @@
             "minimumNands": 1,
             "createdAt": "2022-08-28T00:19:48.693Z",
             "liked": false,
-            "canPlay": true,
-            "difficultyRating": null
+            "completed": false,
+            "difficultyRating": null,
+            "canPlay": true
         }
     },
     "15": {
@@ -370,8 +384,9 @@
             "minimumNands": 1,
             "createdAt": "2022-08-28T00:31:57.402Z",
             "liked": false,
-            "canPlay": true,
-            "difficultyRating": null
+            "completed": false,
+            "difficultyRating": null,
+            "canPlay": true
         }
     },
     "16": {
@@ -395,8 +410,9 @@
             "minimumNands": 1,
             "createdAt": "2022-08-27T23:18:44.362Z",
             "liked": false,
-            "canPlay": true,
-            "difficultyRating": null
+            "completed": false,
+            "difficultyRating": null,
+            "canPlay": true
         }
     },
     "17": {
@@ -420,8 +436,9 @@
             "minimumNands": 1,
             "createdAt": "2022-08-28T17:48:17.664Z",
             "liked": false,
-            "canPlay": true,
-            "difficultyRating": null
+            "completed": false,
+            "difficultyRating": null,
+            "canPlay": true
         }
     },
     "18": {
@@ -445,8 +462,9 @@
             "minimumNands": 1,
             "createdAt": "2022-08-29T01:36:33.454Z",
             "liked": false,
-            "canPlay": true,
-            "difficultyRating": null
+            "completed": false,
+            "difficultyRating": null,
+            "canPlay": true
         }
     },
     "19": {
@@ -470,8 +488,9 @@
             "minimumNands": 1,
             "createdAt": "2022-08-28T18:04:35.804Z",
             "liked": false,
-            "canPlay": true,
-            "difficultyRating": null
+            "completed": false,
+            "difficultyRating": null,
+            "canPlay": true
         }
     },
     "20": {
@@ -495,8 +514,9 @@
             "minimumNands": 1,
             "createdAt": "2022-08-28T18:38:58.560Z",
             "liked": false,
-            "canPlay": true,
-            "difficultyRating": null
+            "completed": false,
+            "difficultyRating": null,
+            "canPlay": true
         }
     },
     "21": {
@@ -520,8 +540,9 @@
             "minimumNands": 1,
             "createdAt": "2022-09-04T00:12:09.542Z",
             "liked": false,
-            "canPlay": true,
-            "difficultyRating": null
+            "completed": false,
+            "difficultyRating": null,
+            "canPlay": true
         }
     },
     "22": {
@@ -545,8 +566,9 @@
             "minimumNands": 1,
             "createdAt": "2022-09-04T00:50:30.362Z",
             "liked": false,
-            "canPlay": true,
-            "difficultyRating": null
+            "completed": false,
+            "difficultyRating": null,
+            "canPlay": true
         }
     }
 }
