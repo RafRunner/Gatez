@@ -66,7 +66,7 @@
  * title: string;
  * author: string;
  * authorName: string;
- * afterCompletingMessage: string;
+ * afterCompletingMessage?: string;
  * minimumComponents: number;
  * maximumComponents?: number;
  * minimumNands: number;
@@ -74,6 +74,7 @@
  * completed: boolean;
  * liked: boolean;
  * canPlay: boolean;
+ * locale: string;
  * }} PuzzleMetadata
  */
 

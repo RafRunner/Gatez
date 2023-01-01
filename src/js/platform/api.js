@@ -4,7 +4,6 @@ import { Application } from "../application";
 import { createLogger } from "../core/logging";
 import { compressX64, decompressX64 } from "../core/lzstring";
 import { T } from "../translations";
-import officialLevels from "./offlineFallback/officialLevels.json";
 import officialLevelsDownload from "./offlineFallback/officialLevelsDownload.json";
 
 const logger = createLogger("puzzle-api");
@@ -53,8 +52,10 @@ export class ClientAPI {
             headers["authorization"] = this.token;
         }
 
+        const url = this.getEndpoint() + endpoint + "?locale=" + this.app.settings.getLanguage();
+
         return Promise.race([
-            fetch(this.getEndpoint() + endpoint, {
+            fetch(url, {
                 cache: "no-cache",
                 mode: "cors",
                 headers,
@@ -73,6 +74,7 @@ export class ClientAPI {
             .then(data => {
                 if (data && data.error) {
                     logger.warn("Got error from api:", data);
+                    // TODO use these error codes
                     throw T.backendErrors[data.error] || data.error;
                 }
                 return data;
@@ -142,6 +144,12 @@ export class ClientAPI {
         const official = category === "official";
         if (!this.isLoggedIn()) {
             if (official) {
+                const officialLevels = Object.keys(officialLevelsDownload).map(id => {
+                    const { meta } = officialLevelsDownload[id];
+                    const { description, ...rest } = meta;
+
+                    return rest;
+                });
                 return Promise.resolve(officialLevels);
             }
             return Promise.reject("not-logged-in");
