@@ -88,6 +88,8 @@ export class PuzzleSerializer {
             }
         }
 
+        const excludedBuildingsVariations = root.hud.parts.buildingPlacer.lockedVariants;
+
         return {
             version: 1,
             buildings,
@@ -97,6 +99,7 @@ export class PuzzleSerializer {
             },
             //read from the toolbar when making a puzzle
             excludedBuildings,
+            excludedBuildingsVariations,
         };
     }
 

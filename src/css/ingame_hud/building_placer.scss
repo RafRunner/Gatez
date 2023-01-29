@@ -134,7 +134,7 @@
             grid-row: 2 / 3;
             @include S(border-radius, $globalBorderRadius);
             background: rgba($ingameHudBg, 0.3);
-            opacity: 0.5;
+            opacity: 0.9;
             display: inline-flex;
             vertical-align: top;
             position: relative;
@@ -152,6 +152,12 @@
             &.active {
                 opacity: 1;
                 background-color: rgba($colorBlueBright, 0.8);
+            }
+
+            &.locked {
+                .iconWrap {
+                    opacity: 0.15;
+                }
             }
 
             $iconSize: 25px;
@@ -189,6 +195,33 @@
                 @include SuperSmallText;
                 color: #fff;
             }
+        }
+    }
+
+    .puzzle-lock {
+        & {
+            /* @load-async */
+            background: uiResource("locked_building.png") center center / 90% no-repeat;
+        }
+
+        display: grid;
+        grid-auto-flow: column;
+
+        position: absolute;
+        @include S(top, 35px);
+        left: 50%;
+        transform: translateX(-50%) !important;
+        transition: all 0.12s ease-in-out;
+        transition-property: opacity, transform;
+
+        cursor: pointer;
+        pointer-events: all;
+
+        @include S(width, 12px);
+        @include S(height, 12px);
+
+        &:hover {
+            opacity: 0.5;
         }
     }
 }

@@ -123,6 +123,7 @@
  *   bounds: { w: number; h: number; },
  *   buildings: (PuzzleGameBuildingBlock|PuzzleGameBuildingProgrammableSignal|PuzzleGameBuildingProgrammableAcceptor)[],
  *   excludedBuildings: Array<string>,
+ *   excludedBuildingsVariations?: Array<string>
  * }} PuzzleGameData
  */
 

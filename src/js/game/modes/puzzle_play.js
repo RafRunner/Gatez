@@ -112,6 +112,8 @@ export class PuzzlePlayGameMode extends PuzzleGameMode {
             return;
         }
 
+        this.root.hud.parts.buildingPlacer.lockedVariants = this.puzzle.game.excludedBuildingsVariations || [];
+
         this.root.signals.populateTruthTableSignal.dispatch(
             getAllProgrammableSignalComponents(this.root),
             getAllProgrammableAcceptorComponents(this.root)
@@ -184,7 +186,7 @@ export class PuzzlePlayGameMode extends PuzzleGameMode {
                     },
                     err => {
                         closeLoading();
-                        const { ok } = this.root.hud.parts.dialogs.showInfo(
+                        this.root.hud.parts.dialogs.showInfo(
                             T.dialogs.puzzleReportError.title,
                             T.dialogs.puzzleReportError.desc + " " + err
                         );
