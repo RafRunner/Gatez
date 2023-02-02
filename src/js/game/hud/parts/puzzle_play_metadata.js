@@ -96,5 +96,11 @@ export class HUDPuzzlePlayMetadata extends BaseHUDPart {
             line.innerHTML = innerHTML;
             truthTable.appendChild(line);
         }
+
+        if (numberOfLines > 16) {
+            const line = document.createElement("span");
+            line.innerHTML = "...";
+            truthTable.appendChild(line);
+        }
     }
 }

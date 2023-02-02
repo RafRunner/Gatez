@@ -223,7 +223,7 @@ export class HUDBuildingPlacer extends HUDBuildingPlacerLogic {
                 element.classList.toggle("locked", this.lockedVariants.indexOf(completeVariantName) !== -1);
 
                 this.trackClicks(puzzleLock, () => {
-                    const locked = this.toggleVariantLock(metaBuilding, variant, completeVariantName);
+                    const locked = this.toggleVariantLock(metaBuilding, variant);
                     element.classList.toggle("locked", locked);
                 });
             }
@@ -233,15 +233,15 @@ export class HUDBuildingPlacer extends HUDBuildingPlacerLogic {
     /**
      * @param {MetaBuilding} metaBuilding
      * @param {string} variant
-     * @param {string} completeVariantName
      * @return {boolean}
      */
-    toggleVariantLock(metaBuilding, variant, completeVariantName) {
-        let locked = false;
-
+    toggleVariantLock(metaBuilding, variant) {
         if (this.currentVariant.get() === variant) {
             this.cycleVariants();
         }
+
+        const completeVariantName = metaBuilding.getCompleteIdentifier(variant);
+        let locked = false;
 
         if (this.lockedVariants.includes(completeVariantName)) {
             this.lockedVariants = this.lockedVariants.filter(v => v !== completeVariantName);
@@ -256,17 +256,20 @@ export class HUDBuildingPlacer extends HUDBuildingPlacerLogic {
 
         this.root.soundProxy.playUiClick();
 
-        const entityManager = this.root.entityMgr;
-        for (const entity of entityManager.getAllWithComponent(StaticMapEntityComponent)) {
-            const staticComp = entity.components.StaticMapEntity;
-            if (staticComp.getVariant() === variant) {
-                this.root.map.removeStaticEntity(entity);
-                entityManager.destroyEntity(entity);
+        if (locked) {
+            const entityManager = this.root.entityMgr;
+            for (const entity of entityManager.getAllWithComponent(StaticMapEntityComponent)) {
+                /** @type {StaticMapEntityComponent} */
+                const staticComp = entity.components.StaticMapEntity;
+                if (staticComp.getMetaBuilding().getCompleteIdentifier(staticComp.getVariant()) === completeVariantName) {
+                    this.root.map.removeStaticEntity(entity);
+                    entityManager.destroyEntity(entity);
+                }
             }
+            entityManager.processDestroyList();
         }
-        entityManager.processDestroyList();
 
-        this.rerenderVariants()
+        this.rerenderVariants();
         return locked;
     }
 

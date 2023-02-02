@@ -143,14 +143,16 @@ export function buildFailedTestsString(root) {
     const acceptorComps = getAllProgrammableAcceptorComponents(root);
 
     let failedTests = `<div style="font-family: DK Canoodle, sans-serif, monospace !important;"><br>`;
+    let numberOfFails = 0;
     const lines = acceptorComps[0].expectedSignals.length;
 
-    for (let i = 0; i < lines && i < 16; i++) {
-        // At least one output was worng
+    for (let i = 0; i < lines && numberOfFails < 16; i++) {
+        // At least one output was wrong
         if (acceptorComps.some(it => it.simulationResults[i] === false)) {
             const expected = buildInputToExpectedOutputString(signalComps, acceptorComps, i, lines);
 
             failedTests += expected + "<br>";
+            numberOfFails++;
         }
     }
 
