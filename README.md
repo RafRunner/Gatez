@@ -10,24 +10,23 @@ Right now, the game is playable, but some very important improvements are needed
 
 ### Future features/improvements in probable order of implementation:
 
--   Allowing players to lock building variant's on puzzle creation, not only the whole building;
--   Polishing the sandbox mode (removing all unused mechanics and adding some new, most notably a clock component);
 -   Implement multi lingual puzzle titles and descriptions, that can be translated by users or automaticaly;
--   A more in topic way of choosing a puzzle's icon, correctly it's just set to a random shape from shapez;
 -   Improving the puzzle description input using a multi line textbox;
 -   Improving Programmable Signal/Acceptor's signal input;
 -   Show a truth table while creating the puzzle;
+-   Making permanent assets for all components;
+-   A more in topic way of choosing a puzzle's icon, currently it's just set to a random shape from shapez;
+-   Creating more components (registers, an ALU, a RAM and ROM) and adding more levels until building a simple 4 bit CPU and RAM;
+-   Polishing the sandbox mode (removing all unused mechanics and adding some new, most notably a clock component);
 -   Revising the settings menu;
 -   Translating to other languages (right now only English and Brazilian Portuguese are complete);
--   Making permanent assets for all components;
 -   Updating the main menu background animation and all loading tooltips;
--   Creating more components (registers, an ALU, a RAM and ROM) and adding more levels until building a simple 4 bit CPU and RAM;
 -   Changing the game's visual identity and creating new logos;
--   Updating this README;
+-   Update this README;
 -   Remove all (or most) unused code;
--   Remove all references to upstream analytics, crash reports, platforms, emails, links, etc (except when pointing to it as the upstream, like on the main menu);
+-   Remove all references to upstream analytics, crash reports, platforms, emails, links, etc (except when pointing to it as the upstream, like on the main menu). I believe most have been removed;
 -   Update the build scripts for web and standalone;
--   Releasing the game, probably as installers for each operating system, and the back-end in server.
+-   Releasing the game, probably as a site or as installers for each operating system, and the back-end in a server.
 
 A lot of unused code/assets from the base game are still present, and almost all the code regarding building the game/hosting it in a production environment was not changed, so feel free to help with these as well!
 
