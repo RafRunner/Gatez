@@ -13,6 +13,8 @@ import { GameRoot } from "../game/root";
 /** @type {Number} */
 const FRAMES_PER_STEP = 100;
 
+const MAX_TRUTH_TABLE_LINES = 8;
+
 /**
  * Returns the current simulation step
  * @param {GameRoot} root
@@ -112,14 +114,38 @@ export function validatePuzzle(root, T, callback) {
 }
 
 /**
- * Builds a string that represents a series of expected outputs for a set of inputs. It's a line of a truth table
+ * Builds a string that represents a series of expected outputs for a set of inputs. It's a line of a truth table.
+ * If null is returned, it indicates that the desired truth table is too big and has reached it's limit
  * @param {ProgrammableSignalComponent[]} signalComps
  * @param {ProgrammableAcceptorComponent[]} acceptorComps
  * @param {Number} i
  * @param {Number} numberOfLines
- * @returns {string}
+ * @returns {string?}
  */
 export function buildInputToExpectedOutputString(signalComps, acceptorComps, i, numberOfLines) {
+    const baseLine = buildTruthTableLine(signalComps, acceptorComps, i, numberOfLines);
+    if (numberOfLines < MAX_TRUTH_TABLE_LINES) {
+        return baseLine;
+    }
+    if (i >= MAX_TRUTH_TABLE_LINES) {
+        return null;
+    }
+
+    return (
+        baseLine +
+        " | " +
+        buildTruthTableLine(signalComps, acceptorComps, i + MAX_TRUTH_TABLE_LINES, numberOfLines)
+    );
+}
+
+/**
+ * @param {ProgrammableSignalComponent[]} signalComps
+ * @param {ProgrammableAcceptorComponent[]} acceptorComps
+ * @param {number} i
+ * @param {number} numberOfLines
+ * @returns {string}
+ */
+function buildTruthTableLine(signalComps, acceptorComps, i, numberOfLines) {
     const humanIndex = i + 1;
     const indexString = numberOfLines >= 10 && i < 9 ? "0" + humanIndex : humanIndex.toString();
     return (
@@ -146,10 +172,14 @@ export function buildFailedTestsString(root) {
     let numberOfFails = 0;
     const lines = acceptorComps[0].expectedSignals.length;
 
-    for (let i = 0; i < lines && numberOfFails < 16; i++) {
+    for (let i = 0; i < lines; i++) {
         // At least one output was wrong
         if (acceptorComps.some(it => it.simulationResults[i] === false)) {
             const expected = buildInputToExpectedOutputString(signalComps, acceptorComps, i, lines);
+
+            if (!expected) {
+                break;
+            }
 
             failedTests += expected + "<br>";
             numberOfFails++;
