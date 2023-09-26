@@ -1,4 +1,3 @@
-import { globalConfig } from "../../../core/config";
 import { gMetaBuildingRegistry } from "../../../core/global_registries";
 import { Signal, STOP_PROPAGATION } from "../../../core/signal";
 import { TrackedState } from "../../../core/tracked_state";
@@ -101,6 +100,9 @@ export class HUDBuildingPlacerLogic extends BaseHUDPart {
         this.currentDirectionLockSideIndeterminate = true;
 
         this.initializeBindings();
+
+        /** @type {Array<string>} */
+        this.lockedVariants = [];
     }
 
     /**
@@ -496,7 +498,7 @@ export class HUDBuildingPlacerLogic extends BaseHUDPart {
         if (!metaBuilding) {
             this.currentVariant.set(defaultBuildingVariant);
         } else {
-            const availableVariants = metaBuilding.getAvailableVariants(this.root);
+            const availableVariants = metaBuilding.getAvailableVariantsMinusExcluded(this.root);
             let index = availableVariants.indexOf(this.currentVariant.get());
             if (index < 0) {
                 index = 0;
@@ -519,6 +521,9 @@ export class HUDBuildingPlacerLogic extends BaseHUDPart {
      */
     setVariant(variant) {
         const metaBuilding = this.currentMetaBuilding.get();
+        if (this.lockedVariants.includes(metaBuilding.getCompleteIdentifier(variant))) {
+            return;
+        }
         this.currentVariant.set(variant);
 
         this.preferredVariants[metaBuilding.getId()] = variant;
@@ -640,7 +645,7 @@ export class HUDBuildingPlacerLogic extends BaseHUDPart {
         this.abortDragging();
         this.root.hud.signals.selectedPlacementBuildingChanged.dispatch(metaBuilding);
         if (metaBuilding) {
-            const availableVariants = metaBuilding.getAvailableVariants(this.root);
+            const availableVariants = metaBuilding.getAvailableVariantsMinusExcluded(this.root);
             const preferredVariant = this.preferredVariants[metaBuilding.getId()];
 
             // Choose last stored variant if possible, otherwise the default one

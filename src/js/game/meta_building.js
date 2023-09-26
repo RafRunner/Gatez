@@ -138,9 +138,29 @@ export class MetaBuilding {
 
     /**
      * @param {GameRoot} root
+     * @return {Array<string>}
      */
     getAvailableVariants(root) {
         return [defaultBuildingVariant];
+    }
+
+    /**
+     * @param {GameRoot} root
+     * @return {Array<string>}
+     */
+    getAvailableVariantsMinusExcluded(root) {
+        let variants = this.getAvailableVariants(root);
+        if (root.hud.parts && root.hud.parts.buildingPlacer) {
+            const lockedVariants = root.hud.parts.buildingPlacer.lockedVariants;
+            if (lockedVariants) {
+                variants = variants.filter(v => !lockedVariants.includes(this.getCompleteIdentifier(v)));
+            }
+        }
+        return variants;
+    }
+
+    getCompleteIdentifier(variant) {
+        return this.id + (variant === defaultBuildingVariant ? "" : "-" + variant);
     }
 
     /**
@@ -150,8 +170,7 @@ export class MetaBuilding {
     getPreviewSprite(rotationVariant = 0, variant = defaultBuildingVariant) {
         return Loader.getSprite(
             "sprites/buildings/" +
-                this.id +
-                (variant === defaultBuildingVariant ? "" : "-" + variant) +
+                this.getCompleteIdentifier(variant) +
                 ".png"
         );
     }

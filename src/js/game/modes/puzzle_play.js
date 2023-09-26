@@ -116,6 +116,9 @@ export class PuzzlePlayGameMode extends PuzzleGameMode {
             return;
         }
 
+        this.root.hud.parts.buildingPlacer.lockedVariants =
+            this.puzzle.game.excludedBuildingsVariations || [];
+
         this.root.signals.populateTruthTableSignal.dispatch(
             getAllProgrammableSignalComponents(this.root),
             getAllProgrammableAcceptorComponents(this.root)

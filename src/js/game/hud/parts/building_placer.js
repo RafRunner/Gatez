@@ -17,9 +17,11 @@ import { defaultBuildingVariant } from "../../meta_building";
 import { THEME } from "../../theme";
 import { DynamicDomAttach } from "../dynamic_dom_attach";
 import { HUDBuildingPlacerLogic } from "./building_placer_logic";
+import { MetaBuilding } from "../../meta_building";
 import { makeOffscreenBuffer } from "../../../core/buffer_utils";
 import { layers } from "../../root";
 import { getCodeFromBuildingData } from "../../building_codes";
+import { StaticMapEntityComponent } from "../../components/static_map_entity";
 
 export class HUDBuildingPlacer extends HUDBuildingPlacerLogic {
     /**
@@ -64,14 +66,6 @@ export class HUDBuildingPlacer extends HUDBuildingPlacerLogic {
         [...layers, "error"].forEach(layer => {
             this.lockIndicatorSprites[layer] = this.makeLockIndicatorSprite(layer);
         });
-
-        //
-
-        /**
-         * Stores the click detectors for the variants so we can clean them up later
-         * @type {Array<ClickDetector>}
-         */
-        this.variantClickDetectors = [];
     }
 
     /**
@@ -155,22 +149,6 @@ export class HUDBuildingPlacer extends HUDBuildingPlacerLogic {
         }
     }
 
-    cleanup() {
-        super.cleanup();
-        this.cleanupVariantClickDetectors();
-    }
-
-    /**
-     * Cleans up all variant click detectors
-     */
-    cleanupVariantClickDetectors() {
-        for (let i = 0; i < this.variantClickDetectors.length; ++i) {
-            const detector = this.variantClickDetectors[i];
-            detector.cleanup();
-        }
-        this.variantClickDetectors = [];
-    }
-
     /**
      * Rerenders the variants displayed
      */
@@ -181,12 +159,20 @@ export class HUDBuildingPlacer extends HUDBuildingPlacerLogic {
         const metaBuilding = this.currentMetaBuilding.get();
 
         // First, clear up all click detectors
-        this.cleanupVariantClickDetectors();
+        this.cleanupClickDetectors();
 
         if (!metaBuilding) {
             return;
         }
-        const availableVariants = metaBuilding.getAvailableVariants(this.root);
+
+        /** @type {Array<string>} */
+        let availableVariants;
+        if (this.root.gameMode.getIsEditor()) {
+            availableVariants = metaBuilding.getAvailableVariants(this.root);
+        } else {
+            availableVariants = metaBuilding.getAvailableVariantsMinusExcluded(this.root);
+        }
+
         if (availableVariants.length === 1) {
             return;
         }
@@ -229,7 +215,62 @@ export class HUDBuildingPlacer extends HUDBuildingPlacerLogic {
                 targetOnly: true,
             });
             detector.click.add(() => this.setVariant(variant));
+
+            if (this.root.gameMode.getIsEditor() && availableVariants.length > 1) {
+                const puzzleLock = makeDiv(element, null, ["puzzle-lock"]);
+                const completeVariantName = metaBuilding.getCompleteIdentifier(variant);
+
+                element.classList.toggle("locked", this.lockedVariants.indexOf(completeVariantName) !== -1);
+
+                this.trackClicks(puzzleLock, () => {
+                    const locked = this.toggleVariantLock(metaBuilding, variant);
+                    element.classList.toggle("locked", locked);
+                });
+            }
         }
+    }
+
+    /**
+     * @param {MetaBuilding} metaBuilding
+     * @param {string} variant
+     * @return {boolean}
+     */
+    toggleVariantLock(metaBuilding, variant) {
+        if (this.currentVariant.get() === variant) {
+            this.cycleVariants();
+        }
+
+        const completeVariantName = metaBuilding.getCompleteIdentifier(variant);
+        let locked = false;
+
+        if (this.lockedVariants.includes(completeVariantName)) {
+            this.lockedVariants = this.lockedVariants.filter(v => v !== completeVariantName);
+        } else {
+            if (this.lockedVariants.length === metaBuilding.getAvailableVariants(this.root).length - 1) {
+                this.root.soundProxy.playUiError();
+                return false;
+            }
+            locked = true;
+            this.lockedVariants.push(completeVariantName);
+        }
+
+        this.root.soundProxy.playUiClick();
+
+        if (locked) {
+            const entityManager = this.root.entityMgr;
+            for (const entity of entityManager.getAllWithComponent(StaticMapEntityComponent)) {
+                /** @type {StaticMapEntityComponent} */
+                const staticComp = entity.components.StaticMapEntity;
+                if (staticComp.getMetaBuilding().getCompleteIdentifier(staticComp.getVariant()) === completeVariantName) {
+                    this.root.map.removeStaticEntity(entity);
+                    entityManager.destroyEntity(entity);
+                }
+            }
+            entityManager.processDestroyList();
+        }
+
+        this.rerenderVariants();
+        return locked;
     }
 
     /**
@@ -258,10 +299,6 @@ export class HUDBuildingPlacer extends HUDBuildingPlacerLogic {
         } else {
             this.drawRegularPlacement(parameters);
         }
-
-        // if (metaBuilding.getShowWiresLayerPreview()) {
-        //     this.drawLayerPeek(parameters);
-        // }
     }
 
     /**
@@ -381,7 +418,7 @@ export class HUDBuildingPlacer extends HUDBuildingPlacerLogic {
      * @param {Vector[]=} ignorePositions
      * @returns
      */
-    checkForObstales(from, to, ignorePositions = []) {
+    checkForObstacles(from, to, ignorePositions = []) {
         assert(from.x === to.x || from.y === to.y, "Must be a straight line");
 
         const prop = from.x === to.x ? "y" : "x";
@@ -445,11 +482,11 @@ export class HUDBuildingPlacer extends HUDBuildingPlacerLogic {
         const endLine = mouseTile.toWorldSpaceCenterOfTile();
         const midLine = this.currentDirectionLockCorner.toWorldSpaceCenterOfTile();
         const anyObstacle =
-            this.checkForObstales(this.lastDragTile, this.currentDirectionLockCorner, [
+            this.checkForObstacles(this.lastDragTile, this.currentDirectionLockCorner, [
                 this.lastDragTile,
                 mouseTile,
             ]) ||
-            this.checkForObstales(this.currentDirectionLockCorner, mouseTile, [this.lastDragTile, mouseTile]);
+            this.checkForObstacles(this.currentDirectionLockCorner, mouseTile, [this.lastDragTile, mouseTile]);
 
         if (anyObstacle) {
             applyStyles("error");
@@ -486,7 +523,7 @@ export class HUDBuildingPlacer extends HUDBuildingPlacerLogic {
                 arrowSprite,
                 -6,
                 -globalConfig.halfTileSize -
-                    clamp((this.root.time.realtimeNow() * 1.5) % 1.0, 0, 1) * 1 * globalConfig.tileSize +
+                    clamp((this.root.time.realtimeNow() * 1.5) % 1.0, 0, 1) * globalConfig.tileSize +
                     globalConfig.halfTileSize -
                     6,
                 12,

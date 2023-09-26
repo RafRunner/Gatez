@@ -1,7 +1,7 @@
 #ingame_HUD_PuzzlePlayMetadata {
     position: absolute;
 
-    @include S(top, 70px);
+    @include S(top, 50px);
     @include S(left, 10px);
 
     display: flex;

@@ -108,11 +108,21 @@ export class HUDPuzzlePlayMetadata extends BaseHUDPart {
         const truthTable = document.getElementById("truth-table-list");
         const numberOfLines = signalComps[0].signalList.length;
 
-        for (let i = 0; i < numberOfLines && i < 16; i++) {
+        for (let i = 0; i < numberOfLines; i++) {
             const innerHTML = buildInputToExpectedOutputString(signalComps, acceptorComps, i, numberOfLines);
+
+            if (!innerHTML) {
+                break;
+            }
 
             const line = document.createElement("span");
             line.innerHTML = innerHTML;
+            truthTable.appendChild(line);
+        }
+
+        if (numberOfLines > 16) {
+            const line = document.createElement("span");
+            line.innerHTML = "...";
             truthTable.appendChild(line);
         }
     }

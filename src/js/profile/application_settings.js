@@ -35,14 +35,15 @@ export const uiScales = [
         id: "regular",
         size: 1,
     },
-    {
-        id: "large",
-        size: 1.05,
-    },
-    {
-        id: "huge",
-        size: 1.1,
-    },
+    // TODO disabling these options since the interface gets too cramped on larger scales
+    // {
+    //     id: "large",
+    //     size: 1.05,
+    // },
+    // {
+    //     id: "huge",
+    //     size: 1.1,
+    // },
 ];
 
 export const scrollWheelSensitivities = [

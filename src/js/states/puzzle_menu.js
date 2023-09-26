@@ -423,9 +423,7 @@ export class PuzzleMenuState extends TextualGameState {
             container.appendChild(elem);
 
             this.trackClicks(elem, () => {
-                if (puzzle.canPlay) {
-                    this.playPuzzle(puzzle.id);
-                }
+                this.playPuzzle(puzzle.id);
             });
         }
 
@@ -509,6 +507,14 @@ export class PuzzleMenuState extends TextualGameState {
      * @param {Array<number>=} nextPuzzles
      */
     startLoadedPuzzle(puzzle, nextPuzzles) {
+        if (!puzzle.meta.canPlay) {
+            this.dialogs.showWarning(
+                T.dialogs.puzzleDownloadError.title,
+                T.dialogs.puzzleDownloadError.descCantPlay
+            );
+            return;
+        }
+
         const savegame = Savegame.createPuzzleSavegame(this.app);
         this.moveToState("InGameState", {
             gameModeId: enumGameModeIds.puzzlePlay,
@@ -581,13 +587,6 @@ export class PuzzleMenuState extends TextualGameState {
             this.app.clientApi.apiDownloadPuzzle(searchTerm).then(
                 puzzle => {
                     closeLoading();
-                    if (!puzzle.meta.canPlay) {
-                        this.dialogs.showWarning(
-                            T.dialogs.puzzleDownloadError.title,
-                            T.dialogs.puzzleDownloadError.descCantPlay
-                        );
-                        return;
-                    }
                     this.startLoadedPuzzle(puzzle);
                 },
                 err => {
