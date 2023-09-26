@@ -1528,15 +1528,13 @@ keybindings:
 about:
     title: About this Game
     body: >-
-        This game is open source and developed by <a href="https://github.com/tobspr" target="_blank">Tobias Springer</a> (this is me).<br><br>
+        This game is open source and was forked from Shapez.io. It was created as part of a final project for the Computer Engineering course at UFG, a Brazilian university.</br></br>
 
-        If you want to contribute, check out <a href="<githublink>" target="_blank">shapez.io on GitHub</a>.<br><br>
+        Modifications were made by <a href="https://github.com/RafRunner" target="_blank">Rafael Nunes</a> and <a href="https://github.com/armandosneto" target="_blank">Armando Neto</a>, with help from the community.</br></br>
 
-        This game wouldn't have been possible without the great Discord community around my games - You should really join the <a href="<discordlink>" target="_blank">Discord server</a>!<br><br>
+        If you want to contribute, check out <a href="<githublink>" target="_blank">Gatez on GitHub</a>.<br><br>
 
-        The soundtrack was made by <a href="https://soundcloud.com/pettersumelius" target="_blank">Peppsen</a> - He's awesome.<br><br>
-
-        Finally, huge thanks to my best friend <a href="https://github.com/niklas-dahl" target="_blank">Niklas</a> - Without our Factorio sessions, this game would never have existed.
+        You can check the original game, code and credits on the <a href="https://github.com/tobspr-games/shapez.io" target="_blank">Original GitHub</a>.
 
 changelog:
     title: Changelog

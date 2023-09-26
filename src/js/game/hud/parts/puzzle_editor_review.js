@@ -12,7 +12,7 @@ import { PuzzleSerializer } from "../../../savegame/puzzle_serializer";
 import { T } from "../../../translations";
 import { StaticMapEntityComponent } from "../../components/static_map_entity";
 import { BaseHUDPart } from "../base_hud_part";
-import { puzzleDescriptionMaxlegth, puzzleTitleRegex } from "../../hud/constants";
+import { puzzleDescriptionMaxlegth, puzzleTitleRegex } from "../../../core/config";
 
 const trim = require("trim");
 const logger = createLogger("puzzle-review");

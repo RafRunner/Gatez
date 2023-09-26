@@ -27,7 +27,7 @@ import {
 import { FormElementInput } from "../../core/modal_dialog_forms";
 import trim from "trim";
 import { DialogWithForm } from "../../core/modal_dialog_elements";
-import { puzzleDescriptionMaxlegth, puzzleTitleRegex } from "../hud/constants";
+import { puzzleDescriptionMaxlegth, puzzleTitleRegex } from "../../core/config";
 
 const logger = createLogger("puzzle-play");
 const copy = require("clipboard-copy");

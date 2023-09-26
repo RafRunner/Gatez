@@ -7,6 +7,12 @@ export const IS_DEBUG =
 
 export const SUPPORT_TOUCH = false;
 
+/** @type {RegExp} */
+export const puzzleTitleRegex = /^\S.{2,28}\S$/;
+
+/** @type {number} */
+export const puzzleDescriptionMaxlegth = 1000;
+
 const smoothCanvas = true;
 
 export const THIRDPARTY_URLS = {

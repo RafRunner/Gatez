@@ -1240,17 +1240,14 @@ keybindings:
 about:
     title: Sobre o jogo
     body: >-
-        Esse jogo tem código aberto e é desenvolvido por <a
-        href="https://github.com/tobspr" target="_blank">Tobias Springer</a>
-        (esse sou eu).<br><br>
+        Este jogo é de código aberto e foi derivado de Shapez.io. Foi criado como parte de um projeto final para o curso de Engenharia de Computação na UFG, uma universidade brasileira.</br></br>
 
-        Se quiser contribuir, confira <a href="<githublink>" target="_blank">shapez.io no github</a>.<br><br>
+        Modificações foram feitas por <a href="https://github.com/RafRunner" target="_blank">Rafael Nunes</a> e <a href="https://github.com/armandosneto" target="_blank">Armando Neto</a>, com a ajuda da comunidade.</br></br>
 
-        O jogo não seria possível sem a comunidade incrível do Discord sobre os meus jogos - Junte-se à comunidade no <a href="<discordlink>" target="_blank">servidor do Discord</a>!<br><br>
+        Se você deseja contribuir, confira <a href="<githublink>" target="_blank">Gatez no GitHub</a>.<br><br>
 
-        A trilha sonora foi feita por <a href="https://soundcloud.com/pettersumelius" target="_blank">Peppsen</a> - Ele é demais.<br><br>
+        Você pode verificar o jogo original, código e créditos no <a href="https://github.com/tobspr-games/shapez.io" target="_blank">GitHub Original</a>.
 
-        Finalmente, agradeço muito ao meu melhor amigo <a href="https://github.com/niklas-dahl" target="_blank">Niklas</a> - Sem nossas sessões de Factorio, esse jogo nunca teria existido.
 changelog:
     title: Alterações
 demo:
