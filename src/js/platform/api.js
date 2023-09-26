@@ -61,23 +61,24 @@ export class ClientAPI {
                 headers,
                 method: options.method || "GET",
                 body: options.body ? JSON.stringify(options.body) : undefined,
-            })
-                .then(res => {
-                    if (!res.status.toString().startsWith("20")) {
-                        throw "bad-status: " + res.status + " / " + res.statusText;
-                    }
-                    return res;
-                })
-                .then(res => res.json()),
+            }),
             new Promise((resolve, reject) => setTimeout(() => reject("timeout"), 15000)),
         ])
-            .then(data => {
-                if (data && data.error) {
-                    logger.warn("Got error from api:", data);
-                    // TODO use these error codes
-                    throw T.backendErrors[data.error] || data.error;
+            .then(res => {
+                if (res) {
+                    return res.json().then(data => {
+                        if (!res.status.toString().startsWith("2")) {
+                            logger.warn("Got error from api:", res);
+                            if (data.error) {
+                                // TODO use these error codes
+                                throw T.backendErrors[data.error] || data.error;
+                            }
+                        } else {
+                            return data;
+                        }
+                    });
                 }
-                return data;
+                return res;
             })
             .catch(err => {
                 logger.warn("Failure:", endpoint, ":", err);
@@ -257,6 +258,31 @@ export class ClientAPI {
             body: {
                 ...payload,
                 data: compressX64(JSON.stringify(payload.data)),
+            },
+        });
+    }
+
+    /**
+     *
+     * @param {object} payload
+     * @param {string} payload.title
+     * @param {string} payload.description
+     * @param {string} payload.locale
+     * @param {number} payload.puzzleId
+     * @returns {Promise<import("../savegame/savegame_typedefs").PuzzleTranslation>}
+     */
+    apiSuggestTranslation(payload) {
+        if (!this.isLoggedIn()) {
+            return Promise.reject("not-logged-in");
+        }
+        const { title, description, locale } = payload;
+
+        return this._request("/v1/puzzles/translate/" + payload.puzzleId, {
+            method: "POST",
+            body: {
+                title,
+                description,
+                locale,
             },
         });
     }

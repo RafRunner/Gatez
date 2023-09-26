@@ -379,6 +379,18 @@ dialogs:
         placeholderDescription: Description
         placeHolderMaxComponents: Maximum Components
 
+    suggestTranslation:
+        title: Suggest a Translation
+        descName: >-
+            Suggest a translated title:
+        descDescription: >-
+            Suggest a translated description:
+        completeTitle: Thank you for suggesting a translation!
+        completeDesc: Your translation will be reviewed soon, if you suggested a translation to your own puzzle, it is already approved.
+        errorTitle: There was an error while suggesting a translation!
+        errorDesc: >-
+            Error details:
+
     puzzleResizeBadBuildings:
         title: Resize not possible
         desc: You can't make the zone any smaller, because then some buildings would be outside the zone.
@@ -665,6 +677,7 @@ ingame:
         description: Puzzle Description
         share: Share
         report: Report
+        suggestTranslation: Suggest a translation
 
     puzzleEditorControls:
         title: Puzzle Creator

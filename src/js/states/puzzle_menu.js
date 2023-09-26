@@ -592,7 +592,7 @@ export class PuzzleMenuState extends TextualGameState {
                 },
                 err => {
                     closeLoading();
-                    if (err === "bad-status: 404 / Not Found") {
+                    if (err === "Puzzle not found") {
                         this.dialogs.showWarning(
                             T.dialogs.puzzleDownloadError.title,
                             T.dialogs.puzzleDownloadError.descNotFound

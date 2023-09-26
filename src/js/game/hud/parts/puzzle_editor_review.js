@@ -12,6 +12,7 @@ import { PuzzleSerializer } from "../../../savegame/puzzle_serializer";
 import { T } from "../../../translations";
 import { StaticMapEntityComponent } from "../../components/static_map_entity";
 import { BaseHUDPart } from "../base_hud_part";
+import { puzzleDescriptionMaxlegth, puzzleTitleRegex } from "../../hud/constants";
 
 const trim = require("trim");
 const logger = createLogger("puzzle-review");
@@ -75,7 +76,7 @@ export class HUDPuzzleEditorReview extends BaseHUDPart {
             label: T.dialogs.submitPuzzle.descName,
             placeholder: T.dialogs.submitPuzzle.placeholderName,
             defaultValue: title,
-            validator: val => trim(val).match(regex) && trim(val).length > 0,
+            validator: val => trim(val).match(puzzleTitleRegex),
         });
 
         // TODO implement a better way to choose an icon (maybe of a gate/component) for the puzzle
@@ -87,8 +88,7 @@ export class HUDPuzzleEditorReview extends BaseHUDPart {
             label: T.dialogs.submitPuzzle.descDescription,
             placeholder: T.dialogs.submitPuzzle.placeholderDescription,
             defaultValue: description,
-            validator: val => trim(val).length < 1000,
-            maxlength: 1000,
+            validator: val => trim(val).length < puzzleDescriptionMaxlegth,
         });
 
         const componentsUsed = countComponentsUsed(this.root);
@@ -98,7 +98,7 @@ export class HUDPuzzleEditorReview extends BaseHUDPart {
             label: T.dialogs.submitPuzzle.descMaxComponents,
             placeholder: T.dialogs.submitPuzzle.placeHolderMaxComponents,
             defaultValue: maxComponents,
-            validator: val => val === "" || (/^[0-9]+$/.test(val) && new Number(val) >= componentsUsed),
+            validator: val => val === "" || (/^[0-9]+$/.test(val) && Number.parseInt(val) >= componentsUsed),
             maxlength: 3,
         });
 

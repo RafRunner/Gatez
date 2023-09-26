@@ -222,6 +222,7 @@ dialogs:
     puzzleLoadFailed:
         title: O carregamento dos desafios falhou
         desc: "Infelizmente os desafios não puderam ser carregados:"
+
     submitPuzzle:
         title: Enviar desafio
         descName: "Dê um nome ao seu desafio:"
@@ -235,6 +236,19 @@ dialogs:
         placeholderName: Nome do desafio
         placeholderDescription: Descrição
         placeHolderMaxComponents: Máximo de componentes
+
+    suggestTranslation:
+        title: Sugira uma tradução
+        descName: >-
+            Sugira um título traduzido:
+        descDescription: >-
+            Sugira uma descrição traduzida:
+        completeTitle: Obrigado por sugerir uma tradução!
+        completeDesc: Sua tradução será revisada em breve, se você sugeriu uma tradução para um puzzle seu, ela já foi aprovada automaticamente.
+        errorTitle: Houve um erro ao sugerir uma tradução!
+        errorDesc: >-
+            Detalhe do erro:
+
     puzzleResizeBadBuildings:
         title: Mudar o tamanho não é possível
         desc: Você não pode deixar a zona menor, porque algumas construções ficariam
@@ -461,6 +475,8 @@ ingame:
         testPuzzle: Testar Desafio
         expectedOutputs: Saídas esperadas
         description: Descrição do Desafio
+        suggestTranslation: Sugerir uma tradução
+
     puzzleEditorControls:
         title: Criador de Desafios
         instructions:

@@ -20,6 +20,8 @@ export class HUDPuzzlePlayMetadata extends BaseHUDPart {
         this.puzzleNameElement = makeDiv(this.titleElement, null, ["name"]);
         this.puzzleNameElement.innerText = puzzle.meta.title;
 
+        const notInPlayerLanguage = puzzle.meta.locale !== this.root.app.settings.getLanguage();
+
         this.element = makeDiv(parent, "ingame_HUD_PuzzlePlayMetadata");
         this.element.innerHTML = `
             <div class="plays">
@@ -55,13 +57,25 @@ export class HUDPuzzlePlayMetadata extends BaseHUDPart {
             </div>`
             }
             <div class="buttons">
-                <button class="styledButton share">${T.ingame.puzzleEditorSettings.share}</button>
+                <button class="styledButton share">${
+                    T.ingame.puzzleEditorSettings.share
+                }</button>                ${
+            notInPlayerLanguage
+                ? `<button class="styledButton suggestTranslation">${T.ingame.puzzleEditorSettings.suggestTranslation}</button>`
+                : ""
+        }
                 <button class="styledButton report">${T.ingame.puzzleEditorSettings.report}</button>
             </div>
             `;
 
         this.trackClicks(this.element.querySelector("button.share"), this.share);
         this.trackClicks(this.element.querySelector("button.report"), this.report);
+        if (notInPlayerLanguage) {
+            this.trackClicks(
+                this.element.querySelector("button.suggestTranslation"),
+                this.suggestTranslation
+            );
+        }
 
         /** @type {HTMLElement} */ (this.element.querySelector(".author span")).innerText =
             puzzle.meta.authorName;
@@ -79,6 +93,11 @@ export class HUDPuzzlePlayMetadata extends BaseHUDPart {
     report() {
         const mode = /** @type {PuzzlePlayGameMode} */ (this.root.gameMode);
         mode.reportPuzzle();
+    }
+
+    suggestTranslation() {
+        const mode = /** @type {PuzzlePlayGameMode} */ (this.root.gameMode);
+        mode.suggestPuzzleTranslation();
     }
 
     /**

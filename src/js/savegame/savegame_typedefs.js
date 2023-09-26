@@ -136,4 +136,19 @@
  * }} PuzzleFullData
  */
 
+/**
+ * @typedef {{
+ * id: string
+ * puzzleId: number
+ * userId: string | null
+ * locale: string
+ * title: string
+ * description: string
+ * approved: boolean
+ * reviewerId: string | null
+ * reviewedAt: Date | null
+ * createdAt: Date
+ * }} PuzzleTranslation
+ */
+
 export default {};

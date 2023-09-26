@@ -24,6 +24,10 @@ import {
     getAllProgrammableAcceptorComponents,
     getAllProgrammableSignalComponents,
 } from "../../core/logic_simulation_helper";
+import { FormElementInput } from "../../core/modal_dialog_forms";
+import trim from "trim";
+import { DialogWithForm } from "../../core/modal_dialog_elements";
+import { puzzleDescriptionMaxlegth, puzzleTitleRegex } from "../hud/constants";
 
 const logger = createLogger("puzzle-play");
 const copy = require("clipboard-copy");
@@ -169,28 +173,77 @@ export class PuzzlePlayGameMode extends PuzzleGameMode {
             }
         );
 
-        return new Promise(resolve => {
-            optionSelected.add(option => {
-                const closeLoading = this.root.hud.parts.dialogs.showLoadingDialog();
+        optionSelected.add(option => {
+            const closeLoading = this.root.hud.parts.dialogs.showLoadingDialog();
 
-                this.root.app.clientApi.apiReportPuzzle(this.puzzle.meta.id, option).then(
-                    () => {
-                        closeLoading();
-                        const { ok } = this.root.hud.parts.dialogs.showInfo(
-                            T.dialogs.puzzleReportComplete.title,
-                            T.dialogs.puzzleReportComplete.desc
-                        );
-                        ok.add(resolve);
-                    },
-                    err => {
-                        closeLoading();
-                        const { ok } = this.root.hud.parts.dialogs.showInfo(
-                            T.dialogs.puzzleReportError.title,
-                            T.dialogs.puzzleReportError.desc + " " + err
-                        );
-                    }
-                );
-            });
+            this.root.app.clientApi.apiReportPuzzle(this.puzzle.meta.id, option).then(
+                () => {
+                    this.root.hud.parts.dialogs.showInfo(
+                        T.dialogs.puzzleReportComplete.title,
+                        T.dialogs.puzzleReportComplete.desc
+                    );
+                },
+                err => {
+                    closeLoading();
+                    this.root.hud.parts.dialogs.showInfo(
+                        T.dialogs.puzzleReportError.title,
+                        T.dialogs.puzzleReportError.desc + " " + err
+                    );
+                }
+            );
+        });
+    }
+
+    suggestPuzzleTranslation() {
+        const titleInput = new FormElementInput({
+            id: "titleInput",
+            label: T.dialogs.suggestTranslation.descName,
+            placeholder: T.dialogs.submitPuzzle.placeholderName,
+            defaultValue: "",
+            validator: val => trim(val).match(puzzleTitleRegex),
+        });
+
+        // TODO use a rich text box with multi line support and a smaller font
+        const descriptionInput = new FormElementInput({
+            id: "descriptionInput",
+            label: T.dialogs.suggestTranslation.descDescription,
+            placeholder: T.dialogs.submitPuzzle.placeholderDescription,
+            defaultValue: "",
+            validator: val => trim(val).length < puzzleDescriptionMaxlegth,
+        });
+
+        const dialog = new DialogWithForm({
+            app: this.root.app,
+            title: T.dialogs.suggestTranslation.title,
+            desc: "",
+            formElements: [titleInput, descriptionInput],
+            buttons: ["ok:good:enter"],
+        });
+        this.root.hud.parts.dialogs.internalShowDialog(dialog);
+
+        dialog.buttonSignals.ok.add(() => {
+            const closeLoading = this.root.hud.parts.dialogs.showLoadingDialog();
+            const paylaod = {
+                title: trim(titleInput.getValue()),
+                description: trim(descriptionInput.getValue()),
+                puzzleId: this.puzzle.meta.id,
+                locale: this.root.app.settings.getLanguage(),
+            };
+            this.root.app.clientApi.apiSuggestTranslation(paylaod).then(
+                () => {
+                    closeLoading();
+                    this.root.hud.parts.dialogs.showInfo(
+                        T.dialogs.suggestTranslation.completeTitle,
+                        T.dialogs.suggestTranslation.completeDesc
+                    );
+                },
+                e => {
+                    this.root.hud.parts.dialogs.showInfo(
+                        T.dialogs.suggestTranslation.errorTitle,
+                        T.dialogs.suggestTranslation.errorDesc + " " + e
+                    );
+                }
+            );
         });
     }
 }
