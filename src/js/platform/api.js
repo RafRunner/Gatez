@@ -49,7 +49,7 @@ export class ClientAPI {
         };
 
         if (this.token) {
-            headers["authorization"] = this.token;
+            headers["authorization"] = `Bearer ${this.token}`;
         }
 
         const url = this.getEndpoint() + endpoint + "?locale=" + this.app.settings.getLanguage();
@@ -71,7 +71,7 @@ export class ClientAPI {
                             logger.warn("Got error from api:", res);
                             if (data.error) {
                                 // TODO use these error codes
-                                throw T.backendErrors[data.error] || data.error;
+                                throw T.backendErrors[data.error] || data.message;
                             }
                         } else {
                             return data;
