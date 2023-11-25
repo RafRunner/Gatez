@@ -72,6 +72,8 @@ export class ClientAPI {
                             if (data.error) {
                                 // TODO use these error codes
                                 throw T.backendErrors[data.error] || data.message;
+                            } else {
+                                throw data;
                             }
                         } else {
                             return data;
@@ -81,7 +83,7 @@ export class ClientAPI {
                 return res;
             })
             .catch(err => {
-                logger.warn("Failure:", endpoint, ":", err);
+                logger.warn("Failure: ", endpoint, ": ", err);
                 throw err;
             });
     }
