@@ -1,0 +1,85 @@
+# Puzzles
+
+A Gatez puzzle is a **truth table**. The author places _programmable signals_ (inputs) and _programmable acceptors_ (expected outputs), each holding one value per row. The player has to build the circuit between them. The game then plays every row through the circuit and checks the outputs.
+
+## Puzzle format
+
+Typedefs in `src/js/savegame/savegame_typedefs.js`; (de)serialization in `src/js/savegame/puzzle_serializer.js`.
+
+```jsonc
+// PuzzleGameData — what is stored (compressed) in the backend "data" field
+{
+    "version": 1,
+    "bounds": { "w": 12, "h": 8 },
+    "buildings": [
+        { "type": "programmableSignal",   "signalList": "0,0,1,1",     "pos": { "x": -3, "y": -1, "r": 0 } },
+        { "type": "programmableSignal",   "signalList": "0,1,0,1",     "pos": { "x": -2, "y": -1, "r": 0 } },
+        { "type": "programmableAcceptor", "expectedSignals": "0,0,0,1", "pos": { "x": 0,  "y": -4, "r": 0 } },
+        { "type": "block", "pos": { "x": 2, "y": 2, "r": 0 } }
+    ],
+    "excludedBuildings": ["adder"],                  // buildings locked in the toolbar
+    "excludedBuildingsVariations": ["logic_gate-xor"] // locked variants, "<id>-<variant>"
+}
+```
+
+-   Only signals, acceptors and blocks are saved. The author's solution is **not** stored. Only its component count is, as `minimumComponents`.
+-   Signal strings: `1`/`true` → 1, `0`/`false` → 0. In acceptors, `x`/`null` → don't care.
+-   On the wire to the backend the JSON is compressed with `compressX64` (lz-string) and decompressed on download (`src/js/platform/api.js`).
+
+Metadata (`PuzzleMetadata`) comes from the backend: title, description, author, `minimumComponents`, `maximumComponents`, `difficulty` (`easy`/`medium`/`hard`), likes, completions, `canPlay`, `locale`, and so on. See the backend's [docs/API.md](https://github.com/armandosneto/gatez-backend/blob/master/docs/API.md).
+
+## How a solution is checked
+
+Implemented by `src/js/core/logic_simulation_helper.js`, `ProgrammableSignalSystem` and `ProgrammableAcceptorSystem`. State is on `GameRoot`: `inSimulation`, `validatingSubmit`, `currentSimulationFrame`.
+
+1. Clicking **Test** sets `root.inSimulation = true`.
+2. Each truth-table row is a **step** of `FRAMES_PER_STEP = 100` game ticks. Each step gives the gates, adders and latches time to settle; `step = floor(frame / 100)`.
+3. During a step every programmable signal outputs `signalList[step]`.
+4. On the **last tick of each step** (the sampling frame), every acceptor compares its input with `expectedSignals[step]` and records pass/fail:
+    - expected `null` (don't care) → pass;
+    - value equals expected → pass;
+    - no signal (unpowered wire) and expected 0 → pass;
+    - network in conflict, or acceptor not connected → fail.
+5. When `step` reaches the length of the lists, the simulation stops and `simulationComplete` fires. `computeSimulationResults` succeeds only if every acceptor passed every row. It then dispatches:
+    - `puzzleComplete(ok)` when playing;
+    - `puzzleCompleteEdit(ok)` when testing in the editor;
+    - `puzzleCompleteSubmit(ok)` when validating before upload.
+6. Failed rows are shown as text such as `03) 1,0 -> 1,x`.
+
+**Row and column order:** signals and acceptors are sorted by position, top-to-bottom then left-to-right. That order defines the columns of the truth table shown to the player, so place them deliberately.
+
+Because the checking runs the real simulation, **sequential puzzles work**: values carry over between rows, which is how the latch and flip-flop levels are built.
+
+### Validation rules (`validatePuzzle`)
+
+-   at least one signal and one acceptor;
+-   all signals and acceptors have the **same, non-zero** number of values.
+
+## Editor flow
+
+`modes/puzzle_edit.js`, `hud/parts/puzzle_editor_settings.js`, `hud/parts/puzzle_editor_review.js`.
+
+1. Resize the zone; place signals, acceptors and blocks; click them to type their values.
+2. Lock buildings in the toolbar or individual variants (the lock icon on each variant) to forbid them.
+3. Build a reference solution and press **Test**.
+4. **Review & submit** re-validates, runs the simulation silently, then asks for:
+    - title: 4–30 characters, no surrounding spaces (`puzzleTitleRegex` in `core/config.js`);
+    - description: up to 1000 characters;
+    - optional maximum component count: must be ≥ your solution's count.
+5. The puzzle is uploaded with `minimumComponents` = your solution's component count. The icon (`shortKey`) is currently a random shapez shape.
+
+## Play flow
+
+`modes/puzzle_play.js`, `hud/parts/puzzle_play_metadata.js`, `hud/parts/puzzle_complete_notification.js`.
+
+-   Signals, acceptors, blocks, lever and display are hidden from the toolbar, along with anything the author locked.
+-   The side panel shows the description and the **Expected outputs** truth table.
+-   On success the player sees their component count against the author's, can like the puzzle and rate its difficulty. Closing the dialog reports the completion (`POST /v1/puzzles/complete/:id`) and stores the new trophy total.
+-   Exceeding `maximumComponents` counts as a failure.
+-   When the puzzle's language differs from the game language, a **Suggest translation** button lets the player submit a translated title and description.
+
+## Official levels
+
+The campaign is the list of official puzzles on the backend, unlocked in order (`canPlay`). The backend's default database has **26** levels, from _Welcome_ to _JK Flip Flop_; see the backend's [docs/DATA_MODEL.md](https://github.com/armandosneto/gatez-backend/blob/master/docs/DATA_MODEL.md).
+
+Without an account (the **Play offline** button), the game serves the official levels from `src/js/platform/offlineFallback/officialLevelsDownload.json`, and nothing is tracked. ⚠️ That snapshot is outdated: it has **22** levels and lacks _NOT using a NAND_, _AND with NANDs_, _OR using NANDs_ and _NAND using NORs_. Regenerate it with the admin endpoint `GET /v1/puzzles/officialSnapshot`.
