@@ -18,10 +18,11 @@ export class ProgrammableAcceptorSystem extends GameSystemWithFilter {
     constructor(root) {
         super(root, [ProgrammableAcceptorComponent]);
 
+        // In the editor, new outputs get one value per existing truth table row
         this.root.signals.entityManuallyPlaced.add(entity => {
-            const editorHud = this.root.hud.parts.editProgrammableAcceptor;
-            if (editorHud) {
-                editorHud.editExpectedSignal(entity, { deleteOnCancel: true });
+            const editorHud = this.root.hud.parts.truthTableEditor;
+            if (editorHud && entity.components.ProgrammableAcceptor) {
+                editorHud.initializeNewEntity(entity);
             }
         });
 

@@ -1,6 +1,7 @@
 import { BaseItem } from "../game/base_item";
 import { ClickDetector } from "./click_detector";
 import { Signal } from "./signal";
+import { escapeHTML } from "./utils";
 
 /*
  * ***************************************************
@@ -151,6 +152,92 @@ export class FormElementInput extends FormElement {
     focus() {
         this.element.focus();
         this.element.select();
+    }
+}
+
+/**
+ * Multi line text input. Enter inserts a line break instead of confirming the dialog.
+ */
+export class FormElementTextArea extends FormElement {
+    /**
+     * @param {object} param0
+     * @param {string} param0.id
+     * @param {string=} param0.label
+     * @param {string=} param0.placeholder
+     * @param {string=} param0.defaultValue
+     * @param {((value: string) => boolean)=} param0.validator
+     * @param {number=} param0.maxlength
+     * @param {number=} param0.rows
+     */
+    constructor({
+        id,
+        label = null,
+        placeholder = "",
+        defaultValue = "",
+        validator = null,
+        maxlength = 1000,
+        rows = 5,
+    }) {
+        super(id, label);
+        this.placeholder = placeholder;
+        this.defaultValue = defaultValue;
+        this.validator = validator;
+        this.maxlength = maxlength;
+        this.rows = rows;
+
+        /** @type {HTMLTextAreaElement} */
+        this.element = null;
+        /** @type {HTMLElement} */
+        this.counter = null;
+    }
+
+    getHtml() {
+        return `
+            <div class="formElement input textArea">
+                ${this.label ? `<label>${this.label}</label>` : ""}
+                <textarea
+                    rows="${this.rows}"
+                    maxlength="${this.maxlength}"
+                    autocomplete="off"
+                    spellcheck="true"
+                    class="input-text"
+                    placeholder="${escapeHTML(this.placeholder)}"
+                    data-formId="${this.id}">${escapeHTML(this.defaultValue)}</textarea>
+                <span class="counter"></span>
+            </div>
+        `;
+    }
+
+    bindEvents(parent, clickTrackers) {
+        this.element = /** @type {HTMLTextAreaElement} */ (this.getFormElement(parent));
+        this.counter = this.element.parentElement.querySelector(".counter");
+        this.element.addEventListener("input", () => this.updateErrorState());
+        this.updateErrorState();
+    }
+
+    updateErrorState() {
+        this.element.classList.toggle("errored", !this.isValid());
+        this.counter.innerText = `${this.element.value.length} / ${this.maxlength}`;
+    }
+
+    isValid() {
+        return !this.validator || this.validator(this.element.value);
+    }
+
+    getValue() {
+        return this.element.value;
+    }
+
+    setValue(value) {
+        this.element.value = value;
+        this.updateErrorState();
+    }
+
+    focus() {
+        this.element.focus();
+        // Put the cursor at the end
+        const length = this.element.value.length;
+        this.element.setSelectionRange(length, length);
     }
 }
 

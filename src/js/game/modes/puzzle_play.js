@@ -24,7 +24,7 @@ import {
     getAllProgrammableAcceptorComponents,
     getAllProgrammableSignalComponents,
 } from "../../core/logic_simulation_helper";
-import { FormElementInput } from "../../core/modal_dialog_forms";
+import { FormElementInput, FormElementTextArea } from "../../core/modal_dialog_forms";
 import trim from "trim";
 import { DialogWithForm } from "../../core/modal_dialog_elements";
 import { puzzleDescriptionMaxlegth, puzzleTitleRegex } from "../../core/config";
@@ -198,21 +198,23 @@ export class PuzzlePlayGameMode extends PuzzleGameMode {
     }
 
     suggestPuzzleTranslation() {
+        // Start from the original text, so the translator can replace it in place
         const titleInput = new FormElementInput({
             id: "titleInput",
             label: T.dialogs.suggestTranslation.descName,
             placeholder: T.dialogs.submitPuzzle.placeholderName,
-            defaultValue: "",
+            defaultValue: this.puzzle.meta.title || "",
             validator: val => trim(val).match(puzzleTitleRegex),
         });
 
-        // TODO use a rich text box with multi line support and a smaller font
-        const descriptionInput = new FormElementInput({
+        const descriptionInput = new FormElementTextArea({
             id: "descriptionInput",
             label: T.dialogs.suggestTranslation.descDescription,
             placeholder: T.dialogs.submitPuzzle.placeholderDescription,
-            defaultValue: "",
-            validator: val => trim(val).length < puzzleDescriptionMaxlegth,
+            // Official descriptions use <br> for line breaks
+            defaultValue: (this.puzzle.meta.description || "").replace(/<br\s*\/?>/gi, "\n"),
+            validator: val => trim(val).length <= puzzleDescriptionMaxlegth,
+            maxlength: puzzleDescriptionMaxlegth,
         });
 
         const dialog = new DialogWithForm({

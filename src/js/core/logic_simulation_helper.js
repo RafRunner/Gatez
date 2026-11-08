@@ -48,15 +48,30 @@ function sortByPosition(a, b) {
 }
 
 /**
+ * Programmable signal entities in truth table column order (top to bottom, left to right)
+ * @param {GameRoot} root
+ * @returns {Array<Entity>}
+ */
+export function getSortedSignalEntities(root) {
+    return root.entityMgr.getAllWithComponent(ProgrammableSignalComponent).slice().sort(sortByPosition);
+}
+
+/**
+ * Programmable acceptor entities in truth table column order (top to bottom, left to right)
+ * @param {GameRoot} root
+ * @returns {Array<Entity>}
+ */
+export function getSortedAcceptorEntities(root) {
+    return root.entityMgr.getAllWithComponent(ProgrammableAcceptorComponent).slice().sort(sortByPosition);
+}
+
+/**
  * Returns all ProgrammableSignalComponents
  * @param {GameRoot} root
  * @returns {Array<ProgrammableSignalComponent>}
  */
 export function getAllProgrammableSignalComponents(root) {
-    return root.entityMgr
-        .getAllWithComponent(ProgrammableSignalComponent)
-        .sort(sortByPosition)
-        .map(ps => ps.components.ProgrammableSignal);
+    return getSortedSignalEntities(root).map(ps => ps.components.ProgrammableSignal);
 }
 
 /**
@@ -65,10 +80,7 @@ export function getAllProgrammableSignalComponents(root) {
  * @returns {Array<ProgrammableAcceptorComponent>}
  */
 export function getAllProgrammableAcceptorComponents(root) {
-    return root.entityMgr
-        .getAllWithComponent(ProgrammableAcceptorComponent)
-        .sort(sortByPosition)
-        .map(ps => ps.components.ProgrammableAcceptor);
+    return getSortedAcceptorEntities(root).map(ps => ps.components.ProgrammableAcceptor);
 }
 
 /**
@@ -181,13 +193,12 @@ export function drawIOLabel(parameters, entity, label, color) {
 }
 
 /**
- * @param {Entity[]} entities
+ * @param {Entity[]} sortedEntities
  * @param {(index: number, count: number) => string} labelFn
  * @returns {Map<Entity, string>}
  */
-function labelEntities(entities, labelFn) {
-    const sorted = entities.slice().sort(sortByPosition);
-    return new Map(sorted.map((entity, i) => [entity, labelFn(i, sorted.length)]));
+function labelEntities(sortedEntities, labelFn) {
+    return new Map(sortedEntities.map((entity, i) => [entity, labelFn(i, sortedEntities.length)]));
 }
 
 /**
@@ -195,7 +206,7 @@ function labelEntities(entities, labelFn) {
  * @returns {Map<Entity, string>}
  */
 export function getSignalLabels(root) {
-    return labelEntities(root.entityMgr.getAllWithComponent(ProgrammableSignalComponent), getSignalLabel);
+    return labelEntities(getSortedSignalEntities(root), getSignalLabel);
 }
 
 /**
@@ -203,7 +214,7 @@ export function getSignalLabels(root) {
  * @returns {Map<Entity, string>}
  */
 export function getAcceptorLabels(root) {
-    return labelEntities(root.entityMgr.getAllWithComponent(ProgrammableAcceptorComponent), getAcceptorLabel);
+    return labelEntities(getSortedAcceptorEntities(root), getAcceptorLabel);
 }
 
 /**

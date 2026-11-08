@@ -12,10 +12,11 @@ export class ProgrammableSignalSystem extends GameSystemWithFilter {
     constructor(root) {
         super(root, [ProgrammableSignalComponent]);
 
+        // In the editor, new inputs get one value per existing truth table row
         this.root.signals.entityManuallyPlaced.add(entity => {
-            const editorHud = this.root.hud.parts.editProgrammableSignal;
-            if (editorHud) {
-                editorHud.editProgrammableSignal(entity, { deleteOnCancel: true });
+            const editorHud = this.root.hud.parts.truthTableEditor;
+            if (editorHud && entity.components.ProgrammableSignal) {
+                editorHud.initializeNewEntity(entity);
             }
         });
 

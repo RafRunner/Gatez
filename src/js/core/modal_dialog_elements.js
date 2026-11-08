@@ -93,7 +93,10 @@ export class Dialog {
      * @param {boolean} param0.ctrl
      */
     handleKeydown({ keyCode, shift, alt, ctrl }) {
-        if (keyCode === kbEnter && this.enterHandler) {
+        // Enter inserts a line break in multi line inputs instead of confirming
+        const typingInTextArea = document.activeElement && document.activeElement.tagName === "TEXTAREA";
+
+        if (keyCode === kbEnter && this.enterHandler && !typingInTextArea) {
             this.internalButtonHandler(this.enterHandler);
             return STOP_PROPAGATION;
         }

@@ -35,13 +35,13 @@ Pin positions below use the building's local tile `(x, y)` with the building fac
 -   Holds `signalList: BooleanItem[]` (one value per truth-table row) and `toggled: boolean`.
 -   **Outside a simulation** it outputs `toggled`, so the player can flip it by clicking and test the circuit by hand.
 -   **During a simulation** it outputs `signalList[step]` (see [PUZZLES.md](PUZZLES.md#how-a-solution-is-checked)).
--   It can only be placed or removed in the **editor**. Left-click there opens a dialog that takes a comma-separated list (`1,0,1,1` or `true,false,...`). See `hud/parts/programmable_signal_edit.js`.
+-   It can only be placed or removed in the **editor**. Left-click there opens the truth table editor (`hud/parts/truth_table_editor.js`).
 -   Clicks (`hud/parts/programmable_signal_click.js`): while playing, left-click toggles. In the editor, **middle-click** toggles. Clicks are ignored while a simulation runs.
 
 ### Programmable acceptor — the expected outputs
 
 -   One input pin, bottom.
--   Holds `expectedSignals: (BooleanItem | null)[]`. `null`, typed `x` in the editor, means "don't care".
+-   Holds `expectedSignals: (BooleanItem | null)[]`. `null` (shown as `–`) means "don't care".
 -   Lights up (white display sprite) while its input is truthy.
 -   It can only be placed or removed in the editor.
 

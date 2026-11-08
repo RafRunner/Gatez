@@ -50,10 +50,11 @@ Roughly in order of priority:
 -   [ ] Fix the remaining bugs in [docs/KNOWN_ISSUES.md](docs/KNOWN_ISSUES.md);
 -   [ ] Update the build to a current Node.js LTS (currently requires Node 16);
 -   [x] ~~Multi-language puzzle titles and descriptions~~ (the back-end and the "Suggest translation" dialog are done; a moderation UI is still missing);
--   [ ] Multi-line text box for puzzle descriptions;
--   [ ] Better input for programmable signal/acceptor values (currently a comma-separated text field);
+-   [x] ~~Multi-line text box for puzzle descriptions~~;
+-   [x] ~~Better input for programmable signal/acceptor values~~ (truth table editor);
 -   [x] ~~Truth table as a real table, with input/output labels on the map and test results per row~~;
--   [ ] Show the truth table while creating a puzzle;
+-   [x] ~~Show the truth table while creating a puzzle~~;
+-   [ ] Build the new campaign ([docs/CAMPAIGN.md](docs/CAMPAIGN.md));
 -   [ ] Final art for every component (signals, acceptors, 4-input gates and the SR latch are still placeholders);
 -   [x] ~~A puzzle icon that fits the theme~~ (a chip with the puzzle's inputs/outputs);
 -   [ ] More components (registers, ALU, RAM, ROM) and levels, up to a simple 4-bit CPU and RAM;

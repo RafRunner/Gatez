@@ -16,8 +16,7 @@ import { HUDPuzzleEditorControls } from "../hud/parts/puzzle_editor_controls";
 import { HUDPuzzleEditorReview } from "../hud/parts/puzzle_editor_review";
 import { HUDPuzzleEditorSettings } from "../hud/parts/puzzle_editor_settings";
 import { HUDConstantSignalEdit } from "../hud/parts/constant_signal_edit";
-import { HUDProgrammableSignalEdit } from "../hud/parts/programmable_signal_edit";
-import { HUDProgrammableAcceptorEdit } from "../hud/parts/programmable_acceptor_edit";
+import { HUDTruthTableEditor } from "../hud/parts/truth_table_editor";
 import { HUDNotifications } from "../hud/parts/notifications";
 
 export class PuzzleEditGameMode extends PuzzleGameMode {
@@ -49,8 +48,7 @@ export class PuzzleEditGameMode extends PuzzleGameMode {
         this.additionalHudParts.puzzleEditorReview = HUDPuzzleEditorReview;
         this.additionalHudParts.puzzleEditorSettings = HUDPuzzleEditorSettings;
         this.additionalHudParts.constantSignalEdit = HUDConstantSignalEdit;
-        this.additionalHudParts.editProgrammableSignal = HUDProgrammableSignalEdit;
-        this.additionalHudParts.editProgrammableAcceptor = HUDProgrammableAcceptorEdit;
+        this.additionalHudParts.truthTableEditor = HUDTruthTableEditor;
         this.additionalHudParts.notification = HUDNotifications;
     }
 

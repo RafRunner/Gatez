@@ -5,13 +5,7 @@ import { PuzzlePlayGameMode } from "../../modes/puzzle_play";
 import { formatBigNumberFull, formatSeconds, formatUserTextAsHTML, makeDiv } from "../../../core/utils";
 import { T } from "../../../translations";
 import { BaseHUDPart } from "../base_hud_part";
-import {
-    buildTruthTableHTML,
-    getAllProgrammableAcceptorComponents,
-    getCurrentSimulationStep,
-} from "../../../core/logic_simulation_helper";
-import { ProgrammableSignalComponent } from "../../components/programmable_signal";
-import { ProgrammableAcceptorComponent } from "../../components/programmable_acceptor";
+import { TruthTableView } from "../truth_table_view";
 
 export class HUDPuzzlePlayMetadata extends BaseHUDPart {
     createElements(parent) {
@@ -83,9 +77,6 @@ export class HUDPuzzlePlayMetadata extends BaseHUDPart {
             );
         }
 
-        /** @type {number} */
-        this.highlightedStep = -1;
-
         this.trackClicks(this.element.querySelector("button.share"), this.share);
         if (canReport) {
             this.trackClicks(this.element.querySelector("button.report"), this.report);
@@ -122,63 +113,22 @@ export class HUDPuzzlePlayMetadata extends BaseHUDPart {
     }
 
     /**
-     * @param {Array<ProgrammableSignalComponent>} signalComps
-     * @param {Array<ProgrammableAcceptorComponent>} acceptorComps
+     * Called once the puzzle is loaded (the signals and acceptors exist)
      */
-    populateTruthTable(signalComps, acceptorComps) {
-        this.truthTable = document.getElementById("truth-table-list");
-        this.truthTable.innerHTML = buildTruthTableHTML(signalComps, acceptorComps);
+    populateTruthTable() {
+        this.truthTable = new TruthTableView(this.root, document.getElementById("truth-table-list"));
+        this.truthTable.render();
     }
 
-    /**
-     * Marks each row of the truth table as passed or failed after a test
-     */
     showSimulationResults() {
-        if (!this.truthTable) {
-            return;
+        if (this.truthTable) {
+            this.truthTable.showResults();
         }
-        const acceptorComps = getAllProgrammableAcceptorComponents(this.root);
-        const rows = this.truthTable.querySelectorAll("tbody tr");
-
-        rows.forEach((row, i) => {
-            const failed = acceptorComps.some(it => it.simulationResults[i] === false);
-            row.classList.remove("running");
-            row.classList.toggle("failed", failed);
-            row.classList.toggle("passed", !failed);
-        });
     }
 
-    /**
-     * Highlights the row being simulated while a test is running
-     */
     update() {
-        if (!this.truthTable) {
-            return;
+        if (this.truthTable) {
+            this.truthTable.update();
         }
-
-        const step = this.root.inSimulation ? getCurrentSimulationStep(this.root) : -1;
-        if (step === this.highlightedStep) {
-            return;
-        }
-
-        if (this.highlightedStep === -1 && step >= 0) {
-            // A new test started, clear the previous results
-            this.truthTable
-                .querySelectorAll("tbody tr")
-                .forEach(row => row.classList.remove("passed", "failed"));
-        }
-
-        const previous = this.truthTable.querySelector("tr.running");
-        if (previous) {
-            previous.classList.remove("running");
-        }
-
-        const current = step >= 0 ? this.truthTable.querySelector(`tbody tr.row${step}`) : null;
-        if (current) {
-            current.classList.add("running");
-            current.scrollIntoView({ block: "nearest" });
-        }
-
-        this.highlightedStep = step;
     }
 }

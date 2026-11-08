@@ -1,4 +1,6 @@
-#ingame_HUD_PuzzlePlayMetadata {
+// Side panel of the play mode and of the editor
+#ingame_HUD_PuzzlePlayMetadata,
+#ingame_HUD_PuzzleEditorControls {
     position: absolute;
 
     @include S(top, 50px);

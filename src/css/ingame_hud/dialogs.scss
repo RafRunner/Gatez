@@ -188,6 +188,38 @@
                 }
             }
 
+            .textArea {
+                display: flex;
+                flex-direction: column;
+
+                textarea {
+                    @include S(padding, 8px, 10px);
+                    @include S(margin-top, 6px);
+                    @include S(border-radius, $globalBorderRadius);
+                    border: 0;
+                    box-sizing: border-box;
+                    width: 100%;
+                    resize: vertical;
+                    background: #eee;
+                    color: #333438;
+                    @include PlainText;
+                    line-height: 1.35;
+                    user-select: text;
+                    cursor: text;
+
+                    &.errored {
+                        background-color: rgb(250, 206, 206);
+                    }
+                }
+
+                > .counter {
+                    align-self: flex-end;
+                    @include SuperDuperSmallText;
+                    color: $accentColorDark;
+                    @include S(margin-top, 2px);
+                }
+            }
+
             ul.bucketList {
                 padding-left: 30px;
 

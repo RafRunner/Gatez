@@ -1,6 +1,6 @@
 import { createLogger } from "../../../core/logging";
 import { DialogWithForm } from "../../../core/modal_dialog_elements";
-import { FormElementInput } from "../../../core/modal_dialog_forms";
+import { FormElementInput, FormElementTextArea } from "../../../core/modal_dialog_forms";
 import { STOP_PROPAGATION } from "../../../core/signal";
 import { makeDiv } from "../../../core/utils";
 import {
@@ -81,13 +81,13 @@ export class HUDPuzzleEditorReview extends BaseHUDPart {
             validator: val => trim(val).match(puzzleTitleRegex),
         });
 
-        // TODO use a rich text box with multi line support and a smaller font
-        const descriptionInput = new FormElementInput({
+        const descriptionInput = new FormElementTextArea({
             id: "descriptionInput",
             label: T.dialogs.submitPuzzle.descDescription,
             placeholder: T.dialogs.submitPuzzle.placeholderDescription,
             defaultValue: description,
-            validator: val => trim(val).length < puzzleDescriptionMaxlegth,
+            validator: val => trim(val).length <= puzzleDescriptionMaxlegth,
+            maxlength: puzzleDescriptionMaxlegth,
         });
 
         const componentsUsed = countComponentsUsed(this.root);
