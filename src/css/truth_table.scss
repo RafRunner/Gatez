@@ -71,6 +71,7 @@ table.truthTable {
 
 // Dialog listing the rows that failed
 .failedTests {
+    pointer-events: all;
     display: flex;
     justify-content: center;
     @include S(margin-top, 8px);

@@ -93,6 +93,8 @@
         }
 
         > .content {
+            // Everything has pointer-events: none by default (common.scss); needed to scroll
+            pointer-events: all;
             @include SuperSmallText;
             color: darken($accentColorDark, 25);
             @include DarkThemeOverride {
