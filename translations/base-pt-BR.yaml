@@ -486,10 +486,10 @@ ingame:
             - Coloque <strong>Sinais Programáveis</strong> (entradas, tecla H) e <strong>Receptores
               Programáveis</strong> (saídas, tecla N). A posição deles define as colunas da tabela,
               de cima para baixo e da esquerda para a direita.
-            - Clique em <strong>Editar tabela-verdade</strong> (ou em qualquer entrada/saída) e preencha
+            - Clique em <strong>Editar tabela-verdade</strong> (ou em qualquer saída) e preencha
               as entradas de cada teste e as saídas esperadas. "–" significa que qualquer saída é aceita.
-            - Resolva o seu próprio desafio e pressione <strong>Testar Desafio</strong>. Clique com o
-              botão do meio numa entrada para ligar/desligar enquanto testa manualmente.
+            - Resolva o seu próprio desafio e pressione <strong>Testar Desafio</strong>. Clique numa
+              entrada para ligá-la/desligá-la e conferir o circuito manualmente.
             - Trave as construções e variantes que o jogador não pode usar, ajuste o tamanho da área e
               adicione blocos para deixar mais difícil.
             - Pressione <strong>Revisar</strong> para validar e publicar. Todas as construções são

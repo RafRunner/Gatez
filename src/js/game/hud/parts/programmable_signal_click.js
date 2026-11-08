@@ -28,20 +28,19 @@ export class HUDProgrammableSignalClick extends BaseHUDPart {
         if (this.root.inSimulation) {
             return;
         }
+        // Left click toggles the input, in the editor too (to test by hand while creating)
+        if (button === enumMouseButton.left || button === enumMouseButton.middle) {
+            signalComp.toggled = !signalComp.toggled;
+            return STOP_PROPAGATION;
+        }
         if (!this.root.gameMode.getIsEditor()) {
             // taken from lever_toggle.js
-            if (button === enumMouseButton.left) {
-                signalComp.toggled = !signalComp.toggled;
-                return STOP_PROPAGATION;
-            } else if (button === enumMouseButton.right) {
+            if (button === enumMouseButton.right) {
                 if (!this.root.hud.parts.buildingPlacer.currentMetaBuilding) {
                     this.root.logic.tryDeleteBuilding(contents);
                 }
                 return STOP_PROPAGATION;
             }
-        } else if (button === enumMouseButton.middle) {
-            signalComp.toggled = !signalComp.toggled;
-            return STOP_PROPAGATION;
         }
     }
 }

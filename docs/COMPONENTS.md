@@ -36,7 +36,7 @@ Pin positions below use the building's local tile `(x, y)` with the building fac
 -   **Outside a simulation** it outputs `toggled`, so the player can flip it by clicking and test the circuit by hand.
 -   **During a simulation** it outputs `signalList[step]` (see [PUZZLES.md](PUZZLES.md#how-a-solution-is-checked)).
 -   It can only be placed or removed in the **editor**. Left-click there opens the truth table editor (`hud/parts/truth_table_editor.js`).
--   Clicks (`hud/parts/programmable_signal_click.js`): while playing, left-click toggles. In the editor, **middle-click** toggles. Clicks are ignored while a simulation runs.
+-   Clicks (`hud/parts/programmable_signal_click.js`): left-click (or middle-click) toggles, in play mode and in the editor; right-click deletes it while playing. Clicks are ignored while a simulation runs.
 
 ### Programmable acceptor — the expected outputs
 

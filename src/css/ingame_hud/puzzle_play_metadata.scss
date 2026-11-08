@@ -81,6 +81,8 @@
 
         > .sectionHeader {
             all: unset;
+            // all: unset makes it inherit pointer-events: none from .section (common.scss)
+            pointer-events: all;
             cursor: pointer;
             display: flex;
             align-items: center;

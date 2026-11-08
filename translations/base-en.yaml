@@ -689,10 +689,10 @@ ingame:
             - Place <strong>Programmable Signals</strong> (inputs, key H) and <strong>Programmable
               Acceptors</strong> (outputs, key N). Their position defines the columns of the table,
               from top to bottom and left to right.
-            - Click <strong>Edit truth table</strong> (or any input/output) and fill in the inputs of
+            - Click <strong>Edit truth table</strong> (or any output) and fill in the inputs of
               each test and the outputs you expect. "–" means any output is accepted.
-            - Solve your own puzzle, then press <strong>Test Puzzle</strong>. Middle click an input to
-              turn it on/off while testing by hand.
+            - Solve your own puzzle, then press <strong>Test Puzzle</strong>. Click an input to turn it
+              on/off and check your circuit by hand.
             - Lock the buildings and variants players can't use, resize the zone and add blocks to
               make it harder.
             - Press <strong>Review</strong> to validate and publish. All buildings are removed except

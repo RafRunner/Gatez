@@ -256,8 +256,9 @@ export class FormElementTruthTable extends FormElement {
 }
 
 /**
- * Edits the truth table of the puzzle being created: opens the table editor when an input or output
- * is clicked (or from the editor side panel), and gives newly placed inputs/outputs one value per row.
+ * Edits the truth table of the puzzle being created: opens the table editor when an output
+ * is clicked or from the editor side panel (inputs toggle on click instead, see programmable_signal_click.js),
+ * and gives newly placed inputs/outputs one value per row.
  */
 export class HUDTruthTableEditor extends BaseHUDPart {
     initialize() {
@@ -275,10 +276,7 @@ export class HUDTruthTableEditor extends BaseHUDPart {
 
         const tile = this.root.camera.screenToWorld(pos).toTileSpace();
         const contents = this.root.map.getLayerContentXY(tile.x, tile.y, "regular");
-        if (
-            contents &&
-            (contents.components.ProgrammableSignal || contents.components.ProgrammableAcceptor)
-        ) {
+        if (contents && contents.components.ProgrammableAcceptor) {
             this.open();
             return STOP_PROPAGATION;
         }

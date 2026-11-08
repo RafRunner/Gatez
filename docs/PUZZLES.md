@@ -60,7 +60,7 @@ Because the checking runs the real simulation, **sequential puzzles work**: valu
 `modes/puzzle_edit.js`, `hud/parts/puzzle_editor_controls.js` (side panel), `hud/parts/truth_table_editor.js`, `hud/parts/puzzle_editor_settings.js`, `hud/parts/puzzle_editor_review.js`.
 
 1. Resize the zone; place signals (inputs, key H), acceptors (outputs, key N) and blocks. A newly placed input/output gets one `0` per existing row, so all lists always have the same length.
-2. Edit the **truth table** from the side panel button, or by left-clicking any input/output. The dialog shows every column at once: click a cell to change it (inputs 0/1, outputs 0/1/– for "don't care"), add or remove rows, or fill the inputs with **all combinations** (up to 8 inputs = 256 rows, the backend limit). The side panel shows the table live.
+2. Edit the **truth table** from the side panel button, or by clicking any output (clicking an input toggles it, to test by hand). The dialog shows every column at once: click a cell to change it (inputs 0/1, outputs 0/1/– for "don't care"), add or remove rows, or fill the inputs with **all combinations** (up to 8 inputs = 256 rows, the backend limit). The side panel shows the table live.
 3. Lock buildings in the toolbar or individual variants (the lock icon on each variant) to forbid them.
 4. Build a reference solution and press **Test**. Middle-click an input to toggle it while testing by hand.
 5. **Review & submit** re-validates, runs the simulation silently, then asks for:
