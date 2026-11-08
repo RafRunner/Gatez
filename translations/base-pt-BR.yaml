@@ -1337,6 +1337,7 @@ puzzleMenu:
     validatingPuzzle: Validando Desafio
     submittingPuzzle: Enviando Desafio
     noPuzzles: Não existem desafios nesta categoria atualmente.
+    level: Nível <x>
     categories:
         levels: Níveis
         new: Novo

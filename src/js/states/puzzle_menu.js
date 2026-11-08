@@ -353,7 +353,11 @@ export class PuzzleMenuState extends TextualGameState {
 
             const id = document.createElement("div");
             id.classList.add("id");
-            id.innerText = `#${puzzle.id}`;
+            // Official levels show their position in the campaign, other puzzles their id (used to load them)
+            id.innerText =
+                puzzle.author === null && puzzle.order
+                    ? T.puzzleMenu.level.replace("<x>", String(puzzle.order))
+                    : `#${puzzle.id}`;
             elem.appendChild(id);
 
             if (puzzle.author && !["official", "mine"].includes(this.activeCategory)) {

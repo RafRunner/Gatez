@@ -66,6 +66,7 @@
  * title: string;
  * author: string;
  * authorName: string;
+ * order?: number|null; Position in the official campaign (official puzzles only)
  * afterCompletingMessage?: string;
  * minimumComponents: number;
  * maximumComponents?: number;

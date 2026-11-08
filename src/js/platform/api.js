@@ -147,12 +147,14 @@ export class ClientAPI {
         const official = category === "official";
         if (!this.isLoggedIn()) {
             if (official) {
-                const officialLevels = Object.keys(officialLevelsDownload).map(id => {
-                    const { meta } = officialLevelsDownload[id];
-                    const { description, ...rest } = meta;
+                const officialLevels = Object.keys(officialLevelsDownload)
+                    .map(id => {
+                        const { meta } = officialLevelsDownload[id];
+                        const { description, ...rest } = meta;
 
-                    return rest;
-                });
+                        return rest;
+                    })
+                    .sort((a, b) => (a.order || a.id) - (b.order || b.id));
                 return Promise.resolve(officialLevels);
             }
             return Promise.reject("not-logged-in");
