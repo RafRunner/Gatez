@@ -38,6 +38,7 @@ Full instructions: [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md).
 | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | How the code is organized, what changed from shapez, the back-end client |
 | [docs/COMPONENTS.md](docs/COMPONENTS.md) | Every component: pins, behaviour, art status, how to add a new one |
 | [docs/PUZZLES.md](docs/PUZZLES.md) | Puzzle format, how solutions are checked, editor and play flows |
+| [docs/CAMPAIGN.md](docs/CAMPAIGN.md) | Plan for the official campaign: 30 levels, from NAND to counters |
 | [docs/KNOWN_ISSUES.md](docs/KNOWN_ISSUES.md) | Known bugs, placeholder art, text issues |
 | [docs/ENGINE.md](docs/ENGINE.md) | Upstream shapez engine guide (adding components/buildings/systems) |
 | [translations/](translations/) | How translations work |
