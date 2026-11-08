@@ -5,7 +5,7 @@
 -   **Node.js 16** (the build was never updated past it; the `Dockerfile` uses `node:16`). With nvm: `nvm install 16 && nvm use 16`.
 -   **Yarn 1** (`npm install -g yarn`)
 -   **Java** (runs the texture packer that builds the sprite atlas)
--   **ffmpeg** on your `PATH` (sound processing)
+-   **ffmpeg** on your `PATH` (sound processing). ffmpeg 7+ needs fluent-ffmpeg 2.1.3, which is pinned in `gulp/package.json`; `gulp/.yarnrc` sets `ignore-engines` because that version declares Node ≥ 18 but works on 16
 
 ## Running the game
 
