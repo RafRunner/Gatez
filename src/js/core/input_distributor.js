@@ -9,6 +9,14 @@ import { arrayDeleteValue, fastArrayDeleteValue } from "./utils";
 
 const logger = createLogger("input_distributor");
 
+/**
+ * Whether the focus is on a form field, where TAB should move to the next field
+ */
+function isTypingInFormField() {
+    const active = document.activeElement;
+    return Boolean(active && ["INPUT", "TEXTAREA", "SELECT"].includes(active.tagName));
+}
+
 export class InputDistributor {
     /**
      *
@@ -203,7 +211,7 @@ export class InputDistributor {
         if (
             keyCode === 4 || // MB4
             keyCode === 5 || // MB5
-            keyCode === 9 || // TAB
+            (keyCode === 9 && !isTypingInFormField()) || // TAB (still moves focus between form fields)
             keyCode === 16 || // SHIFT
             keyCode === 17 || // CTRL
             keyCode === 18 || // ALT

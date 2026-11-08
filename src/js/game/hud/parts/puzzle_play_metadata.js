@@ -6,6 +6,7 @@ import { formatBigNumberFull, formatSeconds, formatUserTextAsHTML, makeDiv } fro
 import { T } from "../../../translations";
 import { BaseHUDPart } from "../base_hud_part";
 import { TruthTableView } from "../truth_table_view";
+import { SidePanelFade } from "../side_panel_fade";
 
 export class HUDPuzzlePlayMetadata extends BaseHUDPart {
     createElements(parent) {
@@ -130,5 +131,9 @@ export class HUDPuzzlePlayMetadata extends BaseHUDPart {
         if (this.truthTable) {
             this.truthTable.update();
         }
+        if (!this.fade) {
+            this.fade = new SidePanelFade(this.root, this.element);
+        }
+        this.fade.update();
     }
 }

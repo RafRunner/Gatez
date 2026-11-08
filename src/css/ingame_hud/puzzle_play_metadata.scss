@@ -18,6 +18,16 @@
     box-shadow: 0 #{D(2px)} #{D(6px)} rgba(0, 0, 0, 0.08);
     pointer-events: all;
     overflow-y: auto;
+    transition: opacity 0.1s ease-out;
+
+    // While placing a building over the panel (see side_panel_fade.js)
+    &.faded {
+        opacity: 0.1;
+        &,
+        * {
+            pointer-events: none !important;
+        }
+    }
 
     @include DarkThemeOverride {
         background: rgba(40, 42, 50, 0.92);

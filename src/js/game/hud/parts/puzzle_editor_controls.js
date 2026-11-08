@@ -2,6 +2,7 @@ import { makeDiv } from "../../../core/utils";
 import { T } from "../../../translations";
 import { BaseHUDPart } from "../base_hud_part";
 import { TruthTableView } from "../truth_table_view";
+import { SidePanelFade } from "../side_panel_fade";
 
 /**
  * Editor side panel: short instructions and the live truth table, with a button to edit it
@@ -49,10 +50,12 @@ export class HUDPuzzleEditorControls extends BaseHUDPart {
             live: true,
         });
         this.truthTable.render();
+        this.fade = new SidePanelFade(this.root, this.element);
         this.root.signals.puzzleCompleteEdit.add(() => this.truthTable.showResults());
     }
 
     update() {
         this.truthTable.update();
+        this.fade.update();
     }
 }
