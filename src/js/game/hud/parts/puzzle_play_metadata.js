@@ -28,6 +28,9 @@ export class HUDPuzzlePlayMetadata extends BaseHUDPart {
 
         const description = (puzzle.meta.description || "").trim();
 
+        // Official puzzles have no author and can't be reported (the backend rejects it too)
+        const canReport = Boolean(puzzle.meta.author);
+
         this.element = makeDiv(parent, "ingame_HUD_PuzzlePlayMetadata");
         this.element.innerHTML = `
             <div class="stats">
@@ -65,7 +68,11 @@ export class HUDPuzzlePlayMetadata extends BaseHUDPart {
                         ? `<button class="styledButton suggestTranslation">${T.ingame.puzzleEditorSettings.suggestTranslation}</button>`
                         : ""
                 }
-                <button class="styledButton report">${T.ingame.puzzleEditorSettings.report}</button>
+                ${
+                    canReport
+                        ? `<button class="styledButton report">${T.ingame.puzzleEditorSettings.report}</button>`
+                        : ""
+                }
             </div>
             `;
 
@@ -80,7 +87,9 @@ export class HUDPuzzlePlayMetadata extends BaseHUDPart {
         this.highlightedStep = -1;
 
         this.trackClicks(this.element.querySelector("button.share"), this.share);
-        this.trackClicks(this.element.querySelector("button.report"), this.report);
+        if (canReport) {
+            this.trackClicks(this.element.querySelector("button.report"), this.report);
+        }
         if (notInPlayerLanguage) {
             this.trackClicks(
                 this.element.querySelector("button.suggestTranslation"),
