@@ -1016,12 +1016,12 @@ buildings:
     programmable_signal:
         default:
             name: Programmable Signal
-            description: Lets you input a list os signals separated by , that will serve as the input of the puzzle.
+            description: An input of the puzzle. Click it to edit the truth table; each input is a column of the table.
 
     programmable_acceptor:
         default:
             name: Programmable Acceptor
-            description: Lets you input a list os signals separated by , that will serve as the expected output of the puzzle.
+            description: An output of the puzzle, with its expected values. Click it to edit the truth table; each output is a column of the table.
 
 storyRewards:
     # Those are the rewards gained from completing the store

@@ -31,8 +31,10 @@
         @include S(margin-bottom, 2px);
         color: #fff;
         text-transform: uppercase;
+        // Spans the whole width (the image starts on the row below) and wraps long names
         grid-column: 1 / 3;
         grid-row: 1 / 2;
+        overflow-wrap: break-word;
     }
 
     .description {
@@ -73,7 +75,7 @@
 
     .buildingImage {
         grid-column: 2 / 3;
-        grid-row: 1 / 3;
+        grid-row: 2 / 3;
         @include S(width, 100px);
         @include S(height, 100px);
         background: top left / 100% 100% no-repeat;

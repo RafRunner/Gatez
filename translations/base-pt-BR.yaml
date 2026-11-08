@@ -789,12 +789,12 @@ buildings:
     programmable_signal:
         default:
             name: Sinal Programável
-            description: Permite que você entre com uma lista de sinais separados por , que servem de entrada para o desafio.
+            description: Uma entrada do desafio. Clique nela para editar a tabela-verdade; cada entrada é uma coluna da tabela.
 
     programmable_acceptor:
         default:
             name: Receptor Programável
-            description: Permite que você entre com uma lista de sinais separados por , que servem de saída esperada para o desafio.
+            description: Uma saída do desafio, com os valores esperados. Clique nela para editar a tabela-verdade; cada saída é uma coluna da tabela.
 
 storyRewards:
     reward_cutter_and_trash:
