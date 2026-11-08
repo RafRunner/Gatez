@@ -5,7 +5,7 @@
 
     @include S(top, 50px);
     @include S(left, 10px);
-    @include S(width, 230px);
+    @include S(width, 270px);
     // Leave room for the bottom toolbar
     max-height: calc(100vh - 130px * var(--ui-scale));
 
@@ -104,15 +104,13 @@
             }
         }
 
+        // No inner scroll: the whole panel scrolls when it doesn't fit
         &.level-description > .content {
-            @include S(max-height, 150px);
-            overflow-y: auto;
-            @include S(padding-right, 4px);
-            line-height: 1.35;
+            line-height: 1.4;
         }
 
         &.truth-table > .content {
-            @include S(max-height, 220px);
+            @include S(max-height, 320px);
             overflow-y: auto;
             align-self: flex-start;
         }

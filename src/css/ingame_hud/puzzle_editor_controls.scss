@@ -1,11 +1,8 @@
 // Shares the side panel styles with #ingame_HUD_PuzzlePlayMetadata (see puzzle_play_metadata.scss)
 #ingame_HUD_PuzzleEditorControls {
     > .section.instructions > .content {
-        @include S(max-height, 170px);
-        overflow-y: auto;
         @include S(padding-left, 14px);
-        @include S(padding-right, 4px);
-        line-height: 1.35;
+        line-height: 1.4;
 
         li {
             @include S(margin-bottom, 4px);
