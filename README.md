@@ -46,7 +46,8 @@ Full instructions: [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md).
 
 Roughly in order of priority:
 
--   [ ] Fix the bugs in [docs/KNOWN_ISSUES.md](docs/KNOWN_ISSUES.md), starting with don't-care outputs on submit and escaping puzzle descriptions;
+-   [ ] Fix the remaining bugs in [docs/KNOWN_ISSUES.md](docs/KNOWN_ISSUES.md);
+-   [ ] Update the build to a current Node.js LTS (currently requires Node 16);
 -   [x] ~~Multi-language puzzle titles and descriptions~~ (the back-end and the "Suggest translation" dialog are done; a moderation UI is still missing);
 -   [ ] Multi-line text box for puzzle descriptions;
 -   [ ] Better input for programmable signal/acceptor values (currently a comma-separated text field);

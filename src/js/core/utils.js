@@ -773,3 +773,29 @@ export function getRomanNumber(number) {
     romanLiteralsCache[number] = formatted;
     return formatted;
 }
+
+/**
+ * Escapes a string so it can be safely inserted into innerHTML
+ * @param {string} text
+ * @returns {string}
+ */
+export function escapeHTML(text) {
+    return String(text)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+}
+
+/**
+ * Formats user provided text (e.g. puzzle descriptions) as HTML. Everything is escaped,
+ * except line breaks: both "\n" and literal "<br>" tags (used by official puzzles) become <br>
+ * @param {string} text
+ * @returns {string}
+ */
+export function formatUserTextAsHTML(text) {
+    return escapeHTML(text)
+        .replace(/&lt;br\s*\/?&gt;/gi, "<br>")
+        .replace(/\r?\n/g, "<br>");
+}

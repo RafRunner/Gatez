@@ -51,7 +51,7 @@ To play from another device on your network, change `getEndpoint()` to your mach
 
 ## Editing official levels
 
-See the backend's [docs/DATA_MODEL.md](https://github.com/armandosneto/gatez-backend/blob/master/docs/DATA_MODEL.md#workflow-to-change-or-add-an-official-level). Remember to regenerate `src/js/platform/offlineFallback/officialLevelsDownload.json` afterwards.
+See the backend's [docs/DATA_MODEL.md](https://github.com/armandosneto/gatez-backend/blob/main/docs/DATA_MODEL.md#workflow-to-change-or-add-an-official-level). Remember to regenerate `src/js/platform/offlineFallback/officialLevelsDownload.json` afterwards.
 
 ## Code style
 

@@ -2,7 +2,7 @@
 import { PuzzlePlayGameMode } from "../../modes/puzzle_play";
 /* typehints:end */
 
-import { formatBigNumberFull, formatSeconds, makeDiv } from "../../../core/utils";
+import { formatBigNumberFull, formatSeconds, formatUserTextAsHTML, makeDiv } from "../../../core/utils";
 import { T } from "../../../translations";
 import { BaseHUDPart } from "../base_hud_part";
 import { buildInputToExpectedOutputString } from "../../../core/logic_simulation_helper";
@@ -21,6 +21,8 @@ export class HUDPuzzlePlayMetadata extends BaseHUDPart {
         this.puzzleNameElement.innerText = puzzle.meta.title;
 
         const notInPlayerLanguage = puzzle.meta.locale !== this.root.app.settings.getLanguage();
+
+        const description = (puzzle.meta.description || "").trim();
 
         this.element = makeDiv(parent, "ingame_HUD_PuzzlePlayMetadata");
         this.element.innerHTML = `
@@ -49,11 +51,11 @@ export class HUDPuzzlePlayMetadata extends BaseHUDPart {
                 </div>
             </div>
             ${
-                puzzle.meta.description.trim().length === 0
+                description.length === 0
                     ? ""
                     : `<div class="info level-description">
                 <label>${T.ingame.puzzleEditorSettings.description}</label>
-                <span>${puzzle.meta.description}</span>
+                <span>${formatUserTextAsHTML(description)}</span>
             </div>`
             }
             <div class="buttons">

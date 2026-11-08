@@ -19,6 +19,15 @@ export class EdgeDetectorSystem extends GameSystemWithFilter {
             return;
         }
 
+        // TODO Hack to make Flip-Flops easier to build: outputs are only recomputed every
+        // `outputFrames` ticks, so every pulse lasts that many ticks. The counter is shared,
+        // so all edge detectors update on the same tick. Improve in the future
+        this.framesCount++;
+        const shouldUpdateOutputs = this.framesCount >= this.outputFrames;
+        if (shouldUpdateOutputs) {
+            this.framesCount = 0;
+        }
+
         for (let idx = 0; idx < this.allEntities.length; idx++) {
             const entity = this.allEntities[idx];
             const edgeComp = entity.components.EdgeDetector;
@@ -32,12 +41,9 @@ export class EdgeDetectorSystem extends GameSystemWithFilter {
             }
             const inputValue = inputNetwork ? inputNetwork.currentValue : null;
 
-            // TODO Hack to make Flip-Flops easier to build. Improve in the future
-            this.framesCount++;
-            if (this.framesCount < this.outputFrames) {
-                return;
+            if (!shouldUpdateOutputs) {
+                continue;
             }
-            this.framesCount = 0;
 
             let output = false;
             switch (edgeComp.type) {

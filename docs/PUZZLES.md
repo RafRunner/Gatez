@@ -26,7 +26,7 @@ Typedefs in `src/js/savegame/savegame_typedefs.js`; (de)serialization in `src/js
 -   Signal strings: `1`/`true` → 1, `0`/`false` → 0. In acceptors, `x`/`null` → don't care.
 -   On the wire to the backend the JSON is compressed with `compressX64` (lz-string) and decompressed on download (`src/js/platform/api.js`).
 
-Metadata (`PuzzleMetadata`) comes from the backend: title, description, author, `minimumComponents`, `maximumComponents`, `difficulty` (`easy`/`medium`/`hard`), likes, completions, `canPlay`, `locale`, and so on. See the backend's [docs/API.md](https://github.com/armandosneto/gatez-backend/blob/master/docs/API.md).
+Metadata (`PuzzleMetadata`) comes from the backend: title, description, author, `minimumComponents`, `maximumComponents`, `difficulty` (`easy`/`medium`/`hard`), likes, completions, `canPlay`, `locale`, and so on. See the backend's [docs/API.md](https://github.com/armandosneto/gatez-backend/blob/main/docs/API.md).
 
 ## How a solution is checked
 
@@ -80,6 +80,6 @@ Because the checking runs the real simulation, **sequential puzzles work**: valu
 
 ## Official levels
 
-The campaign is the list of official puzzles on the backend, unlocked in order (`canPlay`). The backend's default database has **26** levels, from _Welcome_ to _JK Flip Flop_; see the backend's [docs/DATA_MODEL.md](https://github.com/armandosneto/gatez-backend/blob/master/docs/DATA_MODEL.md).
+The campaign is the list of official puzzles on the backend, unlocked in order (`canPlay`). The backend's default database has **26** levels, from _Welcome_ to _JK Flip Flop_; see the backend's [docs/DATA_MODEL.md](https://github.com/armandosneto/gatez-backend/blob/main/docs/DATA_MODEL.md).
 
-Without an account (the **Play offline** button), the game serves the official levels from `src/js/platform/offlineFallback/officialLevelsDownload.json`, and nothing is tracked. ⚠️ That snapshot is outdated: it has **22** levels and lacks _NOT using a NAND_, _AND with NANDs_, _OR using NANDs_ and _NAND using NORs_. Regenerate it with the admin endpoint `GET /v1/puzzles/officialSnapshot`.
+Without an account (the **Play offline** button), the game serves the official levels from `src/js/platform/offlineFallback/officialLevelsDownload.json`, and nothing is tracked. Regenerate it with the admin endpoint `GET /v1/puzzles/officialSnapshot` whenever official levels change. Remove `hiddenAt`/`hiddenById` from each `meta`.

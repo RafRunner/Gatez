@@ -236,20 +236,27 @@ export class HUDBuildingPlacer extends HUDBuildingPlacerLogic {
      * @return {boolean}
      */
     toggleVariantLock(metaBuilding, variant) {
-        if (this.currentVariant.get() === variant) {
-            this.cycleVariants();
-        }
-
         const completeVariantName = metaBuilding.getCompleteIdentifier(variant);
         let locked = false;
 
         if (this.lockedVariants.includes(completeVariantName)) {
             this.lockedVariants = this.lockedVariants.filter(v => v !== completeVariantName);
         } else {
-            if (this.lockedVariants.length === metaBuilding.getAvailableVariants(this.root).length - 1) {
+            // At least one variant of each building must stay unlocked
+            const allVariants = metaBuilding.getAvailableVariants(this.root);
+            const lockedOfThisBuilding = allVariants.filter(v =>
+                this.lockedVariants.includes(metaBuilding.getCompleteIdentifier(v))
+            ).length;
+
+            if (lockedOfThisBuilding >= allVariants.length - 1) {
                 this.root.soundProxy.playUiError();
                 return false;
             }
+
+            if (this.currentVariant.get() === variant) {
+                this.cycleVariants();
+            }
+
             locked = true;
             this.lockedVariants.push(completeVariantName);
         }

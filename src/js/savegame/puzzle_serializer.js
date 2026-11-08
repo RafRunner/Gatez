@@ -51,7 +51,9 @@ export class PuzzleSerializer {
                 assert(acceptorComp.expectedSignals.length > 0, "expectedSignals missing");
                 buildings.push({
                     type: "programmableAcceptor",
-                    expectedSignals: acceptorComp.expectedSignals.map(it => it.getAsCopyableKey()).join(","),
+                    expectedSignals: acceptorComp.expectedSignals
+                        .map(it => (it ? it.getAsCopyableKey() : "x"))
+                        .join(","),
                     pos: {
                         x: staticComp.origin.x,
                         y: staticComp.origin.y,

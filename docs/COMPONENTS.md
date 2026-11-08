@@ -76,7 +76,7 @@ Pin positions below use the building's local tile `(x, y)` with the building fac
 ### Edge detector (`edge_detector`)
 
 -   Input bottom, output top. Outputs 1 for one update when the input goes 0→1 (rising), 1→0 (falling) or either (change).
--   ⚠️ Contains a timing hack (`systems/edge_detector.js:35`) that only updates every other tick. It was added to make flip-flops easier to build and has side effects with several detectors; see [KNOWN_ISSUES.md](KNOWN_ISSUES.md).
+-   Outputs are only recomputed every `outputFrames` (2) ticks, for all detectors at once, so each pulse lasts 2 ticks. This is a deliberate hack to make flip-flops easier to build (`systems/edge_detector.js`).
 
 ### Memory (`memory`)
 
