@@ -3,107 +3,130 @@
 
     @include S(top, 50px);
     @include S(left, 10px);
+    @include S(width, 230px);
+    // Leave room for the bottom toolbar
+    max-height: calc(100vh - 130px * var(--ui-scale));
 
     display: flex;
     flex-direction: column;
-    @include S(width, 350px);
+    box-sizing: border-box;
+    @include S(padding, 8px);
+    @include S(border-radius, $globalBorderRadius);
+    background: rgba(lighten($mainBgColor, 6), 0.92);
+    box-shadow: 0 #{D(2px)} #{D(6px)} rgba(0, 0, 0, 0.08);
+    pointer-events: all;
+    overflow-y: auto;
 
-    > .info {
-        display: flex;
-        flex-direction: column;
-        @include SuperSmallText;
-        @include S(margin-bottom, 5px);
-
-        > label {
-            text-transform: uppercase;
-            @include SuperDuperSmallText;
-            color: $accentColorDark;
-        }
-        span {
-            display: flex;
-            color: darken($accentColorDark, 25);
-            @include SuperSmallText;
-            @include DarkThemeOverride {
-                color: lighten($accentColorDark, 15);
-            }
-        }
-
-        #truth-table-list {
-            display: flex;
-            flex-direction: column;
-
-            span {
-                font-family: "DK Canoodle", sans-serif, monospace;
-            }
-        }
+    @include DarkThemeOverride {
+        background: rgba(40, 42, 50, 0.92);
     }
 
-    > .plays {
+    > .stats {
         display: flex;
+        flex-wrap: wrap;
         align-items: center;
-        justify-self: start;
-        align-self: flex-start;
-        flex-direction: row;
-        @include S(margin-bottom, 10px);
-        opacity: 0.8;
-        @include DarkThemeInvert;
+        @include S(gap, 4px, 10px);
+        @include S(margin-bottom, 8px);
+        @include SuperSmallText;
+        color: darken($accentColorDark, 15);
         @include DarkThemeOverride {
-            opacity: 0.8;
+            color: lighten($accentColorDark, 20);
+        }
+
+        > .author {
+            width: 100%;
+            font-weight: bold;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        > .downloads,
+        > .likes {
+            @include S(padding-left, 12px);
+            @include DarkThemeInvert;
         }
 
         > .downloads {
-            @include SuperSmallText;
-            color: #000;
-            align-self: start;
-            justify-self: start;
-            font-weight: bold;
-            @include S(margin-right, 10px);
-            @include S(padding-left, 14px);
-            opacity: 0.7;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-
-            & {
-                /* @load-async */
-                background: uiResource("icons/puzzle_plays.png") #{D(2px)} center / #{D(8px)} #{D(8px)} no-repeat;
-            }
+            /* @load-async */
+            background: uiResource("icons/puzzle_plays.png") left center / #{D(8px)} #{D(8px)} no-repeat;
         }
 
         > .likes {
-            @include SuperSmallText;
-            align-items: center;
-            justify-content: center;
-            color: #000;
-            align-self: start;
-            justify-self: start;
-            font-weight: bold;
-            @include S(padding-left, 14px);
-            opacity: 0.7;
-            & {
-                /* @load-async */
-                background: uiResource("icons/puzzle_upvotes.png") #{D(2px)} center / #{D(8px)} #{D(8px)} no-repeat;
-            }
+            /* @load-async */
+            background: uiResource("icons/puzzle_upvotes.png") left center / #{D(8px)} #{D(8px)} no-repeat;
+        }
+
+        > .duration::before {
+            content: "⏱ ";
         }
     }
 
-    button {
-        @include SuperSmallText;
-        align-self: start;
-        @include S(min-width, 50px);
+    > .section {
+        display: flex;
+        flex-direction: column;
+        @include S(margin-bottom, 8px);
 
-        &.report {
-            background-color: $accentColorDark;
+        > .sectionHeader {
+            all: unset;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            @include S(margin-bottom, 3px);
+            text-transform: uppercase;
             @include SuperDuperSmallText;
+            color: $accentColorDark;
+
+            &::after {
+                content: "▾";
+                @include S(margin-left, 4px);
+            }
+        }
+
+        &.collapsed {
+            > .content {
+                display: none;
+            }
+            > .sectionHeader::after {
+                content: "▸";
+            }
+        }
+
+        > .content {
+            @include SuperSmallText;
+            color: darken($accentColorDark, 25);
+            @include DarkThemeOverride {
+                color: lighten($accentColorDark, 25);
+            }
+        }
+
+        &.level-description > .content {
+            @include S(max-height, 150px);
+            overflow-y: auto;
+            @include S(padding-right, 4px);
+            line-height: 1.35;
+        }
+
+        &.truth-table > .content {
+            @include S(max-height, 220px);
+            overflow-y: auto;
+            align-self: flex-start;
         }
     }
 
     > .buttons {
         display: flex;
-        flex-direction: column;
+        flex-wrap: wrap;
+        @include S(gap, 4px);
 
         > button {
-            @include S(margin-bottom, 4px);
+            @include SuperSmallText;
+            @include S(min-width, 50px);
+
+            &.report {
+                background-color: $accentColorDark;
+                @include SuperDuperSmallText;
+            }
         }
     }
 }

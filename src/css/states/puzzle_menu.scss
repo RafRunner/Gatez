@@ -357,11 +357,14 @@
                     }
 
                     &.completed {
+                        // Completed puzzles stay readable, only slightly faded
                         > .icon,
                         > .stats,
-                        > .author,
+                        > .author {
+                            opacity: 0.55;
+                        }
                         > .title {
-                            opacity: 0.3;
+                            opacity: 0.75;
                         }
 
                         background: #fafafa;
@@ -394,11 +397,33 @@
                         }
                     }
 
-                    &.cant-pay {
-                        background: #bb5252;
+                    // Official levels not unlocked yet: neutral background with a dashed border,
+                    // text keeps enough contrast to be read
+                    &.cantPlay {
+                        cursor: not-allowed;
+                        background: transparent;
+                        box-shadow: none;
+                        border: #{D(1px)} dashed rgba(0, 0, 0, 0.18);
+                        box-sizing: border-box;
+
+                        > .title,
+                        > .id {
+                            color: #6c6f7a;
+                        }
+                        > .stats {
+                            opacity: 0.4;
+                        }
+
+                        &:hover {
+                            background: transparent;
+                        }
 
                         @include DarkThemeOverride {
-                            background: rgb(92, 5, 5);
+                            border-color: rgba(255, 255, 255, 0.2);
+                            > .title,
+                            > .id {
+                                color: #9a9daa;
+                            }
                         }
                     }
                 }

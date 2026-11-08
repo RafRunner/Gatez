@@ -4,7 +4,15 @@ import { GameSystemWithFilter } from "../game_system_with_filter";
 import { MapChunkView } from "../map_chunk_view";
 import { BOOL_FALSE_SINGLETON, isTruthyItem } from "../items/boolean_item";
 import { ProgrammableAcceptorComponent } from "../components/programmable_acceptor";
-import { getCurrentSimulationStep, isSamplingFrame } from "../../core/logic_simulation_helper";
+import {
+    drawIOLabel,
+    getAcceptorLabels,
+    getCurrentSimulationStep,
+    isSamplingFrame,
+} from "../../core/logic_simulation_helper";
+
+// Same colors as the truth table headers (see src/css/truth_table.scss)
+const OUTPUT_LABEL_COLOR = "#66bb6a";
 
 export class ProgrammableAcceptorSystem extends GameSystemWithFilter {
     constructor(root) {
@@ -86,6 +94,7 @@ export class ProgrammableAcceptorSystem extends GameSystemWithFilter {
      */
     drawChunk(parameters, chunk) {
         const contents = chunk.containedEntitiesByLayer.regular;
+        let labels = null;
 
         for (let i = 0; i < contents.length; ++i) {
             const entity = contents[i];
@@ -111,6 +120,15 @@ export class ProgrammableAcceptorSystem extends GameSystemWithFilter {
                     (origin.y + 0.5) * globalConfig.tileSize,
                     globalConfig.tileSize
                 );
+            }
+        }
+
+        // Labels go on top of the sprites
+        for (let i = 0; i < contents.length; ++i) {
+            const entity = contents[i];
+            if (entity && entity.components.ProgrammableAcceptor) {
+                labels = labels || getAcceptorLabels(this.root);
+                drawIOLabel(parameters, entity, labels.get(entity), OUTPUT_LABEL_COLOR);
             }
         }
     }

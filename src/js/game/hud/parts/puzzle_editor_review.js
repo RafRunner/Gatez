@@ -6,8 +6,11 @@ import { makeDiv } from "../../../core/utils";
 import {
     buildFailedTestsString,
     countComponentsUsed,
+    getAllProgrammableAcceptorComponents,
+    getAllProgrammableSignalComponents,
     validatePuzzle,
 } from "../../../core/logic_simulation_helper";
+import { buildPuzzleIconKey } from "../../puzzle_icon";
 import { PuzzleSerializer } from "../../../savegame/puzzle_serializer";
 import { T } from "../../../translations";
 import { StaticMapEntityComponent } from "../../components/static_map_entity";
@@ -70,7 +73,6 @@ export class HUDPuzzleEditorReview extends BaseHUDPart {
     }
 
     startSubmit(title = "", description = "", maxComponents = "") {
-        const regex = /^.{4,30}$/;
         const nameInput = new FormElementInput({
             id: "nameInput",
             label: T.dialogs.submitPuzzle.descName,
@@ -78,9 +80,6 @@ export class HUDPuzzleEditorReview extends BaseHUDPart {
             defaultValue: title,
             validator: val => trim(val).match(puzzleTitleRegex),
         });
-
-        // TODO implement a better way to choose an icon (maybe of a gate/component) for the puzzle
-        const randomItem = this.root.hubGoals.computeFreeplayShape(Math.round(10 + Math.random() * 10000));
 
         // TODO use a rich text box with multi line support and a smaller font
         const descriptionInput = new FormElementInput({
@@ -114,7 +113,11 @@ export class HUDPuzzleEditorReview extends BaseHUDPart {
 
         dialog.buttonSignals.ok.add(() => {
             const title = trim(nameInput.getValue());
-            const shortKey = randomItem.getHash();
+            // The icon is a chip with the puzzle's inputs/outputs (the backend recomputes it from the data)
+            const shortKey = buildPuzzleIconKey(
+                getAllProgrammableSignalComponents(this.root).length,
+                getAllProgrammableAcceptorComponents(this.root).length
+            );
             const description = trim(descriptionInput.getValue());
             const maxComponentsValue = maxComponentsInput.getValue();
 
@@ -123,8 +126,6 @@ export class HUDPuzzleEditorReview extends BaseHUDPart {
             this.doSubmitPuzzle(title, shortKey, description, componentsUsed, maxComponents);
         });
     }
-
-    checkIfSuccessfullAndSubmit(wasSuccessful) {}
 
     doSubmitPuzzle(title, shortKey, description, minimumComponents, maximumComponents) {
         const serialized = new PuzzleSerializer().generateDumpFromGameRoot(this.root);

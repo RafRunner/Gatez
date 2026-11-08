@@ -21,6 +21,9 @@ Found while reviewing the code (November 2026). Backend issues are in the backen
 -   The variant-lock guard counted locked variants of **all** buildings. It now counts only the clicked building's, and no longer switches the selected variant when a lock is refused.
 -   The offline levels file had 22 outdated levels. It now has all 26, regenerated from the backend's default database with `officialSnapshot`, which also brings the newer variant locks (e.g. XOR is locked in the XOR level).
 
+-   Puzzles with 8 to 15 truth table rows (e.g. the adders) crashed on load: the two-column text table read row `i + 8`. The text table was replaced by an HTML table (`buildTruthTableHTML`).
+-   Puzzle list readability: locked levels were dark red with grey text, and completed levels had their title at 30% opacity.
+
 ## Art that is still a placeholder
 
 | Building | Problem |
@@ -30,7 +33,6 @@ Found while reviewing the code (November 2026). Backend issues are in the backen
 | 4-input AND/OR | Both variants use the same sprite; the blueprint is upstream's `painter-quad.png`. |
 | Memory — SR latch | Identical to the JK flip-flop sprite. |
 | Logic gate — NOR | The tutorial image is identical to the 4-input OR's. |
-| Puzzle icon | A random shapez shape (`shortKey`). |
 
 ## Text
 

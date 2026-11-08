@@ -51,14 +51,15 @@ Roughly in order of priority:
 -   [x] ~~Multi-language puzzle titles and descriptions~~ (the back-end and the "Suggest translation" dialog are done; a moderation UI is still missing);
 -   [ ] Multi-line text box for puzzle descriptions;
 -   [ ] Better input for programmable signal/acceptor values (currently a comma-separated text field);
+-   [x] ~~Truth table as a real table, with input/output labels on the map and test results per row~~;
 -   [ ] Show the truth table while creating a puzzle;
 -   [ ] Final art for every component (signals, acceptors, 4-input gates and the SR latch are still placeholders);
--   [ ] A puzzle icon that fits the theme (currently a random shapez shape);
+-   [x] ~~A puzzle icon that fits the theme~~ (a chip with the puzzle's inputs/outputs);
 -   [ ] More components (registers, ALU, RAM, ROM) and levels, up to a simple 4-bit CPU and RAM;
 -   [ ] Polish the sandbox mode: remove unused mechanics, add a clock component;
 -   [ ] Revise the settings menu;
 -   [ ] More languages (only English and pt-BR have the Gatez texts);
--   [ ] New main menu background, loading tips, visual identity and logo;
+-   [ ] New main menu background, loading tips (still about shapez), visual identity and logo;
 -   [ ] Remove unused upstream code and remaining references to upstream analytics, platforms, e-mails and links;
 -   [ ] Make the back-end URL configurable and fix the production build scripts (web and standalone);
 -   [ ] Release the game (website or installers) and host the back-end.

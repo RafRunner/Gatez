@@ -1,0 +1,79 @@
+// Truth table used in the puzzle side panel and in the "failed tests" dialogs
+table.truthTable {
+    border-collapse: collapse;
+    font-family: "DK Canoodle", monospace;
+    @include SuperSmallText;
+    color: #333438;
+    @include DarkThemeOverride {
+        color: #ddd;
+    }
+
+    th,
+    td {
+        text-align: center;
+        @include S(padding, 1px, 5px);
+        @include S(min-width, 10px);
+    }
+
+    thead th {
+        position: sticky;
+        top: 0;
+        font-weight: bold;
+        color: $colorBlueBright;
+        background: lighten($mainBgColor, 6);
+        border-bottom: #{D(1px)} solid rgba(0, 0, 0, 0.15);
+        @include DarkThemeOverride {
+            background: rgb(40, 42, 50);
+        }
+
+        &.output {
+            color: $colorGreenBright;
+        }
+    }
+
+    .index {
+        color: $accentColorDark;
+        @include SuperDuperSmallText;
+    }
+
+    .firstOutput {
+        border-left: #{D(2px)} solid rgba(0, 0, 0, 0.2);
+        @include DarkThemeOverride {
+            border-left-color: rgba(255, 255, 255, 0.2);
+        }
+    }
+
+    td.v1 {
+        font-weight: bold;
+    }
+    td.v0,
+    td.dontCare {
+        opacity: 0.55;
+    }
+
+    tbody tr {
+        transition: background-color 0.1s ease-in-out;
+
+        &:nth-child(even) {
+            background: rgba(0, 0, 0, 0.03);
+        }
+        &.running {
+            background: rgba($colorBlueBright, 0.3);
+        }
+        &.passed {
+            background: rgba($colorGreenBright, 0.25);
+        }
+        &.failed {
+            background: rgba($colorRedBright, 0.3);
+        }
+    }
+}
+
+// Dialog listing the rows that failed
+.failedTests {
+    display: flex;
+    justify-content: center;
+    @include S(margin-top, 8px);
+    @include S(max-height, 200px);
+    overflow-y: auto;
+}

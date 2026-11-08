@@ -3,7 +3,10 @@ import { ProgrammableSignalComponent } from "../components/programmable_signal";
 import { GameSystemWithFilter } from "../game_system_with_filter";
 import { MapChunkView } from "../map_chunk_view";
 import { castBool } from "../items/boolean_item";
-import { getCurrentSimulationStep } from "../../core/logic_simulation_helper";
+import { drawIOLabel, getCurrentSimulationStep, getSignalLabels } from "../../core/logic_simulation_helper";
+
+// Same colors as the truth table headers (see src/css/truth_table.scss)
+const INPUT_LABEL_COLOR = "rgb(74, 151, 223)";
 
 export class ProgrammableSignalSystem extends GameSystemWithFilter {
     constructor(root) {
@@ -72,6 +75,7 @@ export class ProgrammableSignalSystem extends GameSystemWithFilter {
      */
     drawChunk(parameters, chunk) {
         const contents = chunk.containedEntitiesByLayer.regular;
+        let labels = null;
 
         for (let i = 0; i < contents.length; ++i) {
             const entity = contents[i];
@@ -80,6 +84,9 @@ export class ProgrammableSignalSystem extends GameSystemWithFilter {
             if (signalComp) {
                 const sprite = signalComp.toggled ? this.spriteOn : this.spriteOff;
                 entity.components.StaticMapEntity.drawSpriteOnBoundsClipped(parameters, sprite);
+
+                labels = labels || getSignalLabels(this.root);
+                drawIOLabel(parameters, entity, labels.get(entity), INPUT_LABEL_COLOR);
             }
         }
     }

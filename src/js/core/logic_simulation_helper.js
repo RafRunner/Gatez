@@ -8,12 +8,11 @@ import { ProgrammableSignalComponent } from "../game/components/programmable_sig
 import { Entity } from "../game/entity";
 import { enumNotificationType } from "../game/hud/parts/notifications";
 import { GameRoot } from "../game/root";
+import { globalConfig } from "./config";
 
 // Indicates how many frames each step of the simulation will last. Needed because components take time to calculate outputs.
 /** @type {Number} */
 const FRAMES_PER_STEP = 100;
-
-const MAX_TRUTH_TABLE_LINES = 8;
 
 /**
  * Returns the current simulation step
@@ -114,79 +113,165 @@ export function validatePuzzle(root, T, callback) {
 }
 
 /**
- * Builds a string that represents a series of expected outputs for a set of inputs. It's a line of a truth table.
- * If null is returned, it indicates that the desired truth table is too big and has reached it's limit
- * @param {ProgrammableSignalComponent[]} signalComps
- * @param {ProgrammableAcceptorComponent[]} acceptorComps
- * @param {Number} i
- * @param {Number} numberOfLines
- * @returns {string?}
- */
-export function buildInputToExpectedOutputString(signalComps, acceptorComps, i, numberOfLines) {
-    const baseLine = buildTruthTableLine(signalComps, acceptorComps, i, numberOfLines);
-    if (numberOfLines < MAX_TRUTH_TABLE_LINES) {
-        return baseLine;
-    }
-    if (i >= MAX_TRUTH_TABLE_LINES) {
-        return null;
-    }
-
-    return (
-        baseLine +
-        " | " +
-        buildTruthTableLine(signalComps, acceptorComps, i + MAX_TRUTH_TABLE_LINES, numberOfLines)
-    );
-}
-
-/**
- * @param {ProgrammableSignalComponent[]} signalComps
- * @param {ProgrammableAcceptorComponent[]} acceptorComps
- * @param {number} i
- * @param {number} numberOfLines
+ * Label shown for the n-th programmable signal (input): A, B, ..., Z, AA, AB, ...
+ * @param {number} index
  * @returns {string}
  */
-function buildTruthTableLine(signalComps, acceptorComps, i, numberOfLines) {
-    const humanIndex = i + 1;
-    const indexString = numberOfLines >= 10 && i < 9 ? "0" + humanIndex : humanIndex.toString();
-    return (
-        indexString +
-        ") " +
-        signalComps.map(it => it.signalList[i].getAsCopyableKey()).join(",") +
-        " -> " +
-        acceptorComps
-            .map(it => (it.expectedSignals[i] ? it.expectedSignals[i].getAsCopyableKey() : "x"))
-            .join(",")
-    );
+export function getSignalLabel(index) {
+    let label = "";
+    let n = index;
+    do {
+        label = String.fromCharCode(65 + (n % 26)) + label;
+        n = Math.floor(n / 26) - 1;
+    } while (n >= 0);
+    return label;
 }
 
 /**
- * Builds a string that is a div with all failed tests in a puzzle
+ * Label shown for the n-th programmable acceptor (output): Y if there's only one, otherwise Y1, Y2, ...
+ * @param {number} index
+ * @param {number} count
+ * @returns {string}
+ */
+export function getAcceptorLabel(index, count) {
+    return count === 1 ? "Y" : "Y" + (index + 1);
+}
+
+/**
+ * @param {import("../game/base_item").BaseItem|null} item
+ * @param {string} [extraClass]
+ * @returns {string}
+ */
+function signalCell(item, extraClass = "") {
+    if (!item) {
+        return `<td class="value dontCare ${extraClass}">–</td>`;
+    }
+    const value = item.getAsCopyableKey();
+    return `<td class="value v${value} ${extraClass}">${value}</td>`;
+}
+
+/**
+ * Draws a small badge with a label (e.g. "A" or "Y1") on the top left corner of an entity,
+ * so players can match programmable signals and acceptors with the truth table columns
+ * @param {import("./draw_utils").DrawParameters} parameters
+ * @param {Entity} entity
+ * @param {string} label
+ * @param {string} color
+ */
+export function drawIOLabel(parameters, entity, label, color) {
+    const origin = entity.components.StaticMapEntity.origin;
+    const tileSize = globalConfig.tileSize;
+    const radius = label.length > 1 ? 6 : 5;
+    const x = origin.x * tileSize + radius + 1;
+    const y = origin.y * tileSize + radius + 1;
+    const context = parameters.context;
+
+    context.fillStyle = color;
+    context.beginPath();
+    context.arc(x, y, radius, 0, Math.PI * 2);
+    context.fill();
+
+    context.fillStyle = "#fff";
+    context.font = `bold ${label.length > 1 ? 5 : 7}px GameFont`;
+    context.textAlign = "center";
+    context.textBaseline = "middle";
+    context.fillText(label, x, y + 0.5);
+    context.textAlign = "left";
+    context.textBaseline = "alphabetic";
+}
+
+/**
+ * @param {Entity[]} entities
+ * @param {(index: number, count: number) => string} labelFn
+ * @returns {Map<Entity, string>}
+ */
+function labelEntities(entities, labelFn) {
+    const sorted = entities.slice().sort(sortByPosition);
+    return new Map(sorted.map((entity, i) => [entity, labelFn(i, sorted.length)]));
+}
+
+/**
+ * @param {GameRoot} root
+ * @returns {Map<Entity, string>}
+ */
+export function getSignalLabels(root) {
+    return labelEntities(root.entityMgr.getAllWithComponent(ProgrammableSignalComponent), getSignalLabel);
+}
+
+/**
+ * @param {GameRoot} root
+ * @returns {Map<Entity, string>}
+ */
+export function getAcceptorLabels(root) {
+    return labelEntities(root.entityMgr.getAllWithComponent(ProgrammableAcceptorComponent), getAcceptorLabel);
+}
+
+/**
+ * Builds an HTML truth table with the inputs and expected outputs of a puzzle.
+ * Columns follow the order of getAllProgrammableSignalComponents/getAllProgrammableAcceptorComponents
+ * (top to bottom, left to right), with the same labels drawn on the map.
+ * @param {ProgrammableSignalComponent[]} signalComps
+ * @param {ProgrammableAcceptorComponent[]} acceptorComps
+ * @param {object} [options]
+ * @param {number[]} [options.rows] Which rows to include (default: all)
+ * @param {(row: number) => string} [options.rowClass] Extra CSS class for a row
+ * @returns {string}
+ */
+export function buildTruthTableHTML(signalComps, acceptorComps, { rows = null, rowClass = () => "" } = {}) {
+    const numberOfRows = signalComps.length > 0 ? signalComps[0].signalList.length : 0;
+    const rowIndexes = rows || [...Array(numberOfRows).keys()];
+
+    const header =
+        `<th class="index">#</th>` +
+        signalComps.map((_, i) => `<th>${getSignalLabel(i)}</th>`).join("") +
+        acceptorComps
+            .map(
+                (_, i) =>
+                    `<th class="output ${i === 0 ? "firstOutput" : ""}">${getAcceptorLabel(
+                        i,
+                        acceptorComps.length
+                    )}</th>`
+            )
+            .join("");
+
+    const body = rowIndexes
+        .map(row => {
+            const inputs = signalComps.map(it => signalCell(it.signalList[row])).join("");
+            const outputs = acceptorComps
+                .map((it, i) =>
+                    signalCell(it.expectedSignals[row], i === 0 ? "output firstOutput" : "output")
+                )
+                .join("");
+            return `<tr class="row${row} ${rowClass(row)}"><td class="index">${
+                row + 1
+            }</td>${inputs}${outputs}</tr>`;
+        })
+        .join("");
+
+    return `<table class="truthTable"><thead><tr>${header}</tr></thead><tbody>${body}</tbody></table>`;
+}
+
+/**
+ * Builds an HTML truth table containing only the rows that failed in the last simulation
  * @param {GameRoot} root
  * @returns {string}
  */
 export function buildFailedTestsString(root) {
     const signalComps = getAllProgrammableSignalComponents(root);
     const acceptorComps = getAllProgrammableAcceptorComponents(root);
+    const numberOfRows = acceptorComps[0].expectedSignals.length;
 
-    let failedTests = `<div style="font-family: DK Canoodle, sans-serif, monospace !important;"><br>`;
-    let numberOfFails = 0;
-    const lines = acceptorComps[0].expectedSignals.length;
-
-    for (let i = 0; i < lines; i++) {
-        // At least one output was wrong
-        if (acceptorComps.some(it => it.simulationResults[i] === false)) {
-            const expected = buildInputToExpectedOutputString(signalComps, acceptorComps, i, lines);
-
-            if (!expected) {
-                break;
-            }
-
-            failedTests += expected + "<br>";
-            numberOfFails++;
+    const failedRows = [];
+    for (let row = 0; row < numberOfRows; row++) {
+        if (acceptorComps.some(it => it.simulationResults[row] === false)) {
+            failedRows.push(row);
         }
     }
 
-    return failedTests + "</div>";
+    return `<div class="failedTests">${buildTruthTableHTML(signalComps, acceptorComps, {
+        rows: failedRows,
+        rowClass: () => "failed",
+    })}</div>`;
 }
 
 /**

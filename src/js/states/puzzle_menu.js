@@ -4,7 +4,7 @@ import { FormElementInput } from "../core/modal_dialog_forms";
 import { TextualGameState } from "../core/textual_game_state";
 import { formatBigNumberFull } from "../core/utils";
 import { enumGameModeIds } from "../game/game_mode";
-import { ShapeDefinition } from "../game/shape_definition";
+import { generatePuzzleIcon } from "../game/puzzle_icon";
 import { MUSIC } from "../platform/sound";
 import { Savegame } from "../savegame/savegame";
 import { T } from "../translations";
@@ -341,7 +341,7 @@ export class PuzzleMenuState extends TextualGameState {
             elem.setAttribute("data-puzzle-id", String(puzzle.id));
 
             if (!puzzle.canPlay) {
-                elem.classList.add("cant-pay");
+                elem.classList.add("cantPlay");
             } else if (this.activeCategory !== "mine" && puzzle.completed) {
                 elem.classList.add("completed");
             }
@@ -395,8 +395,9 @@ export class PuzzleMenuState extends TextualGameState {
             likes.innerText = formatBigNumberFull(puzzle.likes);
             stats.appendChild(likes);
 
-            const definition = ShapeDefinition.fromShortKey(puzzle.shortKey);
-            const canvas = definition.generateAsCanvas(100 * this.app.getEffectiveUiScale());
+            const canvas = generatePuzzleIcon(puzzle.shortKey, 100 * this.app.getEffectiveUiScale(), {
+                locked: !puzzle.canPlay,
+            });
 
             const icon = document.createElement("div");
             icon.classList.add("icon");

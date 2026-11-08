@@ -44,9 +44,9 @@ Implemented by `src/js/core/logic_simulation_helper.js`, `ProgrammableSignalSyst
     - `puzzleComplete(ok)` when playing;
     - `puzzleCompleteEdit(ok)` when testing in the editor;
     - `puzzleCompleteSubmit(ok)` when validating before upload.
-6. Failed rows are shown as text such as `03) 1,0 -> 1,x`.
+6. The side panel highlights the row being simulated, then marks each row as passed (green) or failed (red). The failure dialog shows a table with only the failed rows.
 
-**Row and column order:** signals and acceptors are sorted by position, top-to-bottom then left-to-right. That order defines the columns of the truth table shown to the player, so place them deliberately.
+**Row and column order:** signals and acceptors are sorted by position, top-to-bottom then left-to-right. That order defines the columns of the truth table shown to the player. Inputs are labelled **A, B, C…** and outputs **Y** (or **Y1, Y2…**). The same labels are drawn as badges on the map (`drawIOLabel` in `logic_simulation_helper.js`), so players can match columns to buildings.
 
 Because the checking runs the real simulation, **sequential puzzles work**: values carry over between rows, which is how the latch and flip-flop levels are built.
 
@@ -66,14 +66,18 @@ Because the checking runs the real simulation, **sequential puzzles work**: valu
     - title: 4–30 characters, no surrounding spaces (`puzzleTitleRegex` in `core/config.js`);
     - description: up to 1000 characters;
     - optional maximum component count: must be ≥ your solution's count.
-5. The puzzle is uploaded with `minimumComponents` = your solution's component count. The icon (`shortKey`) is currently a random shapez shape.
+5. The puzzle is uploaded with `minimumComponents` = your solution's component count.
+
+### Puzzle icon
+
+The icon in the puzzle list is a chip drawn on a canvas (`src/js/game/puzzle_icon.js`), with one pin per input (blue, left) and output (green, right) and the text `inputs→outputs`. Locked levels show a padlock. The counts are stored in the puzzle's `shortKey` as `io:<inputs>:<outputs>`. The backend derives it from the puzzle data on submit and converts older puzzles (which used a random shapez shape) on startup.
 
 ## Play flow
 
 `modes/puzzle_play.js`, `hud/parts/puzzle_play_metadata.js`, `hud/parts/puzzle_complete_notification.js`.
 
 -   Signals, acceptors, blocks, lever and display are hidden from the toolbar, along with anything the author locked.
--   The side panel shows the description and the **Expected outputs** truth table.
+-   The side panel (a scrollable card, with collapsible sections) shows the author and statistics, the description and the **Expected outputs** truth table.
 -   On success the player sees their component count against the author's, can like the puzzle and rate its difficulty. Closing the dialog reports the completion (`POST /v1/puzzles/complete/:id`) and stores the new trophy total.
 -   Exceeding `maximumComponents` counts as a failure.
 -   When the puzzle's language differs from the game language, a **Suggest translation** button lets the player submit a translated title and description.
