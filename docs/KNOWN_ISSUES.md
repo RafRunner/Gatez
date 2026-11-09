@@ -24,15 +24,15 @@ Found while reviewing the code (November 2026). Backend issues are in the backen
 -   Puzzles with 8 to 15 truth table rows (e.g. the adders) crashed on load: the two-column text table read row `i + 8`. The text table was replaced by an HTML table (`buildTruthTableHTML`).
 -   Puzzle list readability: locked levels were dark red with grey text, and completed levels had their title at 30% opacity.
 
-## Art that is still a placeholder
+## Art
 
-| Building | Problem |
-| -------- | ------- |
-| Programmable signal | Sprite, blueprint and icon are the lever's; the tutorial image is the constant signal's. |
-| Programmable acceptor | Every image is the display's. |
-| 4-input AND/OR | Both variants use the same sprite; the blueprint is upstream's `painter-quad.png`. |
-| Memory — SR latch | Identical to the JK flip-flop sprite. |
-| Logic gate — NOR | The tutorial image is identical to the 4-input OR's. |
+The placeholder art (inputs, outputs, NAND/NOR, 4-input gates, SR latch, JK flip-flop) was replaced in November 2026 by sprites drawn with `res_raw/sprites/gatez_art.py` and tutorials drawn with `gatez_tutorials.py` (see [DEVELOPMENT.md](DEVELOPMENT.md#art)). Still open:
+
+| Item | Problem |
+| ---- | ------- |
+| Older tutorial images (AND, OR, XOR, adder, multiplexer, edge detector, D latch, T flip-flop) | Screenshots that use the upstream lever and display as inputs/outputs instead of the puzzle inputs/outputs. |
+| D latch, T flip-flop | No pin names on the sprite, unlike SR and JK. |
+| Logic gate toolbar icon | Still upstream's chip icon. |
 
 ## Text
 

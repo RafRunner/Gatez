@@ -55,7 +55,7 @@ Roughly in order of priority:
 -   [x] ~~Truth table as a real table, with input/output labels on the map and test results per row~~;
 -   [x] ~~Show the truth table while creating a puzzle~~;
 -   [ ] Build the new campaign ([docs/CAMPAIGN.md](docs/CAMPAIGN.md));
--   [ ] Final art for every component (signals, acceptors, 4-input gates and the SR latch are still placeholders);
+-   [x] ~~Final art for the placeholder components~~ (inputs, outputs, NAND/NOR/NOT, 4-input gates, SR latch, JK flip-flop), drawn by `res_raw/sprites/gatez_art.py`;
 -   [x] ~~A puzzle icon that fits the theme~~ (a chip with the puzzle's inputs/outputs);
 -   [ ] More components (registers, ALU, RAM, ROM) and levels, up to a simple 4-bit CPU and RAM;
 -   [ ] Polish the sandbox mode: remove unused mechanics, add a clock component;

@@ -10,16 +10,16 @@ Signals are shapez `BooleanItem`s (`BOOL_TRUE_SINGLETON` / `BOOL_FALSE_SINGLETON
 
 | Building                | Key | Variants (id)                                                     | Size | System                         | Art status |
 | ----------------------- | --- | ----------------------------------------------------------------- | ---- | ------------------------------ | ---------- |
-| Programmable signal     | H   | — (435)                                                           | 1×1  | `programmable_signal.js`       | ⚠️ lever sprites reused |
-| Programmable acceptor   | N   | — (436)                                                           | 1×1  | `programmable_acceptor.js`     | ⚠️ display sprites reused |
+| Programmable signal     | H   | — (435)                                                           | 1×1  | `programmable_signal.js`       | own art (toggle switch) |
+| Programmable acceptor   | N   | — (436)                                                           | 1×1  | `programmable_acceptor.js`     | own art (lamp) |
 | Wire                    | 1   | upstream                                                          | 1×1  | `wire.js`                      | upstream |
 | Wire tunnel             | 2   | upstream                                                          | 1×1  | `wire.js`                      | upstream |
-| Logic gate              | 3   | AND (32), NAND (420), OR (36), NOR (421), NOT (34), XOR (35)      | 1×1  | `logic_gate.js`                | NAND/NOR new; NOR tutorial reuses the 4-input OR image |
-| 4-input logic gate      | 4   | AND (422), OR (423)                                               | 4×1  | `logic_gate.js`                | ⚠️ placeholder: both variants share one sprite, blueprint is upstream's `painter-quad` |
+| Logic gate              | 3   | AND (32), NAND (420), OR (36), NOR (421), NOT (34), XOR (35)      | 1×1  | `logic_gate.js`                | own art; inverting gates (NOT, NAND, NOR) have a dark body and an inversion bubble |
+| 4-input logic gate      | 4   | AND (422), OR (423)                                               | 4×1  | `logic_gate.js`                | own art |
 | Adder                   | 6   | half (424), full (425)                                            | 2×1  | `adder.js`                     | own art |
 | Multiplexer             | 5   | mux (426), demux (427)                                            | 2×1  | `multiplexer.js`               | own art |
 | Edge detector           | 7   | rising (428), falling (429), change (430)                         | 1×1  | `edge_detector.js`             | own art |
-| Memory                  | 8   | SR latch (431), D latch (432), JK flip-flop (433), T flip-flop (434) | 2×1 (T: 1×1) | `memory.js`         | ⚠️ SR sprite is identical to JK |
+| Memory                  | 8   | SR latch (431), D latch (432), JK flip-flop (433), T flip-flop (434) | 2×1 (T: 1×1) | `memory.js`         | own art; SR and JK show their pin names |
 | Block                   | 0   | upstream                                                          | 1×1  | —                              | upstream |
 | Lever / Display         | —   | upstream (secondary toolbar)                                      | 1×1  | `lever.js` / `display.js`      | upstream |
 
@@ -42,7 +42,7 @@ Pin positions below use the building's local tile `(x, y)` with the building fac
 
 -   One input pin, bottom.
 -   Holds `expectedSignals: (BooleanItem | null)[]`. `null` (shown as `–`) means "don't care".
--   Lights up (white display sprite) while its input is truthy.
+-   Its lamp lights up (`sprites/wires/programmable_acceptor_on.png`) while its input is truthy.
 -   It can only be placed or removed in the editor.
 
 ## Logic
@@ -100,6 +100,6 @@ Follow the upstream checklist in the README ("Adding a new building"). For Gatez
 1. Register the meta building in `meta_building_registry.js`, the component in `component_registry.js` and `entity_components.js`, and the system in `game_system_manager.js`. **System order matters**: it is the order signals propagate within one tick.
 2. Add it to `hud/parts/buildings_toolbar.js` and a key in `key_action_mapper.js` (`KEYMAPPINGS.buildings`).
 3. If it should count as a component, add its component class to `countComponentsUsed` in `src/js/core/logic_simulation_helper.js`.
-4. Add sprites under `res_raw/sprites/buildings/` and `res_raw/sprites/blueprints/`, an icon in `res/ui/building_icons/`, a tutorial image in `res/ui/building_tutorials/`, and the entries in `src/css/resources.scss`.
+4. Add sprites under `res_raw/sprites/buildings/` and `res_raw/sprites/blueprints/`, an icon in `res/ui/building_icons/`, a tutorial image in `res/ui/building_tutorials/`, and the entries in `src/css/resources.scss`. The Gatez sprites, icons and tutorials are drawn by scripts (see [DEVELOPMENT.md](DEVELOPMENT.md#art)); add the new building there to keep the same style.
 5. Add text to `translations/base-en.yaml` and `translations/base-pt-BR.yaml` (`buildings.<id>.<variant>` and `keybindings.mappings.<id>`).
 6. If a puzzle author should be able to forbid it, nothing else is needed: the editor toolbar lock and per-variant locks work for any building that isn't in `inRequiredBuildings` (`hud/parts/base_toolbar.js`).

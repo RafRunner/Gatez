@@ -27,7 +27,7 @@ export class ProgrammableAcceptorSystem extends GameSystemWithFilter {
         });
 
         this.root.signals.simulationComplete.add(this.computeSimulationResults, this);
-        this.spriteOn = Loader.getSprite("sprites/wires/display/white.png");
+        this.spriteOn = Loader.getSprite("sprites/wires/programmable_acceptor_on.png");
     }
 
     update() {
