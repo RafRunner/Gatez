@@ -82,6 +82,16 @@ def rounded_rect_path(x0, y0, x1, y1, r_top, r_bottom=None):
     return path
 
 
+def tile_cx(i, n):
+    """
+    Center of tile i in a sprite n tiles wide. The game draws buildings 2 world px bigger on every
+    side per tile (StaticMapEntitySystem uses extrudePixels = 2), so a sprite n tiles wide covers
+    36 * n world px and its tiles are 170.67 px wide, with a margin on both sides.
+    """
+    px_per_world = T / 36
+    return (2 * n + 32 * (i + 0.5)) * px_per_world
+
+
 class Sprite:
     def __init__(self, w_tiles=1, h_tiles=1):
         self.w = T * w_tiles
@@ -265,10 +275,7 @@ def not_gate():
     sp = Sprite()
     sp.acceptor_bottom(96)
     sp.ejector_top(96)
-    sp.shape(
-        [(96, 60), (164, 160)] + arc(158, 160, 9, 0, 90, 8)[1:] + [(34, 169)] + arc(34, 160, 9, 90, 180, 8) + [(28, 160)],
-        fill=DARK_FILL,
-    )
+    sp.shape([(96, 58), (166, 166), (26, 166)], fill=DARK_FILL)
     sp.circle(96, 47, 32)
     return sp
 
@@ -280,33 +287,35 @@ def not_gate():
 
 def four_input(kind):
     w = 4 * T
+    cx = [tile_cx(i, 4) for i in range(4)]
     sp = Sprite(4, 1)
-    sp.ejector_top(96)
-    for i in range(4):
-        sp.acceptor_bottom(96 + i * T)
+    sp.ejector_top(cx[0])
+    for x in cx:
+        sp.acceptor_bottom(x)
 
+    left, right = cx[0] - 92, cx[3] + 92
     if kind == "and":
-        body = rounded_rect_path(35, 47, w - 35, 160, 30, 12)
+        body = rounded_rect_path(left, 47, right, 160, 30, 12)
     else:
         # Concave bottom, like the 2-input OR
         body = (
-            arc(w - 65, 77, 30, -90, 0)
-            + [(w - 35, 160)]
-            + bezier((w - 35, 160), (w * 0.75, 136), (w * 0.25, 136), (35, 160), 40)[1:]
-            + arc(65, 77, 30, 180, 270)
+            arc(right - 30, 77, 30, -90, 0)
+            + [(right, 160)]
+            + bezier((right, 160), (w * 0.75, 136), (w * 0.25, 136), (left, 160), 40)[1:]
+            + arc(left + 30, 77, 30, 180, 270)
         )
     sp.shape(body, stroke=5 if kind == "or" else STROKE)
 
     # Internal wiring: every input goes up into a collector bar that feeds the output
     bar_y = 104
-    sp.bar(78, bar_y - 10, 96 + 3 * T + 18, bar_y + 10, fill=FILL, stroke=5)
-    for i in range(4):
-        sp.arrow_up(96 + i * T, bar_y + 14, 178)
-    sp.bar(89, 74, 103, bar_y - 6)
-    sp.output_square(96)
+    sp.bar(cx[0] - 18, bar_y - 10, cx[3] + 18, bar_y + 10, fill=FILL, stroke=5)
+    for x in cx:
+        sp.arrow_up(x, bar_y + 14, 178)
+    sp.bar(cx[0] - 7, 74, cx[0] + 7, bar_y - 6)
+    sp.output_square(cx[0])
 
     # Big symbol in the free space above the bar
-    symbol_x = 2.5 * T
+    symbol_x = (cx[1] + cx[3]) / 2
     if kind == "and":
         sp.text(symbol_x, 66, "&", 64, stroke=3)
     else:
@@ -319,11 +328,15 @@ def four_input(kind):
 # ---------------------------------------------------------------------------------------------
 
 
+MEM_CX = [tile_cx(0, 2), tile_cx(1, 2)]
+
+
 def memory_body(sp, w):
     chamfer = 22
+    x0, x1 = MEM_CX[0] - 72, MEM_CX[1] + 72
     path = [
-        (35 + chamfer, 30), (w - 35 - chamfer, 30), (w - 35, 30 + chamfer), (w - 35, 162 - chamfer),
-        (w - 35 - chamfer, 162), (35 + chamfer, 162), (35, 162 - chamfer), (35, 30 + chamfer),
+        (x0 + chamfer, 30), (x1 - chamfer, 30), (x1, 30 + chamfer), (x1, 162 - chamfer),
+        (x1 - chamfer, 162), (x0 + chamfer, 162), (x0, 162 - chamfer), (x0, 30 + chamfer),
     ]
     sp.shape(path, fill=BLUE, outline=BLUE_OUTLINE)
 
@@ -336,23 +349,21 @@ def label(sp, cx, cy, text, over=False, size=30):
 
 def two_bit_memory(sp):
     """Shared layout: outputs on top, inputs at the bottom, the stored bit as a bar in between"""
-    for i in range(2):
-        sp.ejector_top(96 + i * T)
-        sp.acceptor_bottom(96 + i * T)
+    for cx in MEM_CX:
+        sp.ejector_top(cx)
+        sp.acceptor_bottom(cx)
 
 
 def memory_inside(sp):
     bar_y = 106
-    for i in range(2):
-        cx = 96 + i * T
+    for cx in MEM_CX:
         sp.bar(cx - 7, 74, cx + 7, bar_y - 6)
-    sp.bar(70, bar_y - 10, 2 * T - 70, bar_y + 10, fill=FILL, stroke=5)
-    for i in range(2):
-        cx = 96 + i * T
+    sp.bar(MEM_CX[0] - 26, bar_y - 10, MEM_CX[1] + 26, bar_y + 10, fill=FILL, stroke=5)
+    for cx in MEM_CX:
         sp.arrow_up(cx, bar_y + 14, 178)
         sp.output_square(cx)
-    label(sp, 96 + 58, 52, "Q")
-    label(sp, 96 + T - 58, 52, "Q", over=True)
+    label(sp, MEM_CX[0] + 56, 52, "Q")
+    label(sp, MEM_CX[1] - 56, 52, "Q", over=True)
 
 
 def sr_latch():
@@ -360,22 +371,23 @@ def sr_latch():
     two_bit_memory(sp)
     memory_body(sp, 2 * T)
     memory_inside(sp)
-    label(sp, 96 + 46, 146, "S")
-    label(sp, 96 + T - 46, 146, "R")
+    label(sp, MEM_CX[0] + 44, 146, "S")
+    label(sp, MEM_CX[1] - 44, 146, "R")
     return sp
 
 
 def jk_flip_flop():
     sp = Sprite(2, 1)
     two_bit_memory(sp)
-    sp.acceptor_right(146, 1, reach=40)
+    # Clock input on the right side (pins on the sides are at mid height)
+    sp.acceptor_right(96, 1, reach=30)
     memory_body(sp, 2 * T)
     memory_inside(sp)
-    label(sp, 96 + 46, 146, "J")
-    label(sp, 96 + T - 46, 146, "K")
-    # Clock input: the edge-triggered triangle
-    sp.shape([(2 * T - 37, 130), (2 * T - 37, 162 - 24), (2 * T - 37, 162 - 24)], fill=FILL, stroke=0, shadow=False)
-    sp.shape([(2 * T - 38, 131), (2 * T - 38, 161), (2 * T - 60, 146)], fill=FILL, outline=BLUE_OUTLINE, stroke=4)
+    label(sp, MEM_CX[0] + 44, 146, "J")
+    label(sp, MEM_CX[1] - 44, 146, "K")
+    # Edge-triggered clock symbol
+    x1 = MEM_CX[1] + 72
+    sp.shape([(x1 - 2, 80), (x1 - 2, 112), (x1 - 22, 96)], fill=FILL, outline=BLUE_OUTLINE, stroke=4)
     return sp
 
 

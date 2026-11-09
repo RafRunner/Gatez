@@ -65,7 +65,7 @@ cd res_raw/sprites && python3 create_blueprint_previews.py
 
 The dev server rebuilds the sprite atlas when `res_raw` changes. Toolbar icons and tutorials are inlined into the CSS, so touch `src/css/resources.scss` (or restart `yarn dev`) to see them.
 
-Style: one tile is 192 px; dark outline `#646670`, light fill `#dee1ea`, a hard black shadow at 7% opacity offset by 4 px. Outputs are a square on top (the game writes the current value on it), inputs come in through a foot with an arrow. Inverting gates have a dark body and a bubble as their output.
+Style: one tile is 192 px, but the game draws buildings 2 world px (of 32) bigger on every side per tile, so in a sprite n tiles wide the tiles are 170.67 px wide with a margin of 10.67·n px on each side (`tile_cx()` in `gatez_art.py`). Pins of multi-tile buildings must follow that or they won't line up with the grid; dark outline `#646670`, light fill `#dee1ea`, a hard black shadow at 7% opacity offset by 4 px. Outputs are a square on top (the game writes the current value on it), inputs come in through a foot with an arrow. Inverting gates have a dark body and a bubble as their output.
 
 ## Production builds
 

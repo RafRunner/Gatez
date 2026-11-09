@@ -32,6 +32,10 @@ INPUT_LABEL = (74, 144, 226, 255)
 OUTPUT_LABEL = (102, 187, 106, 255)
 
 
+# Center of the output squares, in tiles from the top of the building (sprite y = 47 of 192, extruded)
+SQUARE_Y = 47 / 192 * (1 + 4 / 32) - 2 / 32
+
+
 def sprite(rel):
     return Image.open(os.path.join(SPRITES, rel)).convert("RGBA")
 
@@ -54,8 +58,10 @@ class Scene:
         return (int((x * TILE + self.ox) * SS), int((y * TILE + self.oy) * SS))
 
     def building(self, rel, tx, ty, w=1, h=1):
-        im = sprite(rel).resize((w * TILE * SS, h * TILE * SS), Image.LANCZOS)
-        self.img.alpha_composite(im, self.p(tx, ty))
+        # Like the game: 2 world px (of 32) of extrusion on every side, per tile
+        ext = 2 / 32
+        im = sprite(rel).resize((round(w * (1 + 2 * ext) * TILE * SS), round(h * (1 + 2 * ext) * TILE * SS)), Image.LANCZOS)
+        self.img.alpha_composite(im, self.p(tx - ext * w, ty - ext * h))
 
     def wire(self, points, on):
         d = ImageDraw.Draw(self.img)
@@ -90,7 +96,7 @@ class Scene:
 
     def signal(self, tx, ty, on, name):
         self.building("buildings/programmable_signal.png" if not on else "wires/programmable_signal_on.png", tx, ty)
-        self.value(tx + 0.5, ty + 0.245, on)
+        self.value(tx + 0.5, ty + SQUARE_Y, on)
         self.label(tx, ty, name, INPUT_LABEL)
 
     def acceptor(self, tx, ty, on, name):
@@ -113,7 +119,7 @@ def two_input_gate(sprite_rel, a, b, result, out_dir, name):
     sc.signal(0, 4, a, "A")
     sc.signal(4, 4, b, "B")
     sc.building(sprite_rel, 2, 3)
-    sc.value(2.5, 3 + 47 / 192, result)
+    sc.value(2.5, 3 + SQUARE_Y, result)
     sc.acceptor(2, 1, result, "Y")
     sc.save(name, out_dir)
 
@@ -124,7 +130,7 @@ def not_gate(out_dir):
     sc.wire([(2.5, 2.5), (2.5, 2)], True)
     sc.signal(2, 4, False, "A")
     sc.building("buildings/logic_gate-not.png", 2, 2.5)
-    sc.value(2.5, 2.5 + 47 / 192, True)
+    sc.value(2.5, 2.5 + SQUARE_Y, True)
     sc.acceptor(2, 1, True, "Y")
     sc.save("logic_gate-not.png", out_dir)
 
@@ -136,7 +142,7 @@ def four_input(sprite_rel, values, result, out_dir, name):
         sc.signal(1 + i, 4, v, "ABCD"[i])
     sc.wire([(1.5, 2.5), (1.5, 2)], result)
     sc.building(sprite_rel, 1, 2.5, w=4)
-    sc.value(1.5, 2.5 + 47 / 192, result)
+    sc.value(1.5, 2.5 + SQUARE_Y, result)
     sc.acceptor(1, 1, result, "Y")
     sc.save(name, out_dir)
 
@@ -149,14 +155,14 @@ def memory(sprite_rel, inputs, q, out_dir, name, clock=None):
         sc.wire([(2.5 + i, 4), (2.5 + i, 3.5)], v)
         sc.signal(2 + i, 4, v, label)
     if clock is not None:
-        pin_y = 2.5 + 146 / 192
+        pin_y = 3
         sc.wire([(5, 4), (5, pin_y), (4, pin_y)], clock)
         sc.signal(4.5, 4, clock, "C")
     sc.wire([(2.5, 2.5), (2.5, 2)], q)
     sc.wire([(3.5, 2.5), (3.5, 2)], not q)
     sc.building(sprite_rel, 2, 2.5, w=2)
-    sc.value(2.5, 2.5 + 47 / 192, q)
-    sc.value(3.5, 2.5 + 47 / 192, not q)
+    sc.value(2.5, 2.5 + SQUARE_Y, q)
+    sc.value(3.5, 2.5 + SQUARE_Y, not q)
     sc.acceptor(2, 1, q, "Q")
     sc.acceptor(3, 1, not q, "Q'")
     sc.save(name, out_dir)

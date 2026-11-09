@@ -115,11 +115,12 @@ export class ProgrammableAcceptorSystem extends GameSystemWithFilter {
                 }
 
                 const origin = entity.components.StaticMapEntity.origin;
+                // Buildings are drawn 2px bigger on each side (StaticMapEntitySystem), match it
                 value.drawCachedCentered(
                     parameters,
                     (origin.x + 0.5) * globalConfig.tileSize,
                     (origin.y + 0.5) * globalConfig.tileSize,
-                    globalConfig.tileSize
+                    globalConfig.tileSize + 4
                 );
             }
         }

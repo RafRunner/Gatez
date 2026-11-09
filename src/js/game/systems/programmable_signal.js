@@ -84,7 +84,8 @@ export class ProgrammableSignalSystem extends GameSystemWithFilter {
 
             if (signalComp) {
                 const sprite = signalComp.toggled ? this.spriteOn : this.spriteOff;
-                entity.components.StaticMapEntity.drawSpriteOnBoundsClipped(parameters, sprite);
+                // Same extrusion as the other buildings (StaticMapEntitySystem), so it has the same size
+                entity.components.StaticMapEntity.drawSpriteOnBoundsClipped(parameters, sprite, 2);
 
                 labels = labels || getSignalLabels(this.root);
                 drawIOLabel(parameters, entity, labels.get(entity), INPUT_LABEL_COLOR);
