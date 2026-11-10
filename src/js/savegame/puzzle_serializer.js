@@ -12,6 +12,7 @@ import { MetaBlockBuilding } from "../game/buildings/block";
 import { MetaProgrammableSignalBuilding } from "../game/buildings/programmable_signal";
 import { MetaProgrammableAcceptorBuilding } from "../game/buildings/programmable_acceptor";
 import { BOOL_FALSE_SINGLETON, BOOL_TRUE_SINGLETON } from "../game/items/boolean_item";
+import { getBuildingDataFromCode } from "../game/building_codes";
 
 const logger = createLogger("puzzle-serializer");
 
@@ -103,6 +104,40 @@ export class PuzzleSerializer {
             excludedBuildings,
             excludedBuildingsVariations,
         };
+    }
+
+    /**
+     * Lists the buildings placed by the player (everything except the puzzle's own inputs, outputs
+     * and blocks), sent to the server when completing a puzzle so it can check the solution.
+     * Keep in sync with the server: gatez-backend/src/utils/solutionValidation.ts
+     * @param {GameRoot} root
+     * @returns {Array<{ id: string, variant: string, x: number, y: number, r: number, rv: number }>}
+     */
+    generateSolutionFromGameRoot(root) {
+        const puzzleBuildings = [
+            MetaProgrammableSignalBuilding,
+            MetaProgrammableAcceptorBuilding,
+            MetaBlockBuilding,
+        ].map(it => gMetaBuildingRegistry.findByClass(it).getId());
+
+        const solution = [];
+        for (const entity of root.entityMgr.getAllWithComponent(StaticMapEntityComponent)) {
+            const staticComp = entity.components.StaticMapEntity;
+            const data = getBuildingDataFromCode(staticComp.code);
+            const id = data.metaInstance.getId();
+            if (puzzleBuildings.includes(id)) {
+                continue;
+            }
+            solution.push({
+                id,
+                variant: data.variant,
+                x: staticComp.origin.x,
+                y: staticComp.origin.y,
+                r: staticComp.rotation,
+                rv: data.rotationVariant,
+            });
+        }
+        return solution;
     }
 
     /**

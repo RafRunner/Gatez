@@ -79,7 +79,7 @@ The icon in the puzzle list is a chip drawn on a canvas (`src/js/game/puzzle_ico
 
 -   Signals, acceptors, blocks, lever and display are hidden from the toolbar, along with anything the author locked.
 -   The side panel (a scrollable card, with collapsible sections) shows the author and statistics, the description and the **Expected outputs** truth table.
--   On success the player sees their component count against the author's, can like the puzzle and rate its difficulty. Closing the dialog reports the completion (`POST /v1/puzzles/complete/:id`) and stores the new trophy total.
+-   On success the player sees their component count against the author's, can like the puzzle and rate its difficulty. Closing the dialog reports the completion (`POST /v1/puzzles/complete/:id`) with the placed buildings (`PuzzleSerializer.generateSolutionFromGameRoot`), and stores the new trophy total. The server validates the solution and counts the components itself (see the backend's `docs/API.md`); if it refuses the completion, a dialog shows why and the player stays in the puzzle.
 -   Exceeding `maximumComponents` counts as a failure.
 -   When the puzzle's language differs from the game language, a **Suggest translation** button lets the player submit a translated title and description.
 

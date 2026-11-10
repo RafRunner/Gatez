@@ -230,7 +230,8 @@ export class ClientAPI {
      * @param {number} payload.time
      * @param {boolean} payload.liked
      * @param {string} payload.difficultyRating
-     * @param {number} payload.componentsUsed
+     * @param {number} payload.componentsUsed Informative, the server counts it from the solution
+     * @param {ReturnType<import("../savegame/puzzle_serializer").PuzzleSerializer["generateSolutionFromGameRoot"]>} payload.solution
      * @returns {Promise<{ trophies: number, completeData: any }>}
      */
     apiCompletePuzzle(puzzleId, payload) {

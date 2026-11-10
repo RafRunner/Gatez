@@ -254,6 +254,9 @@ dialogs:
         title: Mudar o tamanho não é possível
         desc: Você não pode deixar a zona menor, porque algumas construções ficariam
             fora dela.
+    puzzleCompleteError:
+        title: Conclusão não salva
+        desc: "Não foi possível salvar sua conclusão:"
     puzzleLoadError:
         title: Desafio Ruim
         desc: "O desafio não pôde ser carregado:"
@@ -1408,6 +1411,9 @@ backendErrors:
     too-many-likes-already: O desafio já tem muitos likes! Se ainda quiser removê-lo,
         entre em contato com o suporte.
     no-permission: Você não tem permissão para fazer isso.
+    InvalidSolution: O servidor não conseguiu validar sua solução. Recarregue o jogo e tente novamente.
+    TooManyComponents: Sua solução usa mais componentes do que este desafio permite.
+    PuzzleNotStarted: A sessão do desafio expirou. Abra o desafio de novo e tente novamente.
 mods:
     title: Mods
     author: Autor

@@ -397,6 +397,9 @@ dialogs:
         title: Resize not possible
         desc: You can't make the zone any smaller, because then some buildings would be outside the zone.
 
+    puzzleCompleteError:
+        title: Completion not saved
+        desc: "Your completion could not be saved:"
     puzzleLoadError:
         title: Bad Puzzle
         desc: >-
@@ -1562,6 +1565,9 @@ backendErrors:
     timeout: The request timed out.
     too-many-likes-already: The puzzle already got too many likes. If you still want to remove it, please contact support@shapez.io!
     no-permission: You do not have the permission to perform this action.
+    InvalidSolution: The server could not validate your solution. Please reload the game and try again.
+    TooManyComponents: Your solution uses more components than this puzzle allows.
+    PuzzleNotStarted: The puzzle session expired. Please reopen the puzzle and try again.
 
 tips:
     - The hub will accept any input, not just the current shape!

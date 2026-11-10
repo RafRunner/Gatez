@@ -212,7 +212,13 @@ export class HUDPuzzleCompleteNotification extends BaseHUDPart {
                 Math.round(this.timeOfCompletion),
                 this.componentsUsed
             )
-            .then(() => {
+            .then(saved => {
+                if (!saved) {
+                    // Stay in the puzzle, the error is shown in a dialog
+                    this.visible = false;
+                    this.cleanup();
+                    return;
+                }
                 this.root.gameState.moveToState("PuzzleMenuState", {
                     continueQueue: gameMode.nextPuzzles,
                 });
@@ -227,8 +233,8 @@ export class HUDPuzzleCompleteNotification extends BaseHUDPart {
                 Math.round(this.timeOfCompletion),
                 this.componentsUsed
             )
-            .then(() => {
-                if (toMenu) {
+            .then(saved => {
+                if (toMenu && saved) {
                     this.root.gameState.moveToState("PuzzleMenuState");
                 } else {
                     this.visible = false;

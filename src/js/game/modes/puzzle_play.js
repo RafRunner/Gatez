@@ -131,6 +131,7 @@ export class PuzzlePlayGameMode extends PuzzleGameMode {
      * @param {string} difficultyRating
      * @param {number} time
      * @param {number} componentsUsed
+     * @returns {Promise<boolean>} If the completion was saved
      */
     async trackCompleted(liked, difficultyRating, time, componentsUsed) {
         const closeLoading = this.root.hud.parts.dialogs.showLoadingDialog();
@@ -141,17 +142,27 @@ export class PuzzlePlayGameMode extends PuzzleGameMode {
                 liked,
                 difficultyRating,
                 componentsUsed,
+                solution: new PuzzleSerializer().generateSolutionFromGameRoot(this.root),
             })
-            .catch(err => {
-                logger.warn("Failed to complete puzzle:", err);
-            })
-            .then(data => {
-                // add data.trophies to local storage
-                if (data && data.trophies) {
-                    localStorage.setItem("trophies", data.trophies.toString());
+            .then(
+                data => {
+                    // add data.trophies to local storage
+                    if (data && data.trophies) {
+                        localStorage.setItem("trophies", data.trophies.toString());
+                    }
+                    closeLoading();
+                    return true;
+                },
+                err => {
+                    logger.warn("Failed to complete puzzle:", err);
+                    closeLoading();
+                    this.root.hud.parts.dialogs.showInfo(
+                        T.dialogs.puzzleCompleteError.title,
+                        T.dialogs.puzzleCompleteError.desc + " " + err
+                    );
+                    return false;
                 }
-                closeLoading();
-            });
+            );
     }
 
     sharePuzzle() {
